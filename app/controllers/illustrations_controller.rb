@@ -15,7 +15,7 @@ class IllustrationsController < ApplicationController
     @tags = @illustration.new_tags(params.fetch(:tags, {}).values)
 
     captcha = Typhoeus.post("https://www.google.com/recaptcha/api/siteverify", body: {
-      secret: "6LdLnjAUAAAAADpYUQxI5_2_0CSvNsFiZSP6AMq8",
+      secret: ENV.fetch("GOOGLE_API_SECRET"),
       response: params["g-recaptcha-response"],
       remoteip: request.remote_ip
     })
