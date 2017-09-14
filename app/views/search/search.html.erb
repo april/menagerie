@@ -1,0 +1,12 @@
+<% unless @illustrations.present? %>
+  <p>No results found matching provided search criteria</p>
+<% end %>
+<%= render "shared/search_form" %>
+
+<% @illustrations.each do |illu| %>
+  <div>
+    <a href="<%= show_illustration_path(illu) %>">
+      <img src="<%= illu.image_uri %>" alt="<%= illu.name %>">
+    </a>
+  </div>
+<% end %>

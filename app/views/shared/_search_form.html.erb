@@ -1,0 +1,20 @@
+<%= form_tag search_path, method: "get" do %>
+  <label>
+    Tag
+    <%= text_field_tag :tag %>
+  </label>
+
+  -- OR --
+
+  <label>
+    Card Name
+    <%= text_field_tag :card %>
+  </label>
+
+  <label>
+    Artist
+    <%= text_field_tag :artist %>
+  </label>
+
+  <%= button_tag "Search" %>
+<% end %>

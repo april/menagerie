@@ -1,0 +1,30 @@
+<div class="artwork">
+  <img src="<%= @illustration.image_uri %>" alt="<%= @illustration.name %>">
+</div>
+
+<%= form_tag create_illustration_tags_path(@illustration), method: "post" do %>
+  <h2>Confirm Tags</h2>
+  <p>We prefer to normalize tags as lowercase singular nouns. However, you may use your judgement.</p>
+  <table>
+    <thead>
+      <tr>
+        <td>Your submission</td>
+        <td>Normalized term</td>
+        <td>Cancel this tag</td>
+        <td>Notes</td>
+      </tr>
+    </thead>
+    <tbody>
+    <% @tags.each_with_index do |tag, index| %>
+    <% normalized_name = tag.normalized_name %>
+      <tr>
+        <td><label><%= radio_button_tag "tags[#{index}]", tag.original_name, false %> <%= tag.original_name %></label></td>
+        <td><label><%= radio_button_tag "tags[#{index}]", normalized_name, normalized_name.present?, disabled: !normalized_name.present? %> <%= tag.normalized_name || "n/a" %></label></td>
+        <td><label><%= radio_button_tag "tags[#{index}]", "", !normalized_name.present? %> cancel</label></td>
+        <td><%= tag.note %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= button_tag "Confirm tags" %>
+<% end %>

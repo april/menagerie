@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>StillLife</title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+  </head>
+
+  <body>
+    <div class="site-header">
+      <%= link_to "MTG Menagerie", home_path %>
+      <a href="/random">Tag at random</a>
+    </div>
+    <div class="site-body">
+    <% if flash[:notice] %>
+      <div class="notice"><%= flash[:notice] %></div>
+    <% end %>
+    <%= yield %>
+    </div>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </body>
+</html>
