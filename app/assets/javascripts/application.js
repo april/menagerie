@@ -1,26 +1,6 @@
-// This is a manifest file that'll be compiled into application.js, which will include all the files
-// listed below.
-//
-// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, or any plugin's
-// vendor/assets/javascripts directory can be referenced here using a relative path.
-//
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// compiled file. JavaScript code in this file should be added after the last require_* statement.
-//
-// Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
-// about supported directives.
-//
-//= require_tree .
-
-
-var $form = $('#tagging-form')
-  .on('keydown', 'input', function(evt) {
-    var $input = $(evt.currentTarget);
-    var $row = $input.closest('.tag-form-row');
-
-    if (!$row.next().is('.tag-form-row')) {
-      var index = $row.data('row');
-      var next = $row[0].outerHTML.replace(new RegExp(index, 'g'), index+1);
-      $row.after(next);
-    }
-  });
+//= require lib/jquery
+//= require lib/backbone_exo
+//= require lib/initializer
+//= require lib/modal_window
+//= require_directory ./views
+Init.run();

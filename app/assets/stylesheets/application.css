@@ -16,10 +16,15 @@
 
 body {
   margin: 0;
+  font: 300 16px/1.4 "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .artwork {
   border-bottom: 1px solid #ccc;
   height: 520px;
   overflow: hidden;
+}
+
+.hidden {
+  display: none;
 }

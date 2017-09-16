@@ -1,17 +1,24 @@
 class SearchController < ApplicationController
 
   def search
-    @illustrations = []
-    if params[:tag].present?
-      if @tag = Tag.find_by(name: params[:tag])
-        @illustrations = @tag.illustrations
-      end
-    elsif params[:card].present? && params[:artist].present?
-      @illustrations = Illustration.where(name: params[:card], artist: params[:artist])
-    elsif params[:card].present?
-      @illustrations = Illustration.where(name: params[:card])
-    elsif params[:artist].present?
-      @illustrations = Illustration.where(artist: params[:artist])
+    criteria = {
+      name: params[:card].presence,
+      artist: params[:artist].presence
+    }.compact
+
+    paginate = {
+      page: [params[:page].to_i, 1].max,
+      per_page: 30
+    }
+
+    @has_query = params.key?(:tag) || params.key?(:card) || params.key?(:artist)
+
+    if params[:tag].present? && @tag = Tag.find_by(name: params[:tag])
+      @illustrations = @tag.illustrations.where(criteria).paginate(paginate)
+    elsif criteria.any?
+      @illustrations = Illustration.where(criteria).paginate(paginate)
+    else
+      @illustrations = []
     end
 
     if @illustrations.length == 1

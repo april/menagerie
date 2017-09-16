@@ -1,4 +1,4 @@
-<% unless @illustrations.present? %>
+<% if @has_query && !@illustrations.present? %>
   <p>No results found matching provided search criteria</p>
 <% end %>
 <%= render "shared/search_form" %>
@@ -9,4 +9,8 @@
       <img src="<%= illu.image_uri %>" alt="<%= illu.name %>">
     </a>
   </div>
+<% end %>
+
+<% if @illustrations.present? %>
+  <%= will_paginate @illustrations %>
 <% end %>

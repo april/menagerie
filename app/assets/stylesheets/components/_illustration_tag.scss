@@ -1,0 +1,51 @@
+.illustration-tags {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 1em 0;
+  padding: 0;
+}
+
+.illustration-tag {
+  background-color: #efefef;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  display: block;
+  overflow: hidden;
+  margin: 0 3px;
+  padding-right: 0;
+  transition: padding-right 0.3s;
+
+  &.allows-dispute:hover {
+    padding-right: 25px;
+  }
+
+  &--inner {
+    display: block;
+    position: relative;
+  }
+
+  a {
+    display: block;
+    padding: 0.3em 0.6em;
+  }
+
+  button {
+    background: none;
+    border: none;
+    display: block;
+    height: 15px;
+    left: 100%;
+    padding: 0;
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    width: 15px;
+
+    svg {
+      height: 100%;
+      padding: 0;
+      width: 100%;
+    }
+  }
+}

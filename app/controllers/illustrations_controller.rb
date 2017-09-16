@@ -12,25 +12,26 @@ class IllustrationsController < ApplicationController
 
   def submit_tags
     @illustration = Illustration.find(params[:id])
-    @tags = @illustration.new_tags(params.fetch(:tags, {}).values)
+    @tags = @illustration.new_tags(params.fetch(:tags, []))
 
     captcha = Typhoeus.post("https://www.google.com/recaptcha/api/siteverify", body: {
-      secret: ENV.fetch("GOOGLE_API_SECRET"),
+      secret: ENV.fetch("GOOGLE_CAPTCHA_SECRET"),
       response: params["g-recaptcha-response"],
       remoteip: request.remote_ip
     })
 
     unless JSON.parse(captcha.response_body)["success"]
-      flash[:notice] = "Invalid captcha"
-      return redirect_to show_illustration_path(@illustration)
+      return render json: { success: false, error: "Invalid captcha" }, status: 400
     end
 
     unless @tags.any?
-      flash[:notice] = "No new tags were submitted"
-      return redirect_to show_illustration_path(@illustration)
+      return render json: { success: false, error: "No new tags were submitted" }, status: 400
     end
 
-    render :confirm
+    return render json: {
+      success: true,
+      form: render_to_string(template: "illustrations/_confirm", layout: false).squish.html_safe
+    }, status: 200
   end
 
   def create_tags

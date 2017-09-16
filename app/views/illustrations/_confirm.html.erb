@@ -1,11 +1,7 @@
-<div class="artwork">
-  <img src="<%= @illustration.image_uri %>" alt="<%= @illustration.name %>">
-</div>
-
 <%= form_tag create_illustration_tags_path(@illustration), method: "post" do %>
   <h2>Confirm Tags</h2>
   <p>We prefer to normalize tags as lowercase singular nouns. However, you may use your judgement.</p>
-  <table>
+  <table class="tag-confirmation">
     <thead>
       <tr>
         <td>Your submission</td>
@@ -26,5 +22,5 @@
     <% end %>
     </tbody>
   </table>
-  <%= button_tag "Confirm tags" %>
+  <%= button_tag "Confirm tags", class:"button-primary" %>
 <% end %>

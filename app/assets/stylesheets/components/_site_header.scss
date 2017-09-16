@@ -3,7 +3,21 @@
   display: flex;
   justify-content: space-between;
   padding: 15px 20px;
+
+  a {
+    display: inline-block;
+  }
+
+  svg {
+    height: 25px;
+    width: 25px;
+  }
 }
+.site-notice {
+  background-color: #ccc;
+  padding: 15px 0;
+}
+
 .site-body {
   margin: 30px auto;
   padding: 0 20px;

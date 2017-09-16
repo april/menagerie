@@ -3,21 +3,31 @@
   <head>
     <title>StillLife</title>
     <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
     <script src='https://www.google.com/recaptcha/api.js'></script>
   </head>
 
   <body>
     <div class="site-header">
-      <%= link_to "MTG Menagerie", home_path %>
-      <a href="/random">Tag at random</a>
+      <%= link_to home_path do %>
+        <%= inline_svg "icons/search" %> Search
+      <% end %>
+      <%= link_to guide_path do %>
+        <%= inline_svg "icons/guide" %> Tagging Guide
+      <% end %>
+      <%= link_to random_illustration_path do %>
+        <%= inline_svg "icons/tag" %> Tag at Random
+      <% end %>
     </div>
-    <div class="site-body">
-    <% if flash[:notice] %>
-      <div class="notice"><%= flash[:notice] %></div>
+    <% if flash[:notice].present? %>
+      <div class="site-notice"><%= flash[:notice] %></div>
     <% end %>
-    <%= yield %>
+    <div class="site-body">
+      <%= yield %>
     </div>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <div class="site-footer">
+      <p>The literal and graphical information presented on this site about Magic: The Gathering, including card images, the mana symbols, and Oracle text, is copyright Wizards of the Coast, LLC, a subsidiary of Hasbro, Inc. This website is not produced by, endorsed by, supported by, or affiliated with Wizards of the Coast.</p>
+    </div>
+    <%= javascript_include_tag 'application' %>
   </body>
 </html>

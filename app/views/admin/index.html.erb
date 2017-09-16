@@ -1,0 +1,14 @@
+<% @illustration_tags.each do |itag| %>
+  <div class="tag-approval-row <%= itag.disputed ? "disputed" : "pending" %>">
+    <%= form_tag admin_confirm_illustration_tag_path(itag), method:"post" do %>
+      <input type="text" name="approved_name" value="<%= itag.tag.name %>">
+      <%= button_tag "Approve", name:"approved", value:true %>
+      <%= button_tag "Reject", name:"approved", value:false %>
+      <% if itag.disputed %>
+        disputed
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= will_paginate @illustration_tags %>
