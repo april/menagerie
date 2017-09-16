@@ -1,0 +1,11 @@
+Open this magic link to sign into the Scryfall admin:
+
+<%= admin_authenticate_session_url(
+  email: @email,
+  grant: @plaintext_grant,
+  host: @context.host,
+  protocol: @context.protocol,
+  port: @context.port.eql?(80) ? nil : @context.port
+) %>
+
+This email is only good for one use. You can delete this email after you sign in.

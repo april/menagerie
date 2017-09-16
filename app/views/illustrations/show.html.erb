@@ -10,10 +10,13 @@
   </div>
 <% end %>
 
-<%= form_tag submit_illustration_tags_path(@illustration), method: "post", id: "tagging-form", class:"tagging-form" do %>
+<script>
+window.tags_collection = <%= raw Tag.distinct.pluck(:name).to_json %>;
+</script>
+<%= form_tag submit_illustration_tags_path(@illustration), method: "post", id: "tagging-form", class:"tagging-form", "data-component":"autocomplete-menu", "data-src":"tags_collection" do %>
   <h2>Propose Tags</h2>
-  <div class="tag-form-row" data-row="0">
-    <%= text_field :tags, "0", placeholder: "tag", autocorrect:"off", autocomplete:"off" %>
+  <div class="tag-form-row autocomplete-wrapper" data-row="0">
+    <%= text_field :tags, "0", placeholder: "tag", autocorrect:"off", autocomplete:"off", class:"js-autocomplete-field" %>
   </div>
   <div class="g-recaptcha" data-sitekey="6LdLnjAUAAAAAPGoEkt2aphd7B-b2w0lq5IKByXH"></div>
   <%= button_tag "Propose these tags", class:"button-primary" %>

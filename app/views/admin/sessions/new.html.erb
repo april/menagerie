@@ -1,0 +1,18 @@
+<%= content_tag :form, action:admin_new_session_path, method:"post", class:"admin-session" do %>
+
+  <div class="admin-session-inner">
+
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+    <div class="admin-session-row">
+      <%= label_tag :email do %><span class="visuallyhidden">Email</span> <% end %>
+      <%= email_field_tag :email, nil, placeholder:"Email address" %>
+    </div>
+
+    <%= button_tag type:"submit", class:"admin-button grape", tabindex:3 do %>
+      Request Magic Link
+    <% end %>
+
+  </div>
+
+<% end %>

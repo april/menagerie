@@ -1,9 +1,11 @@
+@import "../config/vars";
+
 input, button {
   font: 16px "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .button-primary {
-  background-color: #0c5051;
+  background-color: $cGrape;
   border: none;
   border-radius: 4px;
   color: white;
@@ -11,7 +13,7 @@ input, button {
   padding: 0.75em 1.5em;
 
   &:hover {
-    background-color: lighten(#0c5051, 5);
+    background-color: lighten($cGrape, 5);
   }
 }
 

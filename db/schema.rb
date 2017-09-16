@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170912124837) do
+ActiveRecord::Schema.define(version: 20170916184815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
+  enable_extension "pgcrypto"
+
+  create_table "administrators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "name", null: false
+    t.text "email", null: false
+    t.integer "lockout_strikes", default: 0, null: false
+    t.text "auth_token", default: -> { "uuid_generate_v4()" }, null: false
+    t.text "grant_token", default: -> { "uuid_generate_v4()" }, null: false
+    t.datetime "grant_token_expires_at", default: -> { "now()" }, null: false
+    t.datetime "unlocks_at", default: -> { "now()" }, null: false
+  end
 
   create_table "illustration_tags", force: :cascade do |t|
     t.integer "illustration_id"

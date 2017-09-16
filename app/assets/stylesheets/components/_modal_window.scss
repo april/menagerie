@@ -1,3 +1,5 @@
+@import "../config/vars";
+
 @keyframes fadein {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -17,10 +19,6 @@
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-
-$cPlum: #343242;
-$cRaisn: #5F4F66;
-$cGrape: #5822AC;
 
 .modal-overlay {
   align-items: center;

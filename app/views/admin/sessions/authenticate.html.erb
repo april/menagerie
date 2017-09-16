@@ -1,0 +1,23 @@
+<%= content_tag :form, action:admin_authenticate_session_path, method:"post", class:"admin-session" do %>
+
+  <div class="admin-session-inner">
+
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+    <div class="admin-session-row">
+      <%= label_tag :email do %> <span class="visuallyhidden">Email</span> <% end %>
+      <%= password_field_tag :email, @email %>
+    </div>
+
+    <div class="admin-session-row">
+      <%= label_tag :grant do %> <span class="visuallyhidden">Grant</span> <% end %>
+      <%= password_field_tag :grant, @grant %>
+    </div>
+
+    <%= button_tag type:"submit", class:"admin-button grape", tabindex:3 do %>
+      Sign In With This Link
+    <% end %>
+
+  </div>
+
+<% end %>

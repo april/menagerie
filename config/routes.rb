@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  get  "admin/signin", to:"admin/sessions#new", as:"admin_new_session"
+  post "admin/signin", to:"admin/sessions#request_grant"
+  get  "admin/authenticate", to:"admin/sessions#authenticate", as:"admin_authenticate_session"
+  post "admin/authenticate", to:"admin/sessions#create"
+  delete "admin/signout", to:"admin/sessions#destroy", as:"admin_destroy_session"
+
+  get "admin", to: "admin/illustration_tags#index", as: "admin_dashboard"
+  post "admin/confirm/:id", to: "admin/illustration_tags#confirm", as: "admin_confirm_illustration_tag"
 
   root to: "pages#index", as: "home"
 
@@ -11,8 +19,5 @@ Rails.application.routes.draw do
   post "/illustration/:id/submit", to: "illustrations#submit_tags", as: "submit_illustration_tags"
   post "/illustration/:id/create", to: "illustrations#create_tags", as: "create_illustration_tags"
   post "/tags/:id/dispute", to: "tags#dispute", as: "dispute_illustration_tag"
-  post "/tags/:id/confirm", to: "tags#confirm", as: "confirm_illustration_tag"
-
-  get "/admin", to: "admin#index", as: "admin"
 
 end

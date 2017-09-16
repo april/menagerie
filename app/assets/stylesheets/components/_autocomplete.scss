@@ -1,0 +1,33 @@
+@import "../config/vars";
+
+.autocomplete-wrapper {
+  position: relative;
+}
+
+.autocomplete-menu {
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+  left: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  text-align: left;
+  top: 100%;
+  width: 100%;
+  z-index: 10000;
+
+  li {
+    border: 1px solid transparent;
+    border-bottom-color: #efefef;
+    font-weight: bold;
+    padding: 0.5em 1em;
+  }
+
+  li.active {
+    background-color: rgba($cGrape, 0.12);
+    border-color: rgba($cGrape, 0.4);
+    color: $cGrape;
+  }
+}
