@@ -21,4 +21,8 @@ class Illustration < ActiveRecord::Base
     update_attributes(tagged: self.tags.any?)
   end
 
+  def scryfall_uri
+    "https://scryfall.com/search?q=%21%22#{ name.split(" ").join("+") }%22+a%3A%22#{ artist.split(" ").join("+") }%22"
+  end
+
 end

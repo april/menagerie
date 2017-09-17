@@ -1,16 +1,50 @@
 <% if @has_query && !@illustrations.present? %>
   <p>No results found matching provided search criteria</p>
 <% end %>
-<%= render "shared/search_form" %>
 
-<% @illustrations.each do |illu| %>
-  <div>
-    <a href="<%= show_illustration_path(illu) %>">
-      <img src="<%= illu.image_uri %>" alt="<%= illu.name %>">
-    </a>
+<%= form_tag search_path, method: "get", enforce_utf8: false, "data-component":"autocomplete-form" do %>
+  <script>
+    window.tags_collection = <%= raw Tag.distinct.pluck(:name).to_json %>;
+    window.cards_collection = <%= raw Illustration.distinct.pluck(:name).to_json %>;
+    window.artists_collection = <%= raw Illustration.distinct.pluck(:artist).to_json %>;
+  </script>
+  <div class="tag-form-row">
+    <label>
+      Tag
+      <span class="autocomplete-wrapper">
+        <%= text_field_tag :tag, params[:tag].presence, placeholder: "Tag Name", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection" %>
+      </span>
+    </label>
   </div>
+  <div class="tag-form-row">
+    <label>
+      Card
+      <span class="autocomplete-wrapper">
+        <%= text_field_tag :card, params[:card].presence, placeholder: "Card Name", autocorrect:"off", autocomplete:"off", "data-src":"cards_collection" %>
+      </span>
+    </label>
+  </div>
+  <div class="tag-form-row">
+    <label>
+      Artist
+      <span class="autocomplete-wrapper">
+        <%= text_field_tag :artist, params[:artist].presence, placeholder: "Artist Name", autocorrect:"off", autocomplete:"off", "data-src":"artists_collection" %>
+      </span>
+    </label>
+  </div>
+  <%= button_tag "Search Illustrations", title:"Search Illustrations", name: nil, class:"button-primary" %>
 <% end %>
 
 <% if @illustrations.present? %>
+  <h2>Results</h2>
+
+  <div class="search-results-grid">
+    <% @illustrations.each do |illustration| %>
+      <div class="search-results-grid--item">
+        <%= render "shared/illustration", illustration: illustration, link_uri: show_illustration_path(illustration.slug) %>
+      </div>
+    <% end %>
+  </div>
+
   <%= will_paginate @illustrations %>
 <% end %>

@@ -22,7 +22,7 @@ class SearchController < ApplicationController
     end
 
     if @illustrations.length == 1
-      redirect_to show_illustration_path(@illustrations.first)
+      redirect_to show_illustration_path(@illustrations.first.slug)
     end
   end
 

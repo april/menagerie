@@ -1,0 +1,10 @@
+<div class="illustration">
+  <h1><%= link_to illustration.name, illustration.scryfall_uri %></h1>
+  <%= link_to link_uri, title: illustration.name, class:"frame frame2015" do %>
+    <img src="<%= illustration.image_large_uri %>" alt="<%= illustration.name %>">
+  <% end %>
+  <div class="illustration--credit">
+    <span>By <%= illustration.artist %></span>
+    <span>™ &amp; © Wizards of the Coast</span>
+  </div>
+</div>

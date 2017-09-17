@@ -1,0 +1,33 @@
+.illustration {
+  border-bottom: 1px solid #ccc;
+
+  &--credit {
+    display: flex;
+    justify-content: space-between;
+
+    span {
+      display: block;
+      margin: 0;
+      padding: 15px 0;
+    }
+  }
+
+  .frame {
+    display: block;
+  }
+
+  .frame2015 {
+    height: 0;
+    padding-bottom: 72.8%;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+
+    img {
+      left: -9%;
+      position: absolute;
+      top: -25.5%;
+      width: 118%;
+    }
+  }
+}

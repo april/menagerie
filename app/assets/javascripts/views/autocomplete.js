@@ -1,11 +1,9 @@
-var AutocompleteMenuView = Backbone.View.extend({
+var AutocompleteFormView = Backbone.View.extend({
   menuFocus: false,
   selection: 0,
   input: null,
 
   initialize: function() {
-    this.options = window[this.$el.data('src')];
-
     this.$menu = $('<ul class="autocomplete-menu"></ul>')
       .on('mouseover', 'li', this.onMenuOver.bind(this))
       .on('mousedown', 'li', this.onMenuDown.bind(this))
@@ -59,12 +57,13 @@ var AutocompleteMenuView = Backbone.View.extend({
   events: {
     'input': 'onChange',
     'keydown': 'onKeydown',
-    'focus .js-autocomplete-field': 'onFocus',
-    'blur .js-autocomplete-field': 'onBlur',
+    'focus input[data-src]': 'onFocus',
+    'blur input[data-src]': 'onBlur',
   },
 
   onFocus: function(evt) {
     this.input = evt.currentTarget;
+    this.options = window[this.$(this.input).data('src')];
   },
 
   onBlur: function(evt) {
@@ -130,8 +129,8 @@ var AutocompleteMenuView = Backbone.View.extend({
   },
 
   locked: function() {
-    return !this.input || this.selection === false;
+    return !this.input || !this.options || this.selection === false;
   }
 });
 
-Init.registerComponent('autocomplete-menu', AutocompleteMenuView);
+Init.registerComponent('autocomplete-form', AutocompleteFormView);

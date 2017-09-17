@@ -1,13 +1,14 @@
 class IllustrationsController < ApplicationController
 
   def random
-    @illustration = Illustration.includes(:tags).where(tagged: nil).order("RANDOM()").limit(1).first
-    @illustration = Illustration.includes(:tags).order("RANDOM()").limit(1).first unless @illustration
-    return redirect_to show_illustration_path(@illustration)
+    @illustration = Illustration.includes(:tags).where(tagged: nil).order("RANDOM()").first
+    @illustration = Illustration.includes(:tags).order("RANDOM()").first unless @illustration
+    return redirect_to show_illustration_path(@illustration.slug)
   end
 
   def show
-    @illustration = Illustration.includes(:illustration_tags, :tags).find(params[:id])
+    @illustration = Illustration.includes(:illustration_tags, :tags).where(slug: params[:slug]).first
+    raise ActiveRecord::RecordNotFound unless @illustration.present?
   end
 
   def submit_tags
@@ -38,7 +39,7 @@ class IllustrationsController < ApplicationController
     @illustration = Illustration.find(params[:id])
     @illustration.create_tags!(params.fetch(:tags, {}).values)
     flash[:notice] = "Your tags have been created"
-    return redirect_to show_illustration_path(@illustration)
+    return redirect_to show_illustration_path(@illustration.slug)
   end
 
 end

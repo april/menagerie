@@ -9,10 +9,19 @@ a {
   color: $cGrape;
 }
 
-.artwork {
-  border-bottom: 1px solid #ccc;
-  height: 520px;
-  overflow: hidden;
+h1 {
+  svg {
+    height: 1em;
+    width: 1em;
+  }
+}
+
+.vh {
+  display: block;
+  height: 0;
+  position: absolute;
+  visibility: hidden;
+  width: 0;
 }
 
 .hidden {

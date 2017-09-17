@@ -8,8 +8,8 @@ class IllustrationTag < ActiveRecord::Base
   end
 
   def status
-    return "approved" if verified?
     return "disputed" if disputed?
+    return "approved" if approved?
     return "pending"
   end
 

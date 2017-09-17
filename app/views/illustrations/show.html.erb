@@ -1,22 +1,26 @@
-<div class="artwork">
-  <img src="<%= @illustration.image_uri %>" alt="<%= @illustration.name %>">
-</div>
-
-<% if @illustration.illustration_tags.present? %>
-  <div class="illustration-tags">
-    <% @illustration.illustration_tags.sort_by(&:name).each do |tag| %>
-      <%= render "shared/illustration_tag", tag: tag, allow_dispute: true %>
-    <% end %>
-  </div>
+<%= content_for :head do %>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
 <% end %>
 
-<script>
-window.tags_collection = <%= raw Tag.distinct.pluck(:name).to_json %>;
-</script>
-<%= form_tag submit_illustration_tags_path(@illustration), method: "post", id: "tagging-form", class:"tagging-form", "data-component":"autocomplete-menu", "data-src":"tags_collection" do %>
+<div class="illustration-detail">
+  <%= render "shared/illustration", illustration: @illustration, link_uri: @illustration.scryfall_uri %>
+
+  <% if @illustration.illustration_tags.present? %>
+    <div class="illustration-tags">
+      <% @illustration.illustration_tags.sort_by(&:name).each do |tag| %>
+        <%= render "shared/illustration_tag", tag: tag, allow_dispute: true %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<%= form_tag submit_illustration_tags_path(@illustration), method: "post", id: "tagging-form", class:"tagging-form", "data-component":"autocomplete-form" do %>
+  <script>
+    window.tags_collection = <%= raw Tag.distinct.pluck(:name).to_json %>;
+  </script>
   <h2>Propose Tags</h2>
   <div class="tag-form-row autocomplete-wrapper" data-row="0">
-    <%= text_field :tags, "0", placeholder: "tag", autocorrect:"off", autocomplete:"off", class:"js-autocomplete-field" %>
+    <%= text_field :tags, "0", placeholder: "tag", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection" %>
   </div>
   <div class="g-recaptcha" data-sitekey="6LdLnjAUAAAAAPGoEkt2aphd7B-b2w0lq5IKByXH"></div>
   <%= button_tag "Propose these tags", class:"button-primary" %>
