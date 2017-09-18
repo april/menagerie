@@ -13,9 +13,9 @@
     <tbody>
     <% @tag_submission.proposed_tags.each_with_index do |tag, index| %>
       <tr>
-        <td><label><%= radio_button_tag "tags[#{index}]", tag.original_name_key, false %> <%= tag.original_name %></label></td>
-        <td><label><%= radio_button_tag "tags[#{index}]", tag.formatted_name_key, false %> <%= tag.formatted_name %></label></td>
-        <td><label><%= radio_button_tag "tags[#{index}]", tag.cancel_key, false %> cancel</label></td>
+        <td><label><%= radio_button_tag "tags[#{index}]", tag.original_name_key, false, disabled: !tag.allowed? %> <%= tag.original_name %></label></td>
+        <td><label><%= radio_button_tag "tags[#{index}]", tag.formatted_name_key, tag.suggest_formatted_name?, disabled: !tag.allowed? %> <%= tag.formatted_name_display %></label></td>
+        <td><label><%= radio_button_tag "tags[#{index}]", tag.cancel_key, tag.suggest_cancel? %> cancel</label></td>
         <td><%= tag.note %></td>
       </tr>
     <% end %>
