@@ -1,4 +1,4 @@
-<%= form_tag create_illustration_tags_path(@illustration), method: "post" do %>
+<%= form_tag create_illustration_tags_path(@tag_submission), method: "post" do %>
   <h2>Confirm Tags</h2>
   <p>We prefer to normalize tags as lowercase singular nouns. However, you may use your judgement.</p>
   <table class="tag-confirmation">
@@ -11,12 +11,11 @@
       </tr>
     </thead>
     <tbody>
-    <% @tags.each_with_index do |tag, index| %>
-    <% normalized_name = tag.normalized_name %>
+    <% @tag_submission.proposed_tags.each_with_index do |tag, index| %>
       <tr>
-        <td><label><%= radio_button_tag "tags[#{index}]", tag.original_name, false %> <%= tag.original_name %></label></td>
-        <td><label><%= radio_button_tag "tags[#{index}]", normalized_name, normalized_name.present?, disabled: !normalized_name.present? %> <%= tag.normalized_name || "n/a" %></label></td>
-        <td><label><%= radio_button_tag "tags[#{index}]", "", !normalized_name.present? %> cancel</label></td>
+        <td><label><%= radio_button_tag "tags[#{index}]", tag.original_name_key, false %> <%= tag.original_name %></label></td>
+        <td><label><%= radio_button_tag "tags[#{index}]", tag.formatted_name_key, false %> <%= tag.formatted_name %></label></td>
+        <td><label><%= radio_button_tag "tags[#{index}]", tag.cancel_key, false %> cancel</label></td>
         <td><%= tag.note %></td>
       </tr>
     <% end %>

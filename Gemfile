@@ -15,6 +15,7 @@ gem 'uglifier', '>= 1.3.0'
 gem "dotenv-rails"
 gem "will_paginate"
 gem "typhoeus"
+gem "ffi-aspell"
 gem "engtagger"
 
 # Use Capistrano for deployment

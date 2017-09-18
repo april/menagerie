@@ -68,7 +68,7 @@ class Admin::SessionsController < AdminController
       httponly: true, # JavaScript should not read this cookie
     }
     cookies.encrypted[:admin_mode] = {
-      value: Administrator.generate_security_token, # Put nonsense in this cookie, but make it look like the admin token
+      value: SecurityToken.generate, # Put nonsense in this cookie, but make it look like the admin token
       expires: 1.year.from_now,
       secure: Rails.env.production?, # Expect a TLS connection in production
       httponly: false, # JavaScript can detect this cookie

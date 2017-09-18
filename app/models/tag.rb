@@ -5,50 +5,31 @@ class Tag < ActiveRecord::Base
 
   validates_presence_of :name
 
-  def self.normalize(str)
-    str.strip.squish.downcase.singularize
-  end
+  # def original_name
+  #   name.strip.squish
+  # end
 
-  attr_accessor :note
+  # def normalized_name
+  #   tag = name.strip.squish.downcase
+  #   return tag if ALLOWED_ADJECTIVES.include?(tag)
 
-  ALLOWED_ADJECTIVES = [
-    "pink",
-    "red",
-    "orange",
-    "yellow",
-    "green",
-    "blue",
-    "purple",
-    "gray",
-    "black",
-    "white"
-  ]
+  #   @tagger ||= EngTagger.new
+  #   nouns = @tagger.get_nouns(@tagger.add_tags(tag)).keys
 
-  def original_name
-    name.strip.squish
-  end
+  #   if nouns.length < 1
+  #     self.note = "no nouns present"
+  #     return nil
+  #   elsif nouns.length > 1
+  #     self.note = "multiple nouns present"
+  #     return nil
+  #   end
 
-  def normalized_name
-    tag = name.strip.squish.downcase
-    return tag if ALLOWED_ADJECTIVES.include?(tag)
+  #   return nouns.first.singularize
+  # end
 
-    @tagger ||= EngTagger.new
-    nouns = @tagger.get_nouns(@tagger.add_tags(tag)).keys
-
-    if nouns.length < 1
-      self.note = "no nouns present"
-      return nil
-    elsif nouns.length > 1
-      self.note = "multiple nouns present"
-      return nil
-    end
-
-    return nouns.first.singularize
-  end
-
-  def cancel?
-    normalized_name
-    note.present?
-  end
+  # def cancel?
+  #   normalized_name
+  #   note.present?
+  # end
 
 end

@@ -11,12 +11,8 @@ class Administrator < ActiveRecord::Base
   LOCKOUT_THRESHOLD = 16
   LOCKOUT_DURATION = 1.5.hours
 
-  def self.generate_security_token
-    SecureRandom.base64(32).delete("+/=")[0..31]
-  end
-
   def generate_grant!
-    plaintext_grant = self.class.generate_security_token
+    plaintext_grant = SecurityToken.generate
     encrypted_grant = BCrypt::Password.create(plaintext_grant, cost:BCRYPT_COST)
     self.update(grant_token:encrypted_grant, grant_token_expires_at:GRANT_LIFESPAN.from_now)
     return plaintext_grant
@@ -82,7 +78,7 @@ class Administrator < ActiveRecord::Base
   end
 
   def rotate_auth_key!
-    self.update(auth_key:self.class.generate_security_token)
+    self.update(auth_key:SecurityToken.generate)
   end
 
   def self.panic!
