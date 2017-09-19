@@ -1,14 +1,29 @@
-<% @illustration_tags.each do |itag| %>
-  <div class="tag-approval-row <%= itag.disputed ? "disputed" : "pending" %>">
-    <%= form_tag admin_confirm_illustration_tag_path(itag), method:"post" do %>
-      <input type="text" name="approved_name" value="<%= itag.tag.name %>">
-      <%= button_tag "Approve", name:"approved", value:true %>
-      <%= button_tag "Reject", name:"approved", value:false %>
-      <% if itag.disputed %>
-        disputed
+<%= content_for :body_class { "admin" } %>
+
+<% @illustration_tags.group_by(&:illustration_id).values.each do |group| %>
+  <div class="tag-admin-row <%= group.first.disputed? ? "disputed" : "pending" %>">
+    <%= render "shared/illustration", illustration: group.first.illustration, link_uri: group.first.illustration.scryfall_uri %>
+    <% group.each do |itag| %>
+      <%= form_tag admin_confirm_illustration_tag_path(itag), method:"post" do %>
+        <% if itag.disputed %>
+          <div class="tag-admin-row--dispute">
+            <%= inline_svg "icons/dispute" %> Disputed<%= ": #{itag.dispute_note}" if itag.dispute_note.present? %>
+          </div>
+        <% end %>
+        <input type="text" name="approved_name" value="<%= itag.tag.name %>" class="tag-input-field">
+        <%= button_tag title: "Approve", name:"approved", value:true, class:"button-primary approve" do %>
+          <%= inline_svg "icons/approve" %> <span class="vh">Approve</span>
+        <% end %>
+        <%= button_tag title: "Reject", name:"approved", value:false, class:"button-primary reject" do %>
+          <%= inline_svg "icons/reject" %> <span class="vh">Approve</span>
+        <% end %>
       <% end %>
     <% end %>
   </div>
+<% end %>
+
+<% if @illustration_tags.current_page.to_i == 1 && @illustration_tags.total_pages.to_i > 1 %>
+  <%= link_to "Reload Tags", admin_dashboard_path, class:"button-primary" %>
 <% end %>
 
 <%= will_paginate @illustration_tags %>

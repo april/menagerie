@@ -1,4 +1,4 @@
-var $form = $('#tagging-form')
+var $form = $('#submit-tags-form')
   .on('keydown', 'input', function(evt) {
     var $input = $(evt.currentTarget);
     var $row = $input.closest('.tag-form-row');
@@ -31,8 +31,8 @@ var $form = $('#tagging-form')
       success: function(data) {
         $form.hide().after(data.form);
       },
-      error: function(data) {
-        $bttn.prop('disabled', false);
+      error: function(xhr) {
+        $bttn.prop('disabled', false).after(xhr.responseJSON.error);
       }
     });
   });

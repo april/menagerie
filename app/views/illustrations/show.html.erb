@@ -11,29 +11,26 @@
         <%= render "shared/illustration_tag", tag: tag, allow_dispute: true %>
       <% end %>
     </div>
+    <script type="text/template" id="tag-dispute-form-tmpl">
+      <%= form_tag dispute_illustration_tag_path(":id"), method: "post", id: "dispute-tag-form" do %>
+        <h2>Dispute Tag <span class="disputed-tag"></span></h2>
+        <label for="dispute-tag-reason">Why are you disputing this tag?</label>
+        <textarea id="dispute-tag-reason" name="dispute_note" class="tag-input-field"></textarea>
+        <div class="g-recaptcha" data-sitekey="6LdLnjAUAAAAAPGoEkt2aphd7B-b2w0lq5IKByXH"></div>
+        <%= button_tag "Dispute this tag", class:"button-primary" %>
+      <% end %>
+    </script>
   <% end %>
 </div>
 
-<%= form_tag submit_illustration_tags_path(@illustration), method: "post", id: "tagging-form", class:"tagging-form", "data-component":"autocomplete-form" do %>
+<%= form_tag submit_illustration_tags_path(@illustration), method: "post", id: "submit-tags-form", class:"tagging-form", "data-component":"autocomplete-form" do %>
   <script>
     window.tags_collection = <%= raw Tag.distinct.pluck(:name).to_json %>;
   </script>
   <h2>Propose Tags</h2>
   <div class="tag-form-row autocomplete-wrapper" data-row="0">
-    <%= text_field :tags, "0", placeholder: "tag", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection" %>
+    <%= text_field :tags, "0", placeholder: "tag", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection", class:"tag-input-field" %>
   </div>
   <div class="g-recaptcha" data-sitekey="6LdLnjAUAAAAAPGoEkt2aphd7B-b2w0lq5IKByXH"></div>
   <%= button_tag "Propose these tags", class:"button-primary" %>
 <% end %>
-
-<script type="text/template" id="tag-dispute-form-tmpl">
-  <%= form_tag dispute_illustration_tag_path(":id"), method: "post", id: "tag-dispute-form" do %>
-    <h2>Dispute Tag <span class="disputed-tag"></span></h2>
-    <label>
-      Why are you disputing this tag?
-      <textarea></textarea>
-    </label>
-    <div class="g-recaptcha" data-sitekey="6LdLnjAUAAAAAPGoEkt2aphd7B-b2w0lq5IKByXH"></div>
-    <%= button_tag "Dispute this tag", class:"button-primary" %>
-  <% end %>
-</script>

@@ -5,20 +5,33 @@ class TagProposal
   attr_reader :original_name
   attr_reader :formatted_name
 
-  def initialize(name, current_tags=[])
+  def initialize(name, current_tag=nil, existing_tag=nil)
     @original_name = name.strip.squish
-    @existing_tag = current_tags.map(&:downcase).include?(@original_name.downcase)
+
+    # Skip duplicate tags
+    if current_tag.present?
+      @formatted_name = current_tag
+      @duplicate_tag = true
+      return self
+    end
+
+    # Use an existing tag name, if available
+    if existing_tag.present?
+      @formatted_name = existing_tag
+      @existing_tag = true
+      return self
+    end
 
     # Lowercase
     lowercased_term = @original_name.downcase
     @lowercased = lowercased_term != @original_name
 
     # Check full phrase against blacklist
-    @blacklisted = BlacklistTerm.approved_phrase?(lowercased_term)
+    @blacklisted = BlacklistTerm.blacklist_phrase?(lowercased_term)
 
     # Check each word against blacklist and spelling
-    singularized_term.split(" ").each do |word|
-      @blacklisted ||= BlacklistTerm.approved_word?(word)
+    lowercased_term.split(" ").each do |word|
+      @blacklisted ||= BlacklistTerm.blacklist_word?(word)
       @misspelled ||= false
       #@misspelled ||= spelling.correct?(word)
     end
@@ -26,17 +39,20 @@ class TagProposal
     @nounless = false
     @multiple_nouns = false
 
-    # if nouns.length < 1
-    #   self.note = "no nouns present"
-    #   return nil
-    # elsif nouns.length > 1
-    #   self.note = "multiple nouns present"
-    #   return nil
-    # end
+    #   @tagger ||= EngTagger.new
+    #   nouns = @tagger.get_nouns(@tagger.add_tags(tag)).keys
+
+    #   if nouns.length < 1
+    #     self.note = "no nouns present"
+    #     return nil
+    #   elsif nouns.length > 1
+    #     self.note = "multiple nouns present"
+    #     return nil
+    #   end
 
     # Singularize
     singularized_term = lowercased_term.singularize
-    @singularized = singularized_term != lowercased
+    @singularized = singularized_term != lowercased_term
 
     # Assign formatted name for display
     @formatted_name = singularized_term
@@ -59,6 +75,7 @@ class TagProposal
   end
 
   def note
+    return "already tagged" if @duplicate_tag
     return "existing tag" if @existing_tag
     return "inappropriate" if @blacklisted
     notes = []
@@ -67,12 +84,13 @@ class TagProposal
     return notes.any? ? notes.join(", ") : "okay"
   end
 
-  def exists?
-    @existing_tag
+  def duplicate?
+    @duplicate_tag
   end
 
+  # Tag is not allowed if it's a duplicate, or blacklisted
   def allowed?
-    !@existing_tag && !@blacklisted
+    !@duplicate_tag && !@blacklisted
   end
 
   def suggest_cancel?

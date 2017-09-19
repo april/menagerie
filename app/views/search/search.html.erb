@@ -12,7 +12,7 @@
     <label>
       Tag
       <span class="autocomplete-wrapper">
-        <%= text_field_tag :tag, params[:tag].presence, placeholder: "Tag Name", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection" %>
+        <%= text_field_tag :tag, params[:tag].presence, placeholder: "Tag Name", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection", class:"tag-input-field" %>
       </span>
     </label>
   </div>
@@ -20,7 +20,7 @@
     <label>
       Card
       <span class="autocomplete-wrapper">
-        <%= text_field_tag :card, params[:card].presence, placeholder: "Card Name", autocorrect:"off", autocomplete:"off", "data-src":"cards_collection" %>
+        <%= text_field_tag :card, params[:card].presence, placeholder: "Card Name", autocorrect:"off", autocomplete:"off", "data-src":"cards_collection", class:"tag-input-field" %>
       </span>
     </label>
   </div>
@@ -28,7 +28,7 @@
     <label>
       Artist
       <span class="autocomplete-wrapper">
-        <%= text_field_tag :artist, params[:artist].presence, placeholder: "Artist Name", autocorrect:"off", autocomplete:"off", "data-src":"artists_collection" %>
+        <%= text_field_tag :artist, params[:artist].presence, placeholder: "Artist Name", autocorrect:"off", autocomplete:"off", "data-src":"artists_collection", class:"tag-input-field" %>
       </span>
     </label>
   </div>

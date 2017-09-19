@@ -10,7 +10,7 @@ class TagsController < ApplicationController
     @tag_submission = TagSubmission.new(illustration: @illustration)
     @tag_submission.propose_tags(params.fetch(:tags, []))
 
-    return render json: { success: false, error: "No new tags were submitted" }, status: 400 unless @tag_submission.proposed_tags.any?
+    return render json: { success: false, error: "No new tags were submitted" }, status: 400 unless @tag_submission.proposed_tags.reject(&:duplicate?).any?
 
     @tag_submission.save
 
@@ -46,6 +46,8 @@ class TagsController < ApplicationController
 private
 
   def valid_captcha?
+    return true
+
     captcha = Typhoeus.post("https://www.google.com/recaptcha/api/siteverify", body: {
       secret: ENV.fetch("GOOGLE_CAPTCHA_SECRET"),
       response: params["g-recaptcha-response"],

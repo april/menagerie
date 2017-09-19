@@ -17,14 +17,9 @@ var AutocompleteFormView = Backbone.View.extend({
 
   setMenu: function(opts) {
     if (!this.input) return;
-    if (opts) {
-      if (opts.length) {
-        this.selection = 0;
-        this.$menu.html(opts.map(function(opt, index) { return '<li data-index="'+ index +'" data-value="'+ opt +'" class="'+ (index === 0 ? 'active' : '') +'">' + opt + '</li>'; }).join(''));
-      } else {
-        this.selection = false;
-        this.$menu.html('<li class="disabled">No results</li>');
-      }
+    if (opts && opts.length) {
+      this.selection = 0;
+      this.$menu.html(opts.map(function(opt, index) { return '<li data-index="'+ index +'" data-value="'+ opt +'" class="'+ (index === 0 ? 'active' : '') +'">' + opt + '</li>'; }).join(''));
       this.$(this.input).parent().append(this.$menu);
     } else {
       this.$menu.detach().html('');
@@ -129,7 +124,7 @@ var AutocompleteFormView = Backbone.View.extend({
   },
 
   locked: function() {
-    return !this.input || !this.options || this.selection === false;
+    return !this.input || !this.options;
   }
 });
 

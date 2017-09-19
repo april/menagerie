@@ -7,8 +7,19 @@ class TagSubmission < ActiveRecord::Base
   attr_reader :proposed_tags
 
   def propose_tags(names)
+    # Format the provided names for matching:
+    names = names.select(&:present?).map(&:strip).map(&:squish)
+
+    # Format illustration-specific tags with these names into a lookup
     current_tags = illustration.tags.pluck(:name)
-    @proposed_tags = names.select(&:present?).map { |n| TagProposal.new(n, current_tags) }
+    current_tags = Hash[current_tags.map(&:downcase).zip(current_tags)]
+
+    # Format existing tags with these names into a lookup
+    defined_tags = Tag.where(name: (names + names.map(&:downcase)).uniq).pluck(:name)
+    defined_tags = Hash[defined_tags.map(&:downcase).zip(defined_tags)]
+
+    # Generate tag proposals
+    @proposed_tags = names.map { |n| TagProposal.new(n, current_tags[n.downcase], defined_tags[n.downcase]) }
 
     self.tags = @proposed_tags.reduce({}) do |memo, tag|
       if tag.allowed?

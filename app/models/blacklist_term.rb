@@ -5,19 +5,19 @@ class BlacklistTerm < ActiveRecord::Base
   def self.blacklist
     @blacklist ||= begin
       @blacklist_dict ||= YAML.load_file(Rails.root.join("config/blacklist.yml"))
-      Struct.new(:phrases, :words).new(*@blacklist_dict.partition { |t| t.include?(" ") })
+      Struct.new(:phrases, :words).new(*@blacklist_dict.partition { |t| t.include?(" ") }.map(&:to_set))
     end
   end
 
-  def self.approved_phrase?(phrase)
+  def self.blacklist_phrase?(phrase)
     blacklist.phrases.each do |p|
-      return false if phrase.include?(p)
+      return true if phrase.include?(p)
     end
-    return true
+    return false
   end
 
-  def self.approved_word?(word)
-    return !blacklist.words.include?(word)
+  def self.blacklist_word?(word)
+    return blacklist.words.include?(word)
   end
 
 end

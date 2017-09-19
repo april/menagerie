@@ -1,8 +1,8 @@
 class Admin::IllustrationTagsController < AdminController
 
   def index
-    @illustration_tags = IllustrationTag.includes(:tag)
-      .where("(disputed = TRUE OR approved = FALSE)")
+    @illustration_tags = IllustrationTag.includes(:illustration, :tag)
+      .where("(disputed = TRUE OR approved != TRUE)")
       .order(disputed: :desc)
       .paginate(page:[params[:page].to_i, 1].max, per_page:30)
   end

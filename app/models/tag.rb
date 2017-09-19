@@ -5,31 +5,4 @@ class Tag < ActiveRecord::Base
 
   validates_presence_of :name
 
-  # def original_name
-  #   name.strip.squish
-  # end
-
-  # def normalized_name
-  #   tag = name.strip.squish.downcase
-  #   return tag if ALLOWED_ADJECTIVES.include?(tag)
-
-  #   @tagger ||= EngTagger.new
-  #   nouns = @tagger.get_nouns(@tagger.add_tags(tag)).keys
-
-  #   if nouns.length < 1
-  #     self.note = "no nouns present"
-  #     return nil
-  #   elsif nouns.length > 1
-  #     self.note = "multiple nouns present"
-  #     return nil
-  #   end
-
-  #   return nouns.first.singularize
-  # end
-
-  # def cancel?
-  #   normalized_name
-  #   note.present?
-  # end
-
 end
