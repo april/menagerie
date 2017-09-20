@@ -21,10 +21,10 @@ class InitialSetup < ActiveRecord::Migration[5.1]
     create_table :illustration_tags, id: :uuid do |t|
       t.uuid :illustration_id, null: false
       t.uuid :tag_id, null: false
-      t.boolean :approved
+      t.integer :approval_status,  null: false, default: 1
       t.boolean :disputed, null: false, default: false
       t.text :dispute_note
-      t.text :source_ip_address, null: false
+      t.text :source_ip, null: false
       t.index :illustration_id
       t.index :tag_id
     end

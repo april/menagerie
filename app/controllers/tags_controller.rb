@@ -7,7 +7,7 @@ class TagsController < ApplicationController
 
     return render json: { success: false, error: "Invalid captcha" }, status: 400 unless valid_captcha?
 
-    @tag_submission = TagSubmission.new(illustration: @illustration)
+    @tag_submission = TagSubmission.new(illustration: @illustration, source_ip: request.remote_ip)
     @tag_submission.propose_tags(params.fetch(:tags, []))
 
     return render json: { success: false, error: "No new tags were submitted" }, status: 400 unless @tag_submission.proposed_tags.reject(&:duplicate?).any?

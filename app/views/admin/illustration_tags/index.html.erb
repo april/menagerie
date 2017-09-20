@@ -7,22 +7,27 @@
 <% @tag_groups.each do |tag_group| %>
   <div class="tag-admin-row">
     <%= render "shared/illustration", illustration: tag_group.first.illustration, link_uri: tag_group.first.illustration.uri %>
-    <% tag_group.each do |itag| %>
-      <%= form_tag admin_confirm_illustration_tag_path(itag), method:"post", class:"js-tag-confirm-form" do %>
-        <% if itag.disputed? %>
-          <div class="tag-admin-row--dispute">
-            <%= inline_svg "icons/dispute" %> Disputed<%= ": #{itag.dispute_note}" if itag.dispute_note.present? %>
+    <div class="tag-confirmation">
+      <div class="illustration-tags js-tag-resolutions"></div>
+      <% tag_group.each do |itag| %>
+        <%= form_tag admin_confirm_illustration_tag_path(itag), method:"post", class:"tag-confirm-form js-tag-confirm-form#{ " disputed" if itag.disputed? }" do %>
+          <input type="text" name="tag_name" value="<%= itag.tag.name %>" class="tag-input-field">
+          <div class="tag-confirm-form--actions">
+            <%= button_tag title: "Approve", value: "approve", class:"button-primary approve" do %>
+              <%= inline_svg "icons/approve" %> <span class="vh">Approve</span>
+            <% end %>
+            <%= button_tag title: "Reject", value: "reject", class:"button-primary reject" do %>
+              <%= inline_svg "icons/reject" %> <span class="vh">Reject</span>
+            <% end %>
           </div>
-        <% end %>
-        <input type="text" name="tag_name" value="<%= itag.tag.name %>" class="tag-input-field">
-        <%= button_tag title: "Approve", value: "approve", class:"button-primary approve" do %>
-          <%= inline_svg "icons/approve" %> <span class="vh">Approve</span>
-        <% end %>
-        <%= button_tag title: "Reject", value: "reject", class:"button-primary reject" do %>
-          <%= inline_svg "icons/reject" %> <span class="vh">Reject</span>
+          <% if itag.disputed? %>
+            <div class="tag-admin-row--dispute">
+              <%= inline_svg "icons/dispute" %> Disputed<%= ": #{itag.dispute_note}" if itag.dispute_note.present? %>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
 <% end %>
 

@@ -4,7 +4,7 @@ class Admin::IllustrationTagsController < AdminController
 
   def index
     @illustration_tags = IllustrationTag.includes(:illustration, :tag)
-      .where("(disputed = TRUE OR approved IS NULL)")
+      .where("(disputed = TRUE OR approval_status = ?)", IllustrationTag::ApprovalStatus::PENDING)
       .order(disputed: :desc)
       .paginate(page:[params[:page].to_i, 1].max, per_page:30)
 
@@ -16,9 +16,14 @@ class Admin::IllustrationTagsController < AdminController
       .sort { |a, b| (a.first.disputed? ? 0 : 1) <=> (b.first.disputed? ? 0 : 1) }
   end
 
+  INTENT_VALUES = {
+    "approve" => IllustrationTag::ApprovalStatus::APPROVED,
+    "reject" => IllustrationTag::ApprovalStatus::REJECTED,
+  }.freeze
+
   def confirm
     @illustration_tag = IllustrationTag.find(params[:id])
-    @illustration_tag.approved = (params[:intent] == "approve")
+    @illustration_tag.approval_status = INTENT_VALUES[params[:intent]]
     @illustration_tag.disputed = false
 
     begin

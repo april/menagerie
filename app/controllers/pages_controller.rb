@@ -9,4 +9,10 @@ class PagesController < ApplicationController
   def guide
   end
 
+  def tos
+  end
+
+  def privacy
+  end
+
 end

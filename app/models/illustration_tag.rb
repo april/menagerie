@@ -5,6 +5,12 @@ class IllustrationTag < ActiveRecord::Base
   belongs_to :illustration
   belongs_to :tag
 
+  class ApprovalStatus
+    PENDING  = 1
+    APPROVED = 2
+    REJECTED = 3
+  end
+
   def name
     tag.name
   end
@@ -20,12 +26,16 @@ class IllustrationTag < ActiveRecord::Base
     self.disputed
   end
 
-  def rejected?
-    approved == false
+  def pending?
+    approval_status == ApprovalStatus::PENDING
   end
 
   def approved?
-    approved == true
+    approval_status == ApprovalStatus::APPROVED
+  end
+
+  def rejected?
+    approval_status == ApprovalStatus::REJECTED
   end
 
 end

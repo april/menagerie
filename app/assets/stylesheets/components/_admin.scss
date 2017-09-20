@@ -6,6 +6,7 @@
 }
 
 .tag-admin-row {
+  align-items: flex-start;
   border-bottom: 1px solid #333;
   box-sizing: border-box;
   display: flex;
@@ -17,11 +18,8 @@
     flex-flow: row nowrap;
   }
 
-  &.disputed {
-    background-color: rgba(255, 0, 0, 0.1);
-  }
-
   .illustration {
+    border-bottom: none;
     width: 100%;
 
     @media (min-width: 500px) {
@@ -34,6 +32,32 @@
     }
   }
 
+  .tag-confirmation {
+    align-items: flex-start;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column wrap;
+    padding-left: $space2;
+    width: 100%;
+
+    @media (min-width: 500px) {
+      align-items: flex-start;
+      flex-flow: row wrap;
+      width: 50%;
+    }
+
+    @media (min-width: 800px) {
+      flex-grow: 1;
+      width: 0;
+    }
+
+    .illustration-tags {
+      justify-content: flex-start;
+      margin-top: 0;
+      width: 100%;
+    }
+  }
+
   &--dispute {
     margin-bottom: 10px;
 
@@ -41,5 +65,24 @@
       height: 1.5em;
       width: 1.5em;
     }
+  }
+}
+
+.tag-confirm-form {
+  box-sizing: border-box;
+  padding: $space1;
+  width: 175px;
+
+  &.disputed {
+    background-color: rgba(255, 0, 0, 0.1);
+  }
+
+  &--actions {
+    margin: $space1 0;
+    display: flex;
+  }
+
+  .button-primary {
+    margin-right: $space1;
   }
 }

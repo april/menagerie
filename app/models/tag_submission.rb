@@ -33,7 +33,7 @@ class TagSubmission < ActiveRecord::Base
   def create_illustration_tags!(keys)
     keys
       .map { |key| self.tags[key] }.compact
-      .each { |n| illustration.tags << Tag.find_or_create_by(name: n) }
+      .each { |n| IllustrationTag.create(illustration: illustration, tag: Tag.find_or_create_by(name: n), source_ip: source_ip) }
 
     self.destroy
   end

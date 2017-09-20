@@ -7,7 +7,7 @@
 
   <% if @illustration.illustration_tags.present? %>
     <div class="illustration-tags">
-      <% @illustration.illustration_tags.sort_by(&:name).each do |tag| %>
+      <% @illustration.illustration_tags.sort_by(&:name).reject(&:rejected?).each do |tag| %>
         <%= render "shared/illustration_tag", tag: tag, allow_dispute: true %>
       <% end %>
     </div>
@@ -26,7 +26,7 @@
           <textarea id="dispute-tag-reason" name="dispute_note" class="tag-input-field"></textarea>
         </div>
         <div class="tag-form-row">
-          <div class="g-recaptcha" data-sitekey="6LdLnjAUAAAAAPGoEkt2aphd7B-b2w0lq5IKByXH"></div>
+          <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>
         </div>
         <div class="tag-form-row">
           <%= button_tag "Dispute this tag", class:"button-primary" %>
@@ -46,10 +46,17 @@
   </script>
   <h2>Propose Tags</h2>
   <div class="tag-form-row autocomplete-wrapper js-expanding-form-row" data-row="0">
-    <%= text_field :tags, "0", placeholder: "tag name", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection", class:"tag-input-field" %>
+    <label for="tag-0" class="vh">New tag</label>
+    <%= text_field :tags, "0", id: "tag-0", placeholder: "tag name", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection", class:"tag-input-field" %>
   </div>
   <div class="tag-form-row">
-    <div class="g-recaptcha" data-sitekey="6LdLnjAUAAAAAPGoEkt2aphd7B-b2w0lq5IKByXH"></div>
+    <span><input type="checkbox"> I've followed the <%= link_to "submission guidelines", guide_path %>.</span>
+  </div>
+  <div class="tag-form-row">
+    <span><input type="checkbox"> I agree to the <%= link_to "terms of service", tos_path %>.</span>
+  </div>
+  <div class="tag-form-row">
+    <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>
   </div>
   <div class="tag-form-row">
     <%= button_tag "Propose these tags", class:"button-primary" %>

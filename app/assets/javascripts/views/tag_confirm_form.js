@@ -15,7 +15,9 @@ $(document).on('submit', '.js-tag-confirm-form', function(evt) {
     method: "post",
     data: formData,
     success: function(data) {
-      $(form).replaceWith(data.tag);
+      var $form = $(form);
+      $form.closest('.tag-confirmation').find('.js-tag-resolutions').append(data.tag)
+      $form.remove();
     },
     error: function() {
 

@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   root to: "pages#home", as: "home"
   get "/search", to: "search#search", as: "search"
   get "/tagging-guide", to: "pages#guide", as: "guide"
+  get "/terms-of-service", to: "pages#tos", as: "tos"
+  get "/privacy-policy", to: "pages#privacy", as: "privacy"
 
   get "/illustration/random", to: "illustrations#random", as: "random_illustration"
   get "/illustration/:slug", to: "illustrations#show", as: "show_illustration"
