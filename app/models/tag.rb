@@ -5,4 +5,20 @@ class Tag < ActiveRecord::Base
 
   validates_presence_of :name
 
+  def status
+    "approved"
+  end
+
+  def disputed?
+    false
+  end
+
+  def disputed?
+    false
+  end
+
+  def disputed?
+    false
+  end
+
 end

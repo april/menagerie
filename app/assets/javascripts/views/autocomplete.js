@@ -63,7 +63,7 @@ var AutocompleteFormView = Backbone.View.extend({
 
   onBlur: function(evt) {
     if (this.isMenuOpen() && !this.menuFocus) {
-      this.setMenu(null);
+      //this.setMenu(null);
     }
   },
 
@@ -72,7 +72,7 @@ var AutocompleteFormView = Backbone.View.extend({
     var term = this.input.value;
 
     if (term.length >= 2) {
-      var options = this.options.filter(function(opt) { return term === opt.slice(0, term.length) });
+      var options = this.options.filter(function(opt) { return term.toLowerCase() === opt.slice(0, term.length).toLowerCase() });
       this.setMenu(options.slice(0, 5));
     } else {
       this.setMenu(null);

@@ -2,35 +2,29 @@
   <p>No results found matching provided search criteria</p>
 <% end %>
 
-<%= form_tag search_path, method: "get", enforce_utf8: false, "data-component":"autocomplete-form" do %>
+<%= form_tag search_path, method: "get", enforce_utf8: false, "data-component":"autocomplete-form", class:"search-form" do %>
   <script>
     window.tags_collection = <%= raw Tag.distinct.pluck(:name).to_json %>;
     window.cards_collection = <%= raw Illustration.distinct.pluck(:name).to_json %>;
     window.artists_collection = <%= raw Illustration.distinct.pluck(:artist).to_json %>;
   </script>
   <div class="tag-form-row">
-    <label>
-      Tag
-      <span class="autocomplete-wrapper">
-        <%= text_field_tag :tag, params[:tag].presence, placeholder: "Tag Name", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection", class:"tag-input-field" %>
-      </span>
-    </label>
+    <label for="search-tag">Tag</label>
+    <span class="autocomplete-wrapper">
+      <%= text_field_tag :tag, params[:tag].presence, placeholder: "Tag Name", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection", class:"tag-input-field", id:"search-tag" %>
+    </span>
   </div>
   <div class="tag-form-row">
-    <label>
-      Card
-      <span class="autocomplete-wrapper">
-        <%= text_field_tag :card, params[:card].presence, placeholder: "Card Name", autocorrect:"off", autocomplete:"off", "data-src":"cards_collection", class:"tag-input-field" %>
-      </span>
-    </label>
+    <label for="search-card">Card</label>
+    <span class="autocomplete-wrapper">
+      <%= text_field_tag :card, params[:card].presence, placeholder: "Card Name", autocorrect:"off", autocomplete:"off", "data-src":"cards_collection", class:"tag-input-field", id:"search-card" %>
+    </span>
   </div>
   <div class="tag-form-row">
-    <label>
-      Artist
-      <span class="autocomplete-wrapper">
-        <%= text_field_tag :artist, params[:artist].presence, placeholder: "Artist Name", autocorrect:"off", autocomplete:"off", "data-src":"artists_collection", class:"tag-input-field" %>
-      </span>
-    </label>
+    <label for="search-artist">Artist</label>
+    <span class="autocomplete-wrapper">
+      <%= text_field_tag :artist, params[:artist].presence, placeholder: "Artist Name", autocorrect:"off", autocomplete:"off", "data-src":"artists_collection", class:"tag-input-field", id:"search-artist" %>
+    </span>
   </div>
   <%= button_tag "Search Illustrations", title:"Search Illustrations", name: nil, class:"button-primary" %>
 <% end %>
@@ -41,7 +35,7 @@
   <div class="search-results-grid">
     <% @illustrations.each do |illustration| %>
       <div class="search-results-grid--item">
-        <%= render "shared/illustration", illustration: illustration, link_uri: show_illustration_path(illustration.slug) %>
+        <%= render "shared/illustration", illustration: illustration, link_uri: illustration.uri %>
       </div>
     <% end %>
   </div>

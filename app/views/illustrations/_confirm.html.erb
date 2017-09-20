@@ -1,25 +1,29 @@
-<%= form_tag create_illustration_tags_path(@tag_submission), method: "post" do %>
+<%= form_tag create_illustration_tags_path(@tag_submission), method: "post", class:"tag-confirmation-form" do %>
   <h2>Confirm Tags</h2>
   <p>We prefer to normalize tags as lowercase singular nouns. However, you may use your judgement.</p>
-  <table class="tag-confirmation">
-    <thead>
-      <tr>
-        <td>Your submission</td>
-        <td>Normalized term</td>
-        <td>Cancel this tag</td>
-        <td>Notes</td>
-      </tr>
-    </thead>
-    <tbody>
-    <% @tag_submission.proposed_tags.each_with_index do |tag, index| %>
-      <tr>
-        <td><label><%= radio_button_tag "tags[#{index}]", tag.original_name_key, false, disabled: !tag.allowed? %> <%= tag.original_name %></label></td>
-        <td><label><%= radio_button_tag "tags[#{index}]", tag.formatted_name_key, tag.suggest_formatted_name?, disabled: !tag.allowed? %> <%= tag.formatted_name_display %></label></td>
-        <td><label><%= radio_button_tag "tags[#{index}]", tag.cancel_key, tag.suggest_cancel? %> cancel</label></td>
-        <td><%= tag.note %></td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
-  <%= button_tag "Confirm tags", class:"button-primary" %>
+  <div class="tag-form-row">
+    <table class="tag-confirmation">
+      <thead>
+        <tr>
+          <td>Your submission</td>
+          <td>Normalized term</td>
+          <td>Notes</td>
+          <td>Cancel this tag</td>
+        </tr>
+      </thead>
+      <tbody>
+      <% @tag_submission.proposed_tags.each_with_index do |tag, index| %>
+        <tr>
+          <td><label><%= radio_button_tag "tags[#{index}]", tag.original_name_key, false, disabled: !tag.allowed? %> <%= tag.original_name %></label></td>
+          <td><label><%= radio_button_tag "tags[#{index}]", tag.formatted_name_key, tag.suggest_formatted_name?, disabled: !tag.allowed? %> <%= tag.formatted_name_display %></label></td>
+          <td><%= tag.note %></td>
+          <td><label><%= radio_button_tag "tags[#{index}]", tag.cancel_key, tag.suggest_cancel? %> cancel</label></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="tag-form-row">
+    <%= button_tag "Confirm tags", class:"button-primary" %>
+  </div>
 <% end %>

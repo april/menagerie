@@ -11,8 +11,21 @@ class IllustrationTag < ActiveRecord::Base
 
   def status
     return "disputed" if disputed?
+    return "rejected" if rejected?
     return "approved" if approved?
     return "pending"
+  end
+
+  def disputed?
+    self.disputed
+  end
+
+  def rejected?
+    approved == false
+  end
+
+  def approved?
+    approved == true
   end
 
 end

@@ -1,21 +1,25 @@
 <%= content_for :body_class { "admin" } %>
 
-<% @illustration_tags.group_by(&:illustration_id).values.each do |group| %>
-  <div class="tag-admin-row <%= group.first.disputed? ? "disputed" : "pending" %>">
-    <%= render "shared/illustration", illustration: group.first.illustration, link_uri: group.first.illustration.scryfall_uri %>
-    <% group.each do |itag| %>
-      <%= form_tag admin_confirm_illustration_tag_path(itag), method:"post" do %>
-        <% if itag.disputed %>
+<% unless @illustration_tags.present? %>
+  <h1>No tags pending 🎉</h1>
+<% end %>
+
+<% @tag_groups.each do |tag_group| %>
+  <div class="tag-admin-row">
+    <%= render "shared/illustration", illustration: tag_group.first.illustration, link_uri: tag_group.first.illustration.uri %>
+    <% tag_group.each do |itag| %>
+      <%= form_tag admin_confirm_illustration_tag_path(itag), method:"post", class:"js-tag-confirm-form" do %>
+        <% if itag.disputed? %>
           <div class="tag-admin-row--dispute">
             <%= inline_svg "icons/dispute" %> Disputed<%= ": #{itag.dispute_note}" if itag.dispute_note.present? %>
           </div>
         <% end %>
-        <input type="text" name="approved_name" value="<%= itag.tag.name %>" class="tag-input-field">
-        <%= button_tag title: "Approve", name:"approved", value:true, class:"button-primary approve" do %>
+        <input type="text" name="tag_name" value="<%= itag.tag.name %>" class="tag-input-field">
+        <%= button_tag title: "Approve", value: "approve", class:"button-primary approve" do %>
           <%= inline_svg "icons/approve" %> <span class="vh">Approve</span>
         <% end %>
-        <%= button_tag title: "Reject", name:"approved", value:false, class:"button-primary reject" do %>
-          <%= inline_svg "icons/reject" %> <span class="vh">Approve</span>
+        <%= button_tag title: "Reject", value: "reject", class:"button-primary reject" do %>
+          <%= inline_svg "icons/reject" %> <span class="vh">Reject</span>
         <% end %>
       <% end %>
     <% end %>

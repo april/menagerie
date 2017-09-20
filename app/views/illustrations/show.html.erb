@@ -12,25 +12,46 @@
       <% end %>
     </div>
     <script type="text/template" id="tag-dispute-form-tmpl">
-      <%= form_tag dispute_illustration_tag_path(":id"), method: "post", id: "dispute-tag-form" do %>
-        <h2>Dispute Tag <span class="disputed-tag"></span></h2>
-        <label for="dispute-tag-reason">Why are you disputing this tag?</label>
-        <textarea id="dispute-tag-reason" name="dispute_note" class="tag-input-field"></textarea>
-        <div class="g-recaptcha" data-sitekey="6LdLnjAUAAAAAPGoEkt2aphd7B-b2w0lq5IKByXH"></div>
-        <%= button_tag "Dispute this tag", class:"button-primary" %>
+      <%= form_tag dispute_illustration_tag_path(":id"), method: "post", id: "tag-dispute-form", class:"tag-dispute-form" do %>
+        <h1>Dispute Tag</h1>
+        <div class="tag-form-row">
+          <div class="illustration-tag pending">
+            <span class="illustration-tag--inner">
+              <a href="/search?tag=" class="js-disputed-tag"></a>
+            </span>
+          </div>
+        </div>
+        <div class="tag-form-row tag-dispute-form--reason">
+          <label for="dispute-tag-reason">Why are you disputing this tag?</label>
+          <textarea id="dispute-tag-reason" name="dispute_note" class="tag-input-field"></textarea>
+        </div>
+        <div class="tag-form-row">
+          <div class="g-recaptcha" data-sitekey="6LdLnjAUAAAAAPGoEkt2aphd7B-b2w0lq5IKByXH"></div>
+        </div>
+        <div class="tag-form-row">
+          <%= button_tag "Dispute this tag", class:"button-primary" %>
+        </div>
       <% end %>
     </script>
+  <% else %>
+    <div class="illustration-tags">
+      <b>No tags have been submitted yet for this illustration.</b>
+    </div>
   <% end %>
 </div>
 
-<%= form_tag submit_illustration_tags_path(@illustration), method: "post", id: "submit-tags-form", class:"tagging-form", "data-component":"autocomplete-form" do %>
+<%= form_tag submit_illustration_tags_path(@illustration), method: "post", id: "tag-submit-form", class:"tag-submit-form", "data-component":"autocomplete-form" do %>
   <script>
     window.tags_collection = <%= raw Tag.distinct.pluck(:name).to_json %>;
   </script>
   <h2>Propose Tags</h2>
-  <div class="tag-form-row autocomplete-wrapper" data-row="0">
-    <%= text_field :tags, "0", placeholder: "tag", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection", class:"tag-input-field" %>
+  <div class="tag-form-row autocomplete-wrapper js-expanding-form-row" data-row="0">
+    <%= text_field :tags, "0", placeholder: "tag name", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection", class:"tag-input-field" %>
   </div>
-  <div class="g-recaptcha" data-sitekey="6LdLnjAUAAAAAPGoEkt2aphd7B-b2w0lq5IKByXH"></div>
-  <%= button_tag "Propose these tags", class:"button-primary" %>
+  <div class="tag-form-row">
+    <div class="g-recaptcha" data-sitekey="6LdLnjAUAAAAAPGoEkt2aphd7B-b2w0lq5IKByXH"></div>
+  </div>
+  <div class="tag-form-row">
+    <%= button_tag "Propose these tags", class:"button-primary" %>
+  </div>
 <% end %>

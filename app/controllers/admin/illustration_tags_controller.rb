@@ -1,29 +1,38 @@
+# frozen_string_literal: true
+
 class Admin::IllustrationTagsController < AdminController
 
   def index
     @illustration_tags = IllustrationTag.includes(:illustration, :tag)
-      .where("(disputed = TRUE OR approved != TRUE)")
+      .where("(disputed = TRUE OR approved IS NULL)")
       .order(disputed: :desc)
       .paginate(page:[params[:page].to_i, 1].max, per_page:30)
+
+    # Sort results into groups by illustration,
+    # disputed tags first, and disputed groups first.
+    @tag_groups = @illustration_tags
+      .group_by(&:illustration_id).values
+      .map { |g| g.sort {|a, b| (a.disputed? ? 0 : 1) <=> (b.disputed? ? 0 : 1)} }
+      .sort { |a, b| (a.first.disputed? ? 0 : 1) <=> (b.first.disputed? ? 0 : 1) }
   end
 
-  def confirm_illustration_tag
+  def confirm
     @illustration_tag = IllustrationTag.find(params[:id])
-    @illustration_tag.approved = (params[:approved] == "true")
+    @illustration_tag.approved = (params[:intent] == "approve")
     @illustration_tag.disputed = false
 
     begin
-      if @illustration_tag.approved
-        if params[:approved_name] != @illustration_tag.tag.name
-          old_tag = @illustration_tag.tag
-          @illustration_tag.tag = Tag.find_or_create_by(name: params[:approved_name])
-          old_tag.destroy if old_tag.illustration_tags.count < 1
-        end
-        @illustration_tag.save
-      else
-        @illustration_tag.destroy
+      if params[:tag_name] != @illustration_tag.tag.name
+        old_tag = @illustration_tag.tag
+        @illustration_tag.tag = Tag.find_or_create_by(name: params[:tag_name])
+        old_tag.destroy if old_tag.illustration_tags.count < 1
       end
-      return render json: { success: true }, status: 200
+      @illustration_tag.save
+
+      return render json: {
+        success: true,
+        tag: render_to_string(template: "shared/_illustration_tag", layout: false, locals: { tag: @illustration_tag }).squish.html_safe
+      }, status: 200
     rescue
       return render json: { success: false }, status: 400
     end

@@ -15,19 +15,25 @@
   display: block;
   font-weight: bold;
   overflow: hidden;
-  margin: 0 3px;
+  margin: 3px;
   padding-right: 0;
   transition: background-color 0.25s, padding-right 0.3s;
 
-  &.allows-dispute:hover {
-    padding-right: 25px;
+  &.allows-dispute {
+    &:hover {
+      padding-right: 25px;
+    }
+
+    @media (max-width: $break-medium) {
+      padding-right: 25px;
+    }
   }
 
   &.approved {
-    background-color: $cGrape;
-    border-color: $cGrape;
-    &:hover { background-color: $cGrape; }
-    a { color: white; }
+    background-color: mix(white, $cGrape, 80%);
+    border-color: mix(white, $cGrape, 65%);
+    &:hover { background-color: mix(white, $cGrape, 90%); }
+    a { color: $cGrape; }
   }
 
   &.pending {

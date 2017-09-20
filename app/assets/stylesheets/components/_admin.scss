@@ -1,5 +1,8 @@
+@import "../config/vars";
+
 .admin {
-  background-color: #222;
+  background-color: #111;
+  color: $cLightGray;
 }
 
 .tag-admin-row {

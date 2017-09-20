@@ -2,9 +2,10 @@
 
 .site-header {
   background-color: $cGrape;
+  border-bottom: 3px solid mix(white, $cGrape, 50%);
   display: flex;
   justify-content: space-between;
-  padding: 15px 20px;
+  padding: 15px $space2;
 
   a {
     display: inline-block;
@@ -15,24 +16,33 @@
 
   svg {
     fill: white;
-    height: 20px;
-    width: 20px;
+    height: $space2;
+    width: $space2;
   }
 }
+
 .site-notice {
-  background-color: #ccc;
-  padding: 15px 0;
+  background-color: #ffd951;
+  padding: 15px $space2;
+  text-align: center;
+  font-weight: bold;
 }
 
 .site-body {
-  margin: 30px auto;
-  padding: 0 20px;
+  margin: 30px auto 60px;
+  padding: 0 $space2;
   max-width: 1024px;
   min-height: 70vh;
 }
 
 .site-footer {
-  background-color: #333;
-  color: white;
-  padding: 20px 0;
+  background-color: #222;
+  border-top: 3px solid $cLightGray;
+  color: #ccc;
+  font-size: 0.9em;
+  padding: $space2;
+
+  @media (min-width: $break-medium) {
+    padding-right: 25%;
+  }
 }

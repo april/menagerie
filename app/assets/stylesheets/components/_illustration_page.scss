@@ -1,0 +1,71 @@
+@import "../config/vars";
+
+.illustration-detail {
+  margin: 0 auto;
+  max-width: $content-width;
+
+  .illustration {
+
+    h1 {
+      text-align: center;
+    }
+
+    &--credit {
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        padding: 15px 0;
+      }
+    }
+  }
+}
+
+.tag-submit-form {
+  margin: 40px auto;
+  max-width: 302px;
+  text-align: center;
+
+  .button-primary {
+    margin: 0 auto;
+  }
+}
+
+.tag-confirmation-form {
+  margin: 0 auto;
+  max-width: 820px;
+  text-align: center;
+
+  table {
+    width: 100%;
+  }
+
+  td {
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+    width: 25%;
+  }
+
+  .button-primary {
+    margin: 0 auto;
+  }
+}
+
+.tag-dispute-form {
+  .illustration-tag {
+    display: inline-block;
+  }
+
+  &--reason {
+    display: block;
+    margin-top: 0;
+
+    textarea {
+      margin-top: 6px;
+    }
+  }
+}
+
+.g-recaptcha {
+  margin-bottom: -2px;
+}

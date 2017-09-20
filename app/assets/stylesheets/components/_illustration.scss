@@ -1,15 +1,9 @@
 .illustration {
   border-bottom: 1px solid #ccc;
 
-  &--credit {
-    display: flex;
-    justify-content: space-between;
-
-    span {
-      display: block;
-      margin: 0;
-      padding: 15px 0;
-    }
+  &--credit span {
+    display: block;
+    margin: 0;
   }
 
   .frame {

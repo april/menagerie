@@ -1,9 +1,9 @@
-var $form = $('#submit-tags-form')
+var $form = $('#tag-submit-form')
   .on('keydown', 'input', function(evt) {
     var $input = $(evt.currentTarget);
-    var $row = $input.closest('.tag-form-row');
+    var $row = $input.closest('.js-expanding-form-row');
 
-    if ($input.val().length && !$row.next().is('.tag-form-row')) {
+    if ($input.val().length && !$row.next().is('.js-expanding-form-row')) {
       var index = $row.data('row');
       var next = $row[0].outerHTML.replace(new RegExp(index, 'g'), index+1);
       $row.after(next);

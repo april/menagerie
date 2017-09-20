@@ -6,12 +6,13 @@ $(document).on('click', '[data-dispute]', function(evt) {
   var $form = $bttn.closest('form');
   var form_action = $form.attr('action');
   var auth_token = $form.find('input[name="authenticity_token"]').val();
+  var tag = $bttn.data('dispute');
 
   // Install form config into the modal form:
   var $el = ModalWindow.open($("#tag-dispute-form-tmpl").html());
   $el.find('form').attr('action', form_action);
   $el.find('input[name="authenticity_token"]').val(auth_token);
-  $el.find('.disputed-tag').text($bttn.data('dispute'));
+  $el.find('.js-disputed-tag').text(tag)[0].href += encodeURIComponent(tag);
 
   // Enable captcha:
   var captcha = $el[0].querySelector('.g-recaptcha');

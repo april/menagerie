@@ -3,6 +3,7 @@
 class PagesController < ApplicationController
 
   def home
+    @illustration_tags = Tag.order("RANDOM()").take(12)
   end
 
   def guide
