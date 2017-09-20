@@ -1,0 +1,22 @@
+<%= form_tag submit_illustration_tags_path(@illustration), method: "post", id: "tag-submit-form", class:"tag-submit-form", "data-component":"autocomplete-form" do %>
+  <script>
+    window.tags_collection = <%= raw Tag.distinct.pluck(:name).to_json %>;
+  </script>
+  <h2>Propose Tags</h2>
+  <div class="tag-form-row autocomplete-wrapper js-expanding-form-row" data-row="0">
+    <label for="tag-0" class="vh">New tag</label>
+    <%= text_field :tags, "0", id: "tag-0", placeholder: "tag name", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection", class:"tag-input-field" %>
+  </div>
+  <div class="tag-form-row">
+    <label><input type="checkbox" name="accept_guidelines"> I've followed the <%= link_to "submission guidelines", guide_path %>.</label>
+  </div>
+  <div class="tag-form-row">
+    <label><input type="checkbox" name="accept_tos"> I agree to the <%= link_to "terms of service", tos_path %>.</label>
+  </div>
+  <div class="tag-form-row">
+    <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>
+  </div>
+  <div class="tag-form-row">
+    <%= button_tag "Propose these tags", class:"button-primary" %>
+  </div>
+<% end %>

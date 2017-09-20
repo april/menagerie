@@ -1,0 +1,22 @@
+<script type="text/template" id="tag-dispute-form-tmpl">
+<%= form_tag dispute_illustration_tag_path(":id"), method: "post", id: "tag-dispute-form", class:"tag-dispute-form" do %>
+  <h1>Dispute Tag</h1>
+  <div class="tag-form-row">
+    <div class="illustration-tag pending">
+      <span class="illustration-tag--inner">
+        <a href="/search?tag=" class="js-disputed-tag"></a>
+      </span>
+    </div>
+  </div>
+  <div class="tag-form-row tag-dispute-form--reason">
+    <label for="dispute-tag-reason">Why are you disputing this tag?</label>
+    <textarea id="dispute-tag-reason" name="dispute_note" class="tag-input-field"></textarea>
+  </div>
+  <div class="tag-form-row">
+    <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>
+  </div>
+  <div class="tag-form-row">
+    <%= button_tag "Dispute this tag", class:"button-primary" %>
+  </div>
+<% end %>
+</script>

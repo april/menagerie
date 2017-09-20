@@ -5,7 +5,9 @@ class TagsController < ApplicationController
   def submit
     @illustration = Illustration.find(params[:illustration_id])
 
-    return render json: { success: false, error: "Invalid captcha" }, status: 400 unless valid_captcha?
+    if error_message = verify_submission!
+      return render json: { success: false, error: error_message }, status: 400
+    end
 
     @tag_submission = TagSubmission.new(illustration: @illustration, source_ip: request.remote_ip)
     @tag_submission.propose_tags(params.fetch(:tags, []))
@@ -44,6 +46,20 @@ class TagsController < ApplicationController
   end
 
 private
+
+  def submit_params
+    params.require(:tag_submission).permit(:tags, :accept_guidelines, :accept_tos)
+  end
+
+  def dispute_params
+    params.require(:tag_dispute).permit(:disputed, :offensive, :dispute_note)
+  end
+
+  def verify_submission!
+    return "You must agree to follow submissions guidelines" unless submit_params[:accept_guidelines].present?
+    return "You must agree to the terms of service" unless submit_params[:accept_tos].present?
+    return "Invalid captcha" unless valid_captcha?
+  end
 
   def valid_captcha?
     return true

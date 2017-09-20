@@ -11,6 +11,22 @@ class IllustrationTag < ActiveRecord::Base
     REJECTED = 3
   end
 
+  validates_presence_of :illustration_id
+  validates_presence_of :tag_id
+  validates_presence_of :source_ip
+  validates_inclusion_of :approval_status, :in => [
+    ApprovalStatus::PENDING,
+    ApprovalStatus::APPROVED,
+    ApprovalStatus::REJECTED,
+  ].freeze
+
+  def after_initialize
+    if new_record?
+      self.approval_status = ApprovalStatus::PENDING
+      self.disputed = false
+    end
+  end
+
   def name
     tag.name
   end
@@ -23,7 +39,11 @@ class IllustrationTag < ActiveRecord::Base
   end
 
   def disputed?
-    self.disputed
+    disputed
+  end
+
+  def hidden?
+    rejected? || (disputed? && pending?)
   end
 
   def pending?

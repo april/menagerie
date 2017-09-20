@@ -31,7 +31,7 @@
   </div>
 <% end %>
 
-<% if @illustration_tags.current_page.to_i == 1 && @illustration_tags.total_pages.to_i > 1 %>
+<% if @illustration_tags.present? && @illustration_tags.current_page.to_i == 1 %>
   <%= link_to "Reload Tags", admin_dashboard_path, class:"button-primary" %>
 <% end %>
 
