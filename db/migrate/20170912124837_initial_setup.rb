@@ -10,7 +10,7 @@ class InitialSetup < ActiveRecord::Migration[5.1]
       t.text :name, null: false
       t.text :artist, null: false
       t.text :slug, null: false
-      t.text :image_normal_uri, null: false
+      t.text :image_normal_uri
       t.text :image_large_uri
       t.text :image_crop_uri
       t.boolean :tagged, null: false, default: false
