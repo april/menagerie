@@ -30,7 +30,7 @@ class Admin::IllustrationTagsController < AdminController
       if params[:tag_name] != @illustration_tag.tag.name
         old_tag = @illustration_tag.tag
         @illustration_tag.tag = Tag.find_or_create_by(name: params[:tag_name])
-        old_tag.destroy if old_tag.illustration_tags.count < 1
+        old_tag.destroy if old_tag.illustration_tags.count <= 1
       end
       @illustration_tag.save
 
