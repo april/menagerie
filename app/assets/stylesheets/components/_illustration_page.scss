@@ -40,10 +40,15 @@
     width: 100%;
   }
 
-  td {
+  th, td {
     border-bottom: 1px solid #ccc;
     text-align: left;
     width: 25%;
+  }
+
+  th {
+    font-size: 0.85em;
+    font-weight: bold;
   }
 
   .button-primary {

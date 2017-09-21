@@ -6,7 +6,7 @@ body {
 }
 
 a {
-  color: $cGrape;
+  color: lighten($cGrape, 20);
   text-decoration: none;
 
   &:hover {

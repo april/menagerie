@@ -8,10 +8,7 @@
     <%= text_field "tag_submission[tags]", "", id: "tag-0", placeholder: "tag name", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection", class:"tag-input-field" %>
   </div>
   <div class="tag-form-row">
-    <label><%= check_box :tag_submission, :accept_guidelines %> I've followed the <%= link_to "submission guidelines", guide_path %>.</label>
-  </div>
-  <div class="tag-form-row">
-    <label><%= check_box :tag_submission, :accept_tos %> I agree to the <%= link_to "terms of service", tos_path %>.</label>
+    <label><%= check_box :tag_submission, :accept_terms %> I've followed the <%= link_to "submission guidelines", guide_path %> and agree to the <%= link_to "terms of service", tos_path %>.</label>
   </div>
   <div class="tag-form-row">
     <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>

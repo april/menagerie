@@ -1,14 +1,17 @@
 <%= form_tag create_illustration_tags_path(@tag_submission), method: "post", class:"tag-confirmation-form" do %>
   <h2>Confirm Tags</h2>
-  <p>We prefer to normalize tags as lowercase singular nouns. However, you may use your judgement.</p>
+  <p class="tag-confirmation-form--prompt">
+    <b>We've normalized your submissions into suggested tags.</b><br>
+    Our normalizations are algorithmic, so use your judgement.
+  </p>
   <div class="tag-form-row">
     <table class="tag-confirmation">
       <thead>
         <tr>
-          <td>Your submission</td>
-          <td>Normalized term</td>
-          <td>Notes</td>
-          <td>Cancel this tag</td>
+          <th>Your submission</th>
+          <th>Normalized term</th>
+          <th>Notes</th>
+          <th>Cancel this tag</th>
         </tr>
       </thead>
       <tbody>

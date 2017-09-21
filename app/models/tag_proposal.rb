@@ -18,7 +18,7 @@ class TagProposal
 
     [
       :check_blacklist!,
-      :check_spelling!,
+      :check_dictionary!,
       :format_lowercase!,
       :format_singular!,
     ].each { |method| return self unless self.send(method) }
@@ -57,7 +57,7 @@ class TagProposal
   end
 
   def suggest_cancel?
-    !allowed? || duplicate?
+    @suggest_cancel || !allowed? || duplicate?
   end
 
   def suggest_formatted_name?
@@ -81,36 +81,46 @@ private
   end
 
   def check_blacklist!
-    @omit ||= BlacklistTerm.blacklist_phrase?(@formatted_name.downcase)
+    blacklisted = WordbankTerm.blacklist_phrase?(@formatted_name.downcase)
 
     # Check each word against blacklist
     @formatted_name.downcase.split(" ").each do |word|
-      @omit ||= BlacklistTerm.blacklist_word?(word)
+      blacklisted ||= WordbankTerm.blacklist_word?(word)
     end
 
-    @notes << "inappropriate"
-    return !@omit
+    if blacklisted
+      @omit = true
+      @suggest_cancel = true
+      @notes << "inappropriate"
+      return false
+    end
+    return true
   end
 
-  def check_spelling!
+  def check_dictionary!
+    unknown_words = false
+
     @formatted_name.downcase.split(" ").each do |word|
-      #@misspelled ||= spelling.correct?(word)
+      unknown_words ||= !WordbankTerm.dictionary_word?(word)
     end
-    @notes << "check spelling"
+
+    if unknown_words
+      @suggest_cancel = true
+      @notes << "check spelling"
+    end
     return true
   end
 
   def check_nouns!
-    #   @tagger ||= EngTagger.new
-    #   nouns = @tagger.get_nouns(@tagger.add_tags(tag)).keys
+    nouns = WordbankTerm.get_nouns(@formatted_name.downcase)
 
-    #   if nouns.length < 1
-    #     self.note = "no nouns present"
-    #     return nil
-    #   elsif nouns.length > 1
-    #     self.note = "multiple nouns present"
-    #     return nil
-    #   end
+    if nouns.length < 1
+      @suggest_cancel = true
+      @notes << "no nouns"
+    elsif nouns.length > 1
+      @suggest_cancel = true
+      @notes << "multiple nouns"
+    end
     return true
   end
 

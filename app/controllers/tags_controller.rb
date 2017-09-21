@@ -48,7 +48,7 @@ class TagsController < ApplicationController
 private
 
   def submit_params
-    params.require(:tag_submission).permit(:accept_guidelines, :accept_tos, :tags => [])
+    params.require(:tag_submission).permit(:accept_terms, :tags => [])
   end
 
   def create_params
@@ -62,8 +62,7 @@ private
   end
 
   def verify_submission!
-    return "You must agree to follow submissions guidelines" unless submit_params[:accept_guidelines] == "1"
-    return "You must agree to the terms of service" unless submit_params[:accept_tos] == "1"
+    return "You must agree to the submission terms" unless submit_params[:accept_terms] == "1"
     return "Invalid captcha" unless valid_captcha?
   end
 
