@@ -1,8 +1,10 @@
+require 'csv'
+
 namespace :db do
 
   desc "TODO"
   task import: :environment do
-    csv = File.read(Rails.root.join("db/import.csv")).split("\n")[0..2000]
+    csv = CSV.read(Rails.root.join("db/import.csv"))[0..2000]
     slugs = {}
 
     data = csv.map do |row|
