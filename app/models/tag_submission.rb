@@ -6,7 +6,6 @@ class TagSubmission < ActiveRecord::Base
 
   validates_presence_of :illustration_id
   validates_presence_of :source_ip
-  validates_presence_of :tags
 
   attr_reader :proposed_tags
 

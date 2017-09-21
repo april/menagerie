@@ -10,7 +10,7 @@
   </div>
   <div class="tag-form-row tag-dispute-form--reason">
     <label for="dispute-tag-reason">Why are you disputing this tag?</label>
-    <textarea id="dispute-tag-reason" name="dispute_note" class="tag-input-field"></textarea>
+    <textarea id="dispute-tag-reason" name="tag_dispute[dispute_note]" class="tag-input-field"></textarea>
   </div>
   <div class="tag-form-row">
     <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>

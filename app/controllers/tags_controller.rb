@@ -3,14 +3,14 @@
 class TagsController < ApplicationController
 
   def submit
-    @illustration = Illustration.find(params[:illustration_id])
+    @illustration = Illustration.find(params[:id])
 
     if error_message = verify_submission!
       return render json: { success: false, error: error_message }, status: 400
     end
 
-    @tag_submission = TagSubmission.new(illustration: @illustration, source_ip: request.remote_ip)
-    @tag_submission.propose_tags(params.fetch(:tags, []))
+    @tag_submission = TagSubmission.new(illustration: @illustration, source_ip: request.remote_ip, created_at: Time.now)
+    @tag_submission.propose_tags(submit_params[:tags])
 
     return render json: { success: false, error: "No new tags were submitted" }, status: 400 unless @tag_submission.proposed_tags.reject(&:duplicate?).any?
 
@@ -23,18 +23,18 @@ class TagsController < ApplicationController
   end
 
   def create
-    @tag_submission = TagSubmission.includes(:illustration).find(params[:tag_submission_id])
-    @tag_submission.create_illustration_tags!(params.fetch(:tags, {}).values)
+    @tag_submission = TagSubmission.includes(:illustration).find(params[:id])
+    @tag_submission.create_illustration_tags!(create_params)
     flash[:notice] = "Your tags have been created"
     return redirect_to show_illustration_path(@tag_submission.illustration.slug)
   end
 
   def dispute
-    @illustration_tag = IllustrationTag.includes(:illustration).find(params[:illustration_tag_id])
+    @illustration_tag = IllustrationTag.includes(:illustration).find(params[:id])
 
     if valid_captcha?
       @illustration_tag.update_attributes({
-        dispute_note: params[:dispute_note].presence,
+        dispute_note: dispute_params[:dispute_note].presence,
         disputed: true,
       })
       flash[:notice] = "Your tag dispute has been reported"
@@ -48,16 +48,22 @@ class TagsController < ApplicationController
 private
 
   def submit_params
-    params.require(:tag_submission).permit(:tags, :accept_guidelines, :accept_tos)
+    params.require(:tag_submission).permit(:accept_guidelines, :accept_tos, :tags => [])
+  end
+
+  def create_params
+    # we have a variable-sized hash of returned keys, so we have to manually whitelist.
+    # the TagSubmission has a record of valid values, all others will be ignored.
+    params.fetch(:tag_confirmation, {}).fetch(:tags, {}).values
   end
 
   def dispute_params
-    params.require(:tag_dispute).permit(:disputed, :offensive, :dispute_note)
+    params.require(:tag_dispute).permit(:dispute_note)
   end
 
   def verify_submission!
-    return "You must agree to follow submissions guidelines" unless submit_params[:accept_guidelines].present?
-    return "You must agree to the terms of service" unless submit_params[:accept_tos].present?
+    return "You must agree to follow submissions guidelines" unless submit_params[:accept_guidelines] == "1"
+    return "You must agree to the terms of service" unless submit_params[:accept_tos] == "1"
     return "Invalid captcha" unless valid_captcha?
   end
 

@@ -38,22 +38,11 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    addressable (2.5.2)
-      public_suffix (>= 2.0.2, < 4.0)
     arel (8.0.0)
     bcrypt (3.1.11)
     bindex (0.5.0)
     builder (3.2.3)
     byebug (9.1.0)
-    capybara (2.15.1)
-      addressable
-      mini_mime (>= 0.1.3)
-      nokogiri (>= 1.3.3)
-      rack (>= 1.0.0)
-      rack-test (>= 0.5.4)
-      xpath (~> 2.0)
-    childprocess (0.7.1)
-      ffi (~> 1.0, >= 1.0.11)
     concurrent-ruby (1.0.5)
     dotenv (2.2.1)
     dotenv-rails (2.2.1)
@@ -65,8 +54,6 @@ GEM
       ffi (>= 1.3.0)
     execjs (2.7.0)
     ffi (1.9.18)
-    ffi-aspell (1.1.0)
-      ffi
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     i18n (0.8.6)
@@ -82,14 +69,12 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
-    mini_mime (0.1.4)
     mini_portile2 (2.2.0)
     minitest (5.10.3)
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
     pg (0.21.0)
-    public_suffix (3.0.0)
     puma (3.10.0)
     rack (2.0.3)
     rack-test (0.7.0)
@@ -111,6 +96,11 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.5)
+    rails_stdout_logging (0.0.5)
     railties (5.1.4)
       actionpack (= 5.1.4)
       activesupport (= 5.1.4)
@@ -122,7 +112,6 @@ GEM
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     ruby_dep (1.5.0)
-    rubyzip (1.2.1)
     sass (3.5.1)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -134,11 +123,6 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (3.5.2)
-      childprocess (~> 0.5)
-      rubyzip (~> 1.0)
-    spell_checker (0.0.2)
-      stemmer
     spring (2.0.2)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -151,7 +135,6 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    stemmer (1.0.1)
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
@@ -170,8 +153,6 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
     will_paginate (3.1.6)
-    xpath (2.1.0)
-      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
@@ -179,24 +160,24 @@ PLATFORMS
 DEPENDENCIES
   bcrypt (~> 3.1)
   byebug
-  capybara (~> 2.13)
   dotenv-rails
   engtagger
-  ffi-aspell
   listen (>= 3.0.5, < 3.2)
+  minitest (~> 5.10)
   pg (~> 0.18)
   puma (~> 3.7)
   rails (~> 5.1.3)
+  rails_12factor
   sass-rails (~> 5.0)
-  selenium-webdriver
-  spell_checker
   spring
   spring-watcher-listen (~> 2.0.0)
   typhoeus
-  tzinfo-data
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
   will_paginate
+
+RUBY VERSION
+   ruby 2.4.1p111
 
 BUNDLED WITH
    1.16.0.pre.2

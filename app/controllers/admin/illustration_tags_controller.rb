@@ -32,7 +32,6 @@ class Admin::IllustrationTagsController < AdminController
         @illustration_tag.tag = Tag.find_or_create_by(name: params[:tag_name])
         old_tag.destroy if old_tag.illustration_tags.count < 1
       end
-      puts @illustration_tag.valid?
       @illustration_tag.save
 
       return render json: {

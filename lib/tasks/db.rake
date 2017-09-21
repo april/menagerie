@@ -4,13 +4,13 @@ namespace :db do
 
   desc "TODO"
   task import: :environment do
-    csv = CSV.read(Rails.root.join("db/import.csv"))
+    csv = CSV.read(Rails.root.join("db/import.csv"))[0..2000]
     slugs = {}
 
     data = csv.map do |row|
       row[0].split("//").map do |name|
         artist = row[1] || "anonymous"
-        slug = [name.strip.split(" ")[0..7], artist.strip.split(" ")].flatten.join("-").downcase
+        slug = [name.strip.gsub(/[':;,!&%\?\$\+\.]/, "").split(" ")[0..7], artist.strip.split(" ")].flatten.join("-").downcase
         if !slugs.key?(slug)
           slugs[slug] = true;
           {

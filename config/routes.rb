@@ -17,8 +17,8 @@ Rails.application.routes.draw do
 
   get "/illustration/random", to: "illustrations#random", as: "random_illustration"
   get "/illustration/:slug", to: "illustrations#show", as: "show_illustration"
-  post "/tags/submit/:illustration_id", to: "tags#submit", as: "submit_illustration_tags"
-  post "/tags/create/:tag_submission_id", to: "tags#create", as: "create_illustration_tags"
-  post "/tags/dispute/:illustration_tag_id", to: "tags#dispute", as: "dispute_illustration_tag"
+  post "/tags/submit/:id", to: "tags#submit", as: "submit_illustration_tags"
+  post "/tags/create/:id", to: "tags#create", as: "create_illustration_tags"
+  post "/tags/dispute/:id", to: "tags#dispute", as: "dispute_illustration_tag"
 
 end

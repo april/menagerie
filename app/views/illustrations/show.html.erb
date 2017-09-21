@@ -5,9 +5,9 @@
 <div class="illustration-detail">
   <%= render "shared/illustration", illustration: @illustration, link_uri: @illustration.scryfall_uri %>
 
-  <% if @illustration.illustration_tags.present? %>
+  <% if @illustration.illustration_tags.reject(&:hidden?).present? %>
     <div class="illustration-tags">
-      <% @illustration.illustration_tags.sort_by(&:name).reject(&:hidden?).each do |tag| %>
+      <% @illustration.illustration_tags.reject(&:hidden?).sort_by(&:name).each do |tag| %>
         <%= render "shared/illustration_tag", tag: tag, allow_dispute: true %>
       <% end %>
     </div>

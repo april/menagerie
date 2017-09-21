@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170918031000) do
+ActiveRecord::Schema.define(version: 20170916184815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,9 +29,10 @@ ActiveRecord::Schema.define(version: 20170918031000) do
   create_table "illustration_tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "illustration_id", null: false
     t.uuid "tag_id", null: false
-    t.boolean "approved", default: false, null: false
+    t.integer "approval_status", default: 1, null: false
     t.boolean "disputed", default: false, null: false
     t.text "dispute_note"
+    t.text "source_ip", null: false
     t.index ["illustration_id"], name: "index_illustration_tags_on_illustration_id"
     t.index ["tag_id"], name: "index_illustration_tags_on_tag_id"
   end
@@ -50,6 +51,7 @@ ActiveRecord::Schema.define(version: 20170918031000) do
 
   create_table "tag_submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "illustration_id", null: false
+    t.text "source_ip", null: false
     t.json "tags", null: false
     t.datetime "created_at", default: -> { "now()" }, null: false
   end

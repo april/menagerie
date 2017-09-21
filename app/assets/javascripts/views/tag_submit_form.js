@@ -12,22 +12,13 @@ var $form = $('#tag-submit-form')
   .on('submit', function(evt) {
     evt.preventDefault();
 
-    var data = $form.serializeArray().reduce(function(memo, field) {
-      if (/^tags/.test(field.name)) {
-        if (field.value) memo.tags.push(field.value);
-      } else {
-        memo[field.name] = field.value;
-      }
-      return memo;
-    }, {tags: []});
-
     var $bttn = $form.find('button[type="submit"]');
     $bttn.prop('disabled', true);
 
     $.ajax({
       url: $form.attr('action'),
       method: 'post',
-      data: data,
+      data: $form.serialize(),
       success: function(data) {
         $form.hide().after(data.form);
       },
