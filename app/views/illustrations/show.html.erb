@@ -3,7 +3,7 @@
 <% end %>
 
 <div class="illustration-detail">
-  <%= render "shared/illustration", illustration: @illustration, link_uri: @illustration.scryfall_uri %>
+  <%= render "shared/illustration", illustration: @illustration, link_uri: @illustration.scryfall_uri, size: :large %>
 
   <% if @illustration.illustration_tags.reject(&:hidden?).present? %>
     <div class="illustration-tags">

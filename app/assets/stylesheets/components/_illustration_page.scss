@@ -34,7 +34,9 @@
 .tag-confirmation-form {
   margin: 0 auto;
   max-width: 820px;
+  opacity: 0;
   text-align: center;
+  transition: opacity 0.75s;
 
   table {
     width: 100%;

@@ -22,6 +22,13 @@
     border-bottom: none;
     width: 100%;
 
+    h1 {
+      font-size: 1em;
+      height: 40px;
+      line-height: 40px;
+      margin: 0 0 5px;
+    }
+
     @media (min-width: 500px) {
       width: 50%;
     }
@@ -30,6 +37,13 @@
       width: 33%;
       max-width: 400px;
     }
+  }
+
+  .illustration-tags {
+    min-height: 40px;
+    justify-content: flex-start;
+    margin-top: 0;
+    width: 100%;
   }
 
   .tag-confirmation {
@@ -49,12 +63,6 @@
     @media (min-width: 800px) {
       flex-grow: 1;
       width: 0;
-    }
-
-    .illustration-tags {
-      justify-content: flex-start;
-      margin-top: 0;
-      width: 100%;
     }
   }
 

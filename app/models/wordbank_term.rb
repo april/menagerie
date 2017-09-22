@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class WordbankTerm
+module WordbankTerm
 
   # Dictionary
 

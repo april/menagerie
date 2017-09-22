@@ -20,6 +20,10 @@ class IllustrationTag < ActiveRecord::Base
     ApprovalStatus::REJECTED,
   ].freeze
 
+  scope :pending, -> { where(approval_status: ApprovalStatus::PENDING) }
+  scope :approved, -> { where(approval_status: ApprovalStatus::APPROVED) }
+  scope :rejected, -> { where(approval_status: ApprovalStatus::REJECTED) }
+
   def after_initialize
     if new_record?
       self.approval_status = ApprovalStatus::PENDING

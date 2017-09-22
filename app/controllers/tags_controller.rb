@@ -67,7 +67,7 @@ private
   end
 
   def valid_captcha?
-    return true
+    return true if Rails.env.development?
 
     captcha = Typhoeus.post("https://www.google.com/recaptcha/api/siteverify", body: {
       secret: ENV.fetch("GOOGLE_CAPTCHA_SECRET"),

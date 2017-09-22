@@ -85,6 +85,7 @@ var AutocompleteFormView = Backbone.View.extend({
       var UP_KEY = 38;
       var DOWN_KEY = 40;
       var ENTER_KEY = 13;
+      var TAB_KEY = 9;
 
       if (evt.which === DOWN_KEY) {
         this.browseMenu(1);
@@ -92,6 +93,8 @@ var AutocompleteFormView = Backbone.View.extend({
         this.browseMenu(-1);
       } else if (evt.which === ENTER_KEY) {
         this.autoComplete();
+      } else if (evt.which === TAB_KEY) {
+        this.setMenu(null);
       }
 
       if ([UP_KEY, DOWN_KEY, ENTER_KEY].indexOf(evt.which) >= 0) {

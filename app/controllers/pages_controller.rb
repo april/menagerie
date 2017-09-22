@@ -3,7 +3,7 @@
 class PagesController < ApplicationController
 
   def home
-    @illustration_tags = Tag.order("RANDOM()").take(12)
+    @illustration_tags = IllustrationTag.includes(:tag).approved.order("RANDOM()").take(12)
   end
 
   def guide

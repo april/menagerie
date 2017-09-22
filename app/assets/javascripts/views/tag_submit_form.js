@@ -13,16 +13,26 @@ var $form = $('#tag-submit-form')
     evt.preventDefault();
 
     var $bttn = $form.find('button[type="submit"]');
-    $bttn.prop('disabled', true);
+    $bttn.prop('disabled', true).prepend('<div class="hourglass"></div>');
 
     $.ajax({
       url: $form.attr('action'),
       method: 'post',
       data: $form.serialize(),
       success: function(data) {
-        $form.hide().after(data.form);
+        setTimeout(function() {
+          $form.animate({opacity: 0}, 750, function() {
+            var $confirm = $(data.form);
+            $form.hide().after($confirm);
+            $form.remove();
+            requestAnimationFrame(function() {
+              $confirm.css('opacity', 1);
+            });
+          });
+        }, 750);
       },
       error: function(xhr) {
+        $bttn.find('.hourglass').remove();
         $bttn.prop('disabled', false).after(xhr.responseJSON.error);
       }
     });

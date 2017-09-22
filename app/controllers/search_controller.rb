@@ -28,4 +28,14 @@ class SearchController < ApplicationController
     end
   end
 
+  def autocomplete
+    if params[:tag].present?
+      Tag.where("name ILIKE ?", params[:tag]).pluck(:name)
+    elsif params[:card].present?
+      Illustration.where("name ILIKE ?", params[:card]).pluck(:name)
+    elsif params[:artist].present?
+      Illustration.where("artist ILIKE ?", params[:artist]).pluck(:artist)
+    end
+  end
+
 end

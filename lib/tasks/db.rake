@@ -2,15 +2,18 @@ require 'csv'
 
 namespace :db do
 
-  desc "TODO"
+  desc "Imports CSV illustration into the database"
   task import: :environment do
-    csv = CSV.read(Rails.root.join("db/import.csv"))[0..2000]
+    csv = CSV.read(Rails.root.join("db/import.csv"))
+    csv = csv[0..2000] unless Rails.env.development?
     slugs = {}
 
     data = csv.map do |row|
       row[0].split("//").map do |name|
         artist = row[1] || "anonymous"
-        slug = [name.strip.gsub(/[':;,!&%\?\$\+\.]/, "").split(" ")[0..7], artist.strip.split(" ")].flatten.join("-").downcase
+        slug_name = name.strip.gsub(/(?!-)[[:punct:]]/, "")
+        slug_artist = artist.strip.gsub(/(?!-)[[:punct:]]/, "")
+        slug = [slug_name.split(" ")[0..7], slug_artist.split(" ")].flatten.join("-").downcase
         if !slugs.key?(slug)
           slugs[slug] = true;
           {

@@ -14,12 +14,15 @@
   border-radius: 3px;
   display: block;
   font-weight: bold;
-  overflow: hidden;
   margin: 3px;
-  padding-right: 0;
-  transition: background-color 0.25s, padding-right 0.3s;
+  position: relative;
 
-  &.allows-dispute {
+  &.allows-dispute .illustration-tag--dispute {
+    display: block;
+    overflow: hidden;
+    padding-right: 0;
+    position: relative;
+    transition: background-color 0.25s, padding-right 0.3s;
     &:hover {
       padding-right: 25px;
     }
@@ -83,6 +86,32 @@
 
     &:hover svg {
       fill: darken(#e5c5c5, 40);
+    }
+  }
+
+  .js-tag-status {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 3px;
+    color: white;
+    display: block;
+    height: 25px;
+    font-weight: normal;
+    padding: 1px 7px;
+    position: absolute;
+    top: -35px;
+    transform: translateX(-50%);
+
+    &:after {
+      border: 5px solid transparent;
+      border-bottom: none;
+      border-top-color: rgba(0, 0, 0, 0.8);
+      bottom: -5px;
+      content: '';
+      display: block;
+      left: calc(50% - 5px);
+      height: 0;
+      position: absolute;
+      width: 0;
     }
   }
 }

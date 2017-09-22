@@ -1,13 +1,15 @@
 <% allows_dispute = local_assigns.key?(:allow_dispute) && allow_dispute && !tag.disputed? %>
 <div class="illustration-tag <%= tag.status %><%= allows_dispute ? " allows-dispute" : "" %>">
+  <% if allows_dispute %> <span class="illustration-tag--dispute"> <% end %>
   <span class="illustration-tag--inner">
-    <%= link_to tag.name, search_path(tag: tag.name) %>
+    <%= link_to tag.name, search_path(tag: tag.name), "data-tag-status": (allows_dispute ? tag.status : nil) %>
     <% if allows_dispute %>
       <%= form_tag dispute_illustration_tag_path(tag.id), method: "post" do %>
-        <%= button_tag "data-dispute": tag.name do %>
+        <%= button_tag "data-dispute": tag.name, "data-tag-status":"dispute" do %>
           <%= inline_svg "icons/dispute" %>
         <% end %>
       <% end %>
     <% end %>
   </span>
+  <% if allows_dispute %> </span> <% end %>
 </div>
