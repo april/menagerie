@@ -1,0 +1,12 @@
+<div class="taggable-modes">
+  <% if taggable.is_a?(Illustration) %>
+    <div class="taggable-mode-tab active">Illustration</div>
+  <% else %>
+    <%= link_to "Illustration", show_illustration_path(taggable.slug, class:"taggable-mode-tab inactive") %>
+  <% end %>
+  <% if taggable.is_a?(OracleCard) %>
+    <div class="taggable-mode-tab active">Oracle Card</div>
+  <% else %>
+    <%= link_to "Oracle Card", show_oracle_card_path(taggable.slug), class:"taggable-mode-tab inactive" %>
+  <% end %>
+</div>

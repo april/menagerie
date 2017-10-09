@@ -15,10 +15,13 @@ Rails.application.routes.draw do
   get "/terms-of-service", to: "pages#tos", as: "tos"
   get "/privacy-policy", to: "pages#privacy", as: "privacy"
 
-  get "/illustration/random", to: "illustrations#random", as: "random_illustration"
-  get "/illustration/:slug", to: "illustrations#show", as: "show_illustration"
-  post "/tags/submit/:id", to: "tags#submit", as: "submit_illustration_tags"
-  post "/tags/create/:id", to: "tags#create", as: "create_illustration_tags"
-  post "/tags/dispute/:id", to: "tags#dispute", as: "dispute_illustration_tag"
+  get "/tagging/random", to: "taggables#random", as: "random_illustration"
+  get "/tagging/:slug/illustration", to: "taggables#illustration", as: "show_illustration"
+  get "/tagging/:slug/oracle_card", to: "taggables#oracle_card", as: "show_oracle_card"
+
+  post "/tags/submit/illustration/:id", to: "tags#submit_illustration_tags", as: "submit_illustration_tags"
+  post "/tags/submit/oracle_card/:id", to: "tags#submit_oracle_card_tags", as: "submit_oracle_card_tags"
+  post "/tags/create/:id", to: "tags#create", as: "create_content_tags"
+  post "/tags/dispute/:id", to: "tags#dispute", as: "dispute_content_tag"
 
 end

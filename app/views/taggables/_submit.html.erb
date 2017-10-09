@@ -1,4 +1,4 @@
-<%= form_tag submit_illustration_tags_path(@illustration), method: "post", id: "tag-submit-form", class:"tag-submit-form", "data-component":"autocomplete-form" do %>
+<%= form_tag submit_path, method: "post", id: "tag-submit-form", class:"tag-submit-form", "data-component":"autocomplete-form" do %>
   <script>
     window.tags_collection = <%= raw Tag.distinct.pluck(:name).to_json %>;
   </script>
@@ -14,6 +14,7 @@
     <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>
   </div>
   <div class="tag-form-row">
+    <%= hidden_field_tag :via, taggable.slug %>
     <%= button_tag "Propose these tags", class:"button-primary" %>
   </div>
 <% end %>

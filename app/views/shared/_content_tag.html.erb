@@ -4,7 +4,7 @@
   <span class="illustration-tag--inner">
     <%= link_to tag.name, search_path(tag: tag.name), "data-tag-status": (allows_dispute ? tag.status : nil) %>
     <% if allows_dispute %>
-      <%= form_tag dispute_illustration_tag_path(tag.id), method: "post" do %>
+      <%= form_tag dispute_content_tag_path(tag.id), method: "post" do %>
         <%= button_tag "data-dispute": tag.name, "data-tag-status":"dispute" do %>
           <%= inline_svg "icons/dispute" %>
         <% end %>

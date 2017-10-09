@@ -1,5 +1,5 @@
 <script type="text/template" id="tag-dispute-form-tmpl">
-<%= form_tag dispute_illustration_tag_path(":id"), method: "post", id: "tag-dispute-form", class:"tag-dispute-form" do %>
+<%= form_tag dispute_content_tag_path(":id"), method: "post", id: "tag-dispute-form", class:"tag-dispute-form" do %>
   <h1>Dispute Tag</h1>
   <div class="tag-form-row">
     <div class="illustration-tag pending">
@@ -16,6 +16,7 @@
     <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>
   </div>
   <div class="tag-form-row">
+    <%= hidden_field_tag :via, taggable.slug %>
     <%= button_tag "Dispute this tag", class:"button-primary" %>
   </div>
 <% end %>

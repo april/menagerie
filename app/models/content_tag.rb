@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
-class IllustrationTag < ActiveRecord::Base
+class ContentTag < ActiveRecord::Base
 
-  belongs_to :illustration
+  include TaggableUri
+
   belongs_to :tag
+  belongs_to :taggable, polymorphic: true
 
   class ApprovalStatus
     PENDING  = 1
@@ -11,7 +13,8 @@ class IllustrationTag < ActiveRecord::Base
     REJECTED = 3
   end
 
-  validates_presence_of :illustration_id
+  validates_presence_of :taggable_id
+  validates_presence_of :taggable_type
   validates_presence_of :tag_id
   validates_presence_of :source_ip
   validates_inclusion_of :approval_status, :in => [

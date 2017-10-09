@@ -26,31 +26,38 @@ ActiveRecord::Schema.define(version: 20170912124837) do
     t.datetime "unlocks_at", default: -> { "now()" }, null: false
   end
 
-  create_table "illustration_tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "illustration_id", null: false
+  create_table "content_tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "tag_id", null: false
+    t.uuid "taggable_id", null: false
+    t.text "taggable_type", null: false
     t.integer "approval_status", default: 1, null: false
     t.boolean "disputed", default: false, null: false
     t.text "dispute_note"
     t.text "source_ip", null: false
-    t.index ["illustration_id"], name: "index_illustration_tags_on_illustration_id"
-    t.index ["tag_id"], name: "index_illustration_tags_on_tag_id"
+    t.index ["tag_id"], name: "index_content_tags_on_tag_id"
+    t.index ["taggable_id", "taggable_type"], name: "index_content_tags_on_taggable_id_and_taggable_type"
   end
 
   create_table "illustrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "oracle_id", null: false
+    t.uuid "artist_id", null: false
     t.text "slug", null: false
     t.text "name", null: false
     t.text "artist", null: false
-    t.text "image_normal_uri", null: false
-    t.text "image_large_uri"
-    t.text "image_crop_uri"
+    t.text "layout", default: "normal", null: false
+    t.text "frame", null: false
+    t.text "set_code", null: false
+    t.text "image_normal", null: false
+    t.text "image_large", null: false
     t.boolean "tagged", default: false, null: false
+    t.integer "face", default: 1, null: false
     t.index ["name", "artist"], name: "index_illustrations_on_name_and_artist", unique: true
     t.index ["slug"], name: "index_illustrations_on_slug"
   end
 
   create_table "tag_submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "illustration_id", null: false
+    t.uuid "taggable_id", null: false
+    t.text "taggable_type", null: false
     t.text "source_ip", null: false
     t.json "tags", null: false
     t.datetime "created_at", default: -> { "now()" }, null: false

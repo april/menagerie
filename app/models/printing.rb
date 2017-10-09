@@ -1,0 +1,3 @@
+class Printing < ScryfallModel
+
+end

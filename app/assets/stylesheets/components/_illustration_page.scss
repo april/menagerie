@@ -19,6 +19,41 @@
       }
     }
   }
+
+  .oracle-card {
+    border-radius: 3%;
+    display: block;
+    height: 488px;
+    margin: 0 auto;
+    width: 350px;
+  }
+
+  .taggable-modes {
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    height: 35px;
+  }
+
+  .taggable-mode-tab {
+    border: 1px solid #ccc;
+    border-bottom: none;
+    box-sizing: border-box;
+    display: block;
+    line-height: 35px;
+    text-align: center;
+    width: calc(50% - 2px);
+
+    &.inactive {
+      background: #efefef;
+    }
+
+    &.active {
+      height: 36px;
+      position: relative;
+      z-index: 100;
+    }
+  }
 }
 
 .tag-submit-form {

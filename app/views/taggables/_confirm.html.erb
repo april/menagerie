@@ -1,4 +1,4 @@
-<%= form_tag create_illustration_tags_path(@tag_submission), method: "post", class:"tag-confirmation-form" do %>
+<%= form_tag create_content_tags_path(@tag_submission), method: "post", class:"tag-confirmation-form" do %>
   <h2>Confirm Tags</h2>
   <p class="tag-confirmation-form--prompt">
     <b>We've normalized your submissions into suggested tags.</b><br>
@@ -27,6 +27,7 @@
     </table>
   </div>
   <div class="tag-form-row">
+    <%= hidden_field_tag :via, params[:via] %>
     <%= button_tag "Confirm tags", class:"button-primary" %>
   </div>
 <% end %>

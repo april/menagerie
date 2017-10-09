@@ -9,20 +9,22 @@ namespace :db do
     slugs = {}
 
     data = csv.map do |row|
-      row[0].split("//").map do |name|
-        artist = row[1] || "anonymous"
-        slug_name = name.strip.gsub(/(?!-)[[:punct:]]/, "")
-        slug_artist = artist.strip.gsub(/(?!-)[[:punct:]]/, "")
+      artist_id, oracle_id, name, artist, image_normal, image_large = *row
+
+      name.split("//").map do |name|
+        slug_name = name.to_s.strip.gsub(/(?!-)[[:punct:]]/, "")
+        slug_artist = artist.to_s.strip.gsub(/(?!-)[[:punct:]]/, "")
         slug = [slug_name.split(" ")[0..7], slug_artist.split(" ")].flatten.join("-").downcase
         if !slugs.key?(slug)
           slugs[slug] = true;
           {
+            oracle_card_id: oracle_id,
+            artist_id: artist_id,
             name: name.strip,
             artist: artist,
             slug: slug,
-            image_normal_uri: row[2].present? ? "https://img.scryfall.com/#{row[2]}" : nil,
-            image_large_uri: row[3].present? ? "https://img.scryfall.com/#{row[3]}" : nil,
-            image_crop_uri: row[4].present? ? "https://img.scryfall.com/#{row[4]}" : nil
+            image_normal_uri: image_normal.present? ? "https://img.scryfall.com/#{image_normal}" : nil,
+            image_large_uri: image_large.present? ? "https://img.scryfall.com/#{image_large}" : nil
           }.compact
         end
       end

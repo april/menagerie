@@ -1,0 +1,3 @@
+class MagicCard < ScryfallModel
+
+end

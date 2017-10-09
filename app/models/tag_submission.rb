@@ -2,9 +2,12 @@
 
 class TagSubmission < ActiveRecord::Base
 
-  belongs_to :illustration
+  include TaggableUri
 
-  validates_presence_of :illustration_id
+  belongs_to :taggable, polymorphic: true
+
+  validates_presence_of :taggable_id
+  validates_presence_of :taggable_type
   validates_presence_of :source_ip
 
   attr_reader :proposed_tags
@@ -14,7 +17,7 @@ class TagSubmission < ActiveRecord::Base
     names = names.select(&:present?).map(&:strip).map(&:squish)
 
     # Format illustration-specific tags with these names into a lookup
-    current_tags = illustration.tags.pluck(:name)
+    current_tags = taggable.tags.pluck(:name)
     current_tags = Hash[current_tags.map(&:downcase).zip(current_tags)]
 
     # Format existing tags with these names into a lookup
@@ -33,10 +36,10 @@ class TagSubmission < ActiveRecord::Base
     end
   end
 
-  def create_illustration_tags!(keys)
+  def create_content_tags!(keys)
     keys
       .map { |key| self.tags[key] }.compact
-      .each { |n| IllustrationTag.create(illustration: illustration, tag: Tag.find_or_create_by(name: n), source_ip: source_ip) }
+      .each { |n| ContentTag.create(taggable: taggable, tag: Tag.find_or_create_by(name: n), source_ip: source_ip) }
 
     self.destroy
   end

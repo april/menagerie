@@ -1,0 +1,12 @@
+<% if taggable.content_tags.reject(&:hidden?).present? %>
+  <div class="illustration-tags">
+    <% taggable.content_tags.reject(&:hidden?).sort_by(&:name).each do |tag| %>
+      <%= render "shared/content_tag", tag: tag, allow_dispute: true %>
+    <% end %>
+  </div>
+  <%= render "dispute", taggable: taggable %>
+<% else %>
+  <div class="illustration-tags">
+    <b>No tags have been submitted yet for this <%= taggable.class.name.titleize.downcase %>.</b>
+  </div>
+<% end %>
