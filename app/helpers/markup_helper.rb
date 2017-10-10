@@ -10,5 +10,8 @@ module MarkupHelper
     return raw(svg)
   end
 
+  def is_admin?
+    return params[:controller].start_with?("admin/")
+  end
 
 end

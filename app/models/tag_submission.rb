@@ -2,8 +2,6 @@
 
 class TagSubmission < ActiveRecord::Base
 
-  include TaggableUri
-
   belongs_to :taggable, polymorphic: true
 
   validates_presence_of :taggable_id
@@ -21,7 +19,7 @@ class TagSubmission < ActiveRecord::Base
     current_tags = Hash[current_tags.map(&:downcase).zip(current_tags)]
 
     # Format existing tags with these names into a lookup
-    defined_tags = Tag.where(name: (names + names.map(&:downcase)).uniq).pluck(:name)
+    defined_tags = Tag.where(name: (names + names.map(&:downcase)).uniq, type: taggable_type).pluck(:name)
     defined_tags = Hash[defined_tags.map(&:downcase).zip(defined_tags)]
 
     # Generate tag proposals
@@ -39,7 +37,10 @@ class TagSubmission < ActiveRecord::Base
   def create_content_tags!(keys)
     keys
       .map { |key| self.tags[key] }.compact
-      .each { |n| ContentTag.create(taggable: taggable, tag: Tag.find_or_create_by(name: n), source_ip: source_ip) }
+      .each do |n|
+        tag = Tag.find_or_create_by(name: n, type: taggable_type)
+        ContentTag.create(taggable: taggable, tag: tag, source_ip: source_ip)
+      end
 
     self.destroy
   end

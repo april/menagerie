@@ -6,8 +6,11 @@ Rails.application.routes.draw do
   post "admin/authenticate", to:"admin/sessions#create"
   delete "admin/signout", to:"admin/sessions#destroy", as:"admin_destroy_session"
 
-  get "admin", to: "admin/illustration_tags#index", as: "admin_dashboard"
-  post "admin/confirm/:id", to: "admin/illustration_tags#confirm", as: "admin_confirm_illustration_tag"
+  get "admin", to: "admin/content_tags#index", as: "admin_dashboard"
+  post "admin/tags/confirm/:id", to: "admin/content_tags#confirm", as: "admin_confirm_content_tag"
+  get "admin/illustrations", to: "admin/illustrations#index", as: "admin_manage_illustrations"
+  get "admin/illustrations/:id", to: "admin/illustrations#edit", as: "admin_edit_illustrations"
+  post "admin/illustrations/:id", to: "admin/illustrations#update", as: "admin_update_illustrations"
 
   root to: "pages#home", as: "home"
   get "/search", to: "search#search", as: "search"

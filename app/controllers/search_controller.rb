@@ -15,7 +15,7 @@ class SearchController < ApplicationController
 
     @has_query = params.key?(:tag) || params.key?(:card) || params.key?(:artist)
 
-    if params[:tag].present? && @tag = Tag.find_by(name: params[:tag])
+    if params[:tag].present? && @tag = Tag.find_by(name: params[:tag], type: Illustration.class.name)
       @illustrations = @tag.illustrations.where(criteria).paginate(paginate)
     elsif criteria.any?
       @illustrations = Illustration.where(criteria).paginate(paginate)

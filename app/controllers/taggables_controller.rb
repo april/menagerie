@@ -18,7 +18,7 @@ class TaggablesController < ApplicationController
     @illustration = Illustration.find_by(slug: params[:slug])
     raise ActiveRecord::RecordNotFound unless @illustration.present?
 
-    @oracle_card = OracleCard.includes(:content_tags, :tags).find(@illustration.oracle_card_id)
+    @oracle_card = OracleCard.includes(:content_tags, :tags).find(@illustration.oracle_id)
     @oracle_card.slug = @illustration.slug
   end
 

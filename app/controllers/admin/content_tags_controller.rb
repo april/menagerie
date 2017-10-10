@@ -3,7 +3,7 @@
 class Admin::ContentTagsController < AdminController
 
   def index
-    @content_tags = ContentTag.includes(:illustration, :tag)
+    @content_tags = ContentTag.includes(:taggable, :tag)
       .where("(disputed = TRUE OR approval_status = ?)", ContentTag::ApprovalStatus::PENDING)
       .order(disputed: :desc)
       .paginate(page:[params[:page].to_i, 1].max, per_page:30)
@@ -11,7 +11,7 @@ class Admin::ContentTagsController < AdminController
     # Sort results into groups by illustration,
     # disputed tags first, and disputed groups first.
     @tag_groups = @content_tags
-      .group_by(&:illustration_id).values
+      .group_by(&:taggable_id).values
       .map { |g| g.sort {|a, b| (a.disputed? ? 0 : 1) <=> (b.disputed? ? 0 : 1)} }
       .sort { |a, b| (a.first.disputed? ? 0 : 1) <=> (b.first.disputed? ? 0 : 1) }
   end
@@ -29,7 +29,7 @@ class Admin::ContentTagsController < AdminController
     begin
       if params[:tag_name] != @content_tag.tag.name
         old_tag = @content_tag.tag
-        @content_tag.tag = Tag.find_or_create_by(name: params[:tag_name])
+        @content_tag.tag = Tag.find_or_create_by(name: params[:tag_name], type: @content_tag.taggable_type)
         old_tag.destroy if old_tag.content_tags.count <= 1
       end
       @content_tag.save

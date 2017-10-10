@@ -1,0 +1,75 @@
+$cBlack: #16161D; // A less harsh black than pure #000 https://en.wikipedia.org/wiki/Eigengrau
+$cLightGrey: #F1F1F1;
+$cMedGrey: #AEAEAE;
+$cGrey: #9B9B9B;
+$cDarkGrey: #535353;
+$cCodeWash: #F2F4F5;
+$cWhite: #FEFEFE; // A less-harsh white than pure #FFF
+
+$cPlum: #343242;
+$cRaisn: #5F4F66;
+$cGrape: #5822AC;
+$cSalmon: #DB4753;
+$cLavender: #CBAAF5;
+
+.illustration-form {
+  padding: 10px 0 100px;
+}
+
+.illustration-group {
+  border-bottom: 1px solid #333;
+  color: $cLightGrey;
+  display: block;
+  padding: 25px 0;
+
+  &--header {
+    padding: 0 0 25px;
+
+    h1 {
+      display: inline;
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-right: 0.5em;
+    }
+
+    a {
+      color: $cLavender;
+    }
+
+    p {
+      color: darken($cLightGrey, 20);
+      margin-top: 10px;
+    }
+  }
+
+  &--items {
+    display: flex;
+    flex-flow: row wrap;
+    margin-left: -2px;
+  }
+
+  &--item, .card {
+    height: 204px;
+    width: 146px;
+  }
+
+  &--item {
+    margin: 2px;
+    position: relative;
+    height: 204px;
+    width: 146px;
+
+    input {
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      bottom: 2%;
+      font: bold 15px/1 courier, sans-serif;
+      left: 15%;
+      padding: 10px 10px;
+      position: absolute;
+      text-align: center;
+      width: 70%;
+    }
+  }
+}

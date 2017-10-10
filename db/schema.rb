@@ -51,8 +51,8 @@ ActiveRecord::Schema.define(version: 20170912124837) do
     t.text "image_large", null: false
     t.boolean "tagged", default: false, null: false
     t.integer "face", default: 1, null: false
-    t.index ["name", "artist"], name: "index_illustrations_on_name_and_artist", unique: true
-    t.index ["slug"], name: "index_illustrations_on_slug"
+    t.index ["oracle_id", "artist_id", "face"], name: "index_illustrations_on_oracle_id_and_artist_id_and_face"
+    t.index ["slug"], name: "index_illustrations_on_slug", unique: true
   end
 
   create_table "tag_submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -65,6 +65,8 @@ ActiveRecord::Schema.define(version: 20170912124837) do
 
   create_table "tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "name", null: false
+    t.text "type", null: false
+    t.index ["name", "type"], name: "index_tags_on_name_and_type", unique: true
     t.index ["name"], name: "index_tags_on_name"
     t.index ["name"], name: "unique_tag_name", unique: true
   end

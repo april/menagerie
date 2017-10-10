@@ -2,7 +2,9 @@ class InitialSetup < ActiveRecord::Migration[5.1]
   def up
 
     create_table :tags, id: :uuid do |t|
-      t.text :name, unique: true, null: false
+      t.text :name, null: false
+      t.text :type, null: false
+      t.index [:name, :type], unique: true
       t.index :name
     end
 

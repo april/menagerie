@@ -2,8 +2,6 @@
 
 class ContentTag < ActiveRecord::Base
 
-  include TaggableUri
-
   belongs_to :tag
   belongs_to :taggable, polymorphic: true
 

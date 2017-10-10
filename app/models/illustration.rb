@@ -41,7 +41,7 @@ class Illustration < ActiveRecord::Base
     return self
   end
 
-  def copy_for_printing!(pid)
+  def create_printing_variant!(pid)
     return Illustration.new({
       oracle_id: oracle_id,
       artist_id: artist_id,

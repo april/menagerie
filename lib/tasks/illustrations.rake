@@ -119,6 +119,8 @@ namespace :illustrations do
 
       sleep 0
     end
+
+    puts "done"
   end
 
 end

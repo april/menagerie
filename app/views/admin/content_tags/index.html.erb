@@ -1,16 +1,14 @@
-<%= content_for :body_class { "admin" } %>
-
-<% unless @illustration_tags.present? %>
+<% unless @content_tags.present? %>
   <h1>No tags pending 🎉</h1>
 <% end %>
 
 <% @tag_groups.each do |tag_group| %>
   <div class="tag-admin-row">
-    <%= render "shared/illustration", illustration: tag_group.first.illustration, link_uri: tag_group.first.illustration.uri %>
+    <%= render "shared/illustration", illustration: tag_group.first.taggable, link_uri: tag_group.first.taggable.uri %>
     <div class="tag-confirmation">
       <div class="illustration-tags js-tag-resolutions"></div>
       <% tag_group.each do |itag| %>
-        <%= form_tag admin_confirm_illustration_tag_path(itag), method:"post", class:"tag-confirm-form js-tag-confirm-form#{ " disputed" if itag.disputed? }" do %>
+        <%= form_tag admin_confirm_content_tag_path(itag), method:"post", class:"tag-confirm-form js-tag-confirm-form#{ " disputed" if itag.disputed? }" do %>
           <input type="text" name="tag_name" value="<%= itag.tag.name %>" class="tag-input-field">
           <div class="tag-confirm-form--actions">
             <%= button_tag title: "Approve", value: "approve", class:"button-primary approve" do %>
@@ -31,8 +29,8 @@
   </div>
 <% end %>
 
-<% if @illustration_tags.present? && @illustration_tags.current_page.to_i == 1 %>
+<% if @content_tags.present? && @content_tags.current_page.to_i == 1 %>
   <%= link_to "Reload Tags", admin_dashboard_path, class:"button-primary" %>
 <% end %>
 
-<%= will_paginate @illustration_tags %>
+<%= will_paginate @content_tags %>

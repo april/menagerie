@@ -1,0 +1,31 @@
+<div class="illustration-form">
+  <% @printings.group_by(&:illustration_id).each_pair do |illustration_id, printings| %>
+    <div class="admin-form-inner illustration-group">
+      <div class="illustration-group--header">
+        <code><%= illustration_id %></code> <%= link_to "edit", admin_edit_illustrations_path(illustration_id) %>
+      </div>
+      <div class="illustration-group--items">
+        <% printings.each do |p| %>
+          <div class="illustration-group--item">
+            <img src="<%= p.image_uri(:small) %>" class="card">
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <% if @last_page > 0 %>
+    <div class="admin-form-inner admin-form-row">
+      <span class="admin-form-row-content admin-pagination">
+        <% if @page > 1 %>
+          <%= link_to "Previous", admin_illustrations_path({page: @page-1, name: params[:name]}.compact), class:"admin-pagination-prev" %>
+        <% end %>
+        <span>Page <%= @page %> of <%= @last_page %></span>
+        <% if @page < @last_page %>
+          <%= link_to "Next", admin_illustrations_path({page: @page+1, name: params[:name]}.compact), class:"admin-pagination-next" %>
+        <% end %>
+      </span>
+    </div>
+  <% end %>
+</div>
+
+<%= will_paginate @printings %>
