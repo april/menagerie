@@ -4,11 +4,14 @@
     <%= link_to home_path do %>
       <%= inline_svg "icons/wolf" %> The Menagerie
     <% end %>
-    <%= link_to admin_manage_illustrations_path do %>
-      <%= inline_svg "icons/search" %> Illustrations
+    <%= link_to admin_approve_illustrations_path do %>
+      <%= inline_svg "icons/search" %> Illustration Tags
     <% end %>
-    <%= link_to search_path do %>
-      <%= inline_svg "icons/search" %> Search
+    <%= link_to admin_approve_oracle_cards_path do %>
+      <%= inline_svg "icons/search" %> Oracle Card Tags
+    <% end %>
+    <%= link_to admin_illustrations_path do %>
+      <%= inline_svg "icons/search" %> Illustrations
     <% end %>
 
   <% else %>

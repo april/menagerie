@@ -11,6 +11,10 @@ class Illustration < ActiveRecord::Base
     $routes.show_illustration_path(slug)
   end
 
+  def oracle_uri
+    $routes.show_oracle_card_path(slug)
+  end
+
   def scryfall_uri
     "https://scryfall.com/search?q=%21%22#{ name.split(" ").join("+") }%22+a%3A%22#{ artist.split(" ").join("+") }%22"
   end

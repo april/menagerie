@@ -1,10 +1,18 @@
+<h1><%= @content_type.titleize %> Tags</h1>
+
 <% unless @content_tags.present? %>
-  <h1>No tags pending 🎉</h1>
+  <p>No tags pending 🎉</p>
 <% end %>
 
 <% @tag_groups.each do |tag_group| %>
   <div class="tag-admin-row">
-    <%= render "shared/illustration", illustration: tag_group.first.taggable, link_uri: tag_group.first.taggable.uri %>
+    <% if @content_type == Illustration.name %>
+      <%= render "shared/illustration", illustration: tag_group.first.taggable, link_uri: tag_group.first.taggable.uri %>
+    <% else %>
+      <%= link_to tag_group.first.taggable.illustration.oracle_uri, class:"illustration" do %>
+        <img src="<%= tag_group.first.taggable.illustration.image_normal_uri %>" class="card">
+      <% end %>
+    <% end %>
     <div class="tag-confirmation">
       <div class="illustration-tags js-tag-resolutions"></div>
       <% tag_group.each do |itag| %>

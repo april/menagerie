@@ -22,43 +22,27 @@ class Admin::IllustrationsController < AdminController
       GROUP BY illustration_id
       HAVING COUNT(*) > 1
     )
-    ORDER BY (oracle_id, artist_id)
   }.squish.freeze
 
-  # ALL_DUPLICATES_SQL = %{
-  #   SELECT id, oracle_id, artist_id, illustration_id, image_data,
-  #     count(*) OVER() as total
-  #   FROM printings
-  #   WHERE illustration_id IN (
-  #     SELECT illustration_id
-  #     FROM printings
-  #     GROUP BY illustration_id
-  #     HAVING COUNT(*) > 1
-  #   )
-  # }.squish.freeze
-
-  # NAMED_DUPLICATES_SQL = %{
-  #   #{ALL_DUPLICATES_SQL}
-  #   AND id IN (
-  #     SELECT printing_id
-  #     FROM magic_cards
-  #     WHERE name = ?
-  #   )
-  # }.squish.freeze
+  NAMED_DUPLICATES_SQL = %{
+    #{ALL_DUPLICATES_SQL}
+    AND id IN (
+      SELECT printing_id
+      FROM magic_cards
+      WHERE name = ?
+    )
+  }.squish.freeze
 
   def index
-    parameters = [ALL_DUPLICATES_SQL]
+    select_sql = ALL_DUPLICATES_SQL
+    parameters = []
 
-    # if params[:name].present?
-    #   select_sql = NAMED_DUPLICATES_SQL
-    #   parameters << params[:name]
-    # end
+    if params[:name].present?
+      select_sql = NAMED_DUPLICATES_SQL
+      parameters << params[:name]
+    end
 
-    # select_sql = %{
-    #   #{select_sql}
-    #   ORDER BY (oracle_id, artist_id)
-    #   OFFSET ? LIMIT ?
-    # }.squish
+    parameters.unshift("#{select_sql} ORDER BY (oracle_id, artist_id)")
 
     # @page = params.fetch(:page, 1).to_i
     # parameters << (@page-1) * PER_PAGE
@@ -105,14 +89,14 @@ class Admin::IllustrationsController < AdminController
 
     # Update all printings to match new variation criteria
     printings_by_variation.each_pair do |variation_code, printing_ids|
-      varient_illustration = Illustration.find(variation_code) if variation_code.length == 36
+      variant_illustration = Illustration.find(variation_code) if variation_code.length == 36
 
-      Postgres.transaction do
-        varient_illustration ||= @illustration.create_printing_variant!(printing_ids.first)
+      PrintingIllustration.transaction do
+        variant_illustration ||= @illustration.create_printing_variant!(printing_ids.first)
 
         printing_ids.each do |id|
-          if rel = rels.detect {|rel| rel.printing_id == id }
-            rel.update_attributes(illustration_id: varient_illustration.id)
+          if rel = rels.detect {|r| r.printing_id == id }
+            rel.update_attributes(illustration_id: variant_illustration.id)
           end
         end
       end

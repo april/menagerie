@@ -2,18 +2,14 @@
 
 class Admin::ContentTagsController < AdminController
 
-  def index
-    @content_tags = ContentTag.includes(:taggable, :tag)
-      .where("(disputed = TRUE OR approval_status = ?)", ContentTag::ApprovalStatus::PENDING)
-      .order(disputed: :desc)
-      .paginate(page:[params[:page].to_i, 1].max, per_page:30)
+  def approve_illustrations
+    load_approval_data(Illustration.name)
+    render :approve
+  end
 
-    # Sort results into groups by illustration,
-    # disputed tags first, and disputed groups first.
-    @tag_groups = @content_tags
-      .group_by(&:taggable_id).values
-      .map { |g| g.sort {|a, b| (a.disputed? ? 0 : 1) <=> (b.disputed? ? 0 : 1)} }
-      .sort { |a, b| (a.first.disputed? ? 0 : 1) <=> (b.first.disputed? ? 0 : 1) }
+  def approve_oracle_cards
+    load_approval_data(OracleCard.name)
+    render :approve
   end
 
   INTENT_VALUES = {
@@ -41,6 +37,29 @@ class Admin::ContentTagsController < AdminController
     rescue
       return render json: { success: false }, status: 400
     end
+  end
+
+private
+
+  def load_approval_data(type)
+    @content_type = type
+    @content_tags = ContentTag.includes(:taggable, :tag)
+      .where(taggable_type: type)
+      .where("(disputed = TRUE OR approval_status = ?)", ContentTag::ApprovalStatus::PENDING)
+      .order(disputed: :desc)
+      .paginate(page:[params[:page].to_i, 1].max, per_page:30)
+
+    # Assign representitive illustrations for each oracle card
+    if type == OracleCard.name
+      OracleCard.assign_illustrations(@content_tags.collect(&:taggable))
+    end
+
+    # Sort results into groups by illustration,
+    # disputed tags first, and disputed groups first.
+    @tag_groups = @content_tags
+      .group_by(&:taggable_id).values
+      .map { |g| g.sort {|a, b| (a.disputed? ? 0 : 1) <=> (b.disputed? ? 0 : 1)} }
+      .sort { |a, b| (a.first.disputed? ? 0 : 1) <=> (b.first.disputed? ? 0 : 1) }
   end
 
 end
