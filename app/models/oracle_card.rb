@@ -1,4 +1,8 @@
-class OracleCard < ScryfallModel
+# frozen_string_literal: true
+
+class OracleCard < ActiveRecord::Base
+
+  self.table_name = "#{ENV.fetch('SCRYFALL_DATABASE_SERVER')}.oracle_cards"
 
   has_many :content_tags, as: :taggable
   has_many :tag_submissions, as: :taggable
@@ -10,7 +14,15 @@ class OracleCard < ScryfallModel
 
   def self.assign_illustrations(oracle_cards)
     illustrations = Illustration.select('DISTINCT ON (oracle_id) *').where(oracle_id: oracle_cards.map(&:id).uniq)
-    oracle_cards.each { |c| c.illustration = illustrations.detect { |i| i.oracle_id = c.id } }
+    oracle_cards.each { |c| c.illustration = illustrations.detect { |i| i.oracle_id == c.id } }
+  end
+
+  def tag_model
+    return OracleCardTag
+  end
+
+  def search_type
+    "oracle"
   end
 
 end

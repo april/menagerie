@@ -1,33 +1,33 @@
 <div class="site-header">
-  <% if is_admin? %>
+  <div class="site-wrapper">
+    <% if is_admin_screen? %>
 
-    <%= link_to home_path do %>
-      <%= inline_svg "icons/wolf" %> The Menagerie
-    <% end %>
-    <%= link_to admin_approve_illustrations_path do %>
-      <%= inline_svg "icons/search" %> Illustration Tags
-    <% end %>
-    <%= link_to admin_approve_oracle_cards_path do %>
-      <%= inline_svg "icons/search" %> Oracle Card Tags
-    <% end %>
-    <%= link_to admin_illustrations_path do %>
-      <%= inline_svg "icons/search" %> Illustrations
-    <% end %>
+      <%= link_to home_path do %>
+        <%= inline_svg "icons/wolf" %>The Menagerie
+      <% end %>
+      <%= link_to admin_approve_illustrations_path do %>
+        <%= inline_svg "icons/search" %>Illustration Tags
+      <% end %>
+      <%= link_to admin_approve_oracle_cards_path do %>
+        <%= inline_svg "icons/search" %>Oracle Card Tags
+      <% end %>
+      <%= link_to admin_illustrations_path do %>
+        <%= inline_svg "icons/search" %>Illustrations
+      <% end %>
 
-  <% else %>
+    <% else %>
 
-    <%= link_to home_path do %>
-      <%= inline_svg "icons/wolf" %> The Menagerie
-    <% end %>
-    <%= link_to guide_path do %>
-      <%= inline_svg "icons/guide" %> Tagging Guide
-    <% end %>
-    <%= link_to search_path do %>
-      <%= inline_svg "icons/search" %> Search
-    <% end %>
-    <%= link_to random_illustration_path do %>
-      <%= inline_svg "icons/tag" %> Tag at Random
-    <% end %>
+      <%= link_to home_path do %>
+        <%= inline_svg "icons/tag" %> <b>Tagger</b>
+      <% end %>
+      <div class="spacer"></div>
+      <%= link_to guide_path do %>
+        <%= inline_svg "icons/guide" %> <span>Tagging Guide</span>
+      <% end %>
+      <%= link_to random_illustration_path do %>
+        <%= inline_svg "icons/tag" %> <span>Tag at Random</span>
+      <% end %>
 
-  <% end %>
+    <% end %>
+  </div>
 </div>

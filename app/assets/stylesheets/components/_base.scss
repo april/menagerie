@@ -2,11 +2,11 @@
 
 body {
   margin: 0;
-  font: 300 16px/1.4 "Helvetica Neue", "HelveticaNeueWF", Helvetica, Arial, sans-serif;
+  font: normal 16px/1.4 "Helvetica Neue", "HelveticaNeueWF", Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: lighten($cGrape, 20);
+  color: $cGrape;
   text-decoration: none;
 
   &:hover {
@@ -14,11 +14,8 @@ a {
   }
 }
 
-h1 {
-  svg {
-    height: 1em;
-    width: 1em;
-  }
+h1, h2 {
+  font-weight: 200;
 }
 
 .vh {
@@ -31,10 +28,4 @@ h1 {
 
 .hidden {
   display: none;
-}
-
-img.card {
-  border-radius: 4.75% / 3.5%;
-  display: block;
-  overflow: hidden;
 }

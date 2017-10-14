@@ -6,7 +6,7 @@
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= yield :head %>
   </head>
-  <body class="<%= "admin" if is_admin? %>">
+  <body class="<%= "admin" if is_admin_screen? %>">
     <%= render "shared/site_header" %>
     <% if flash[:notice].present? %>
       <div class="site-notice"><%= flash[:notice] %></div>

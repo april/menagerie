@@ -1,3 +1,5 @@
-class PrintingIllustration < ScryfallModel
-  self.table_name = "printings_illustrations"
+# frozen_string_literal: true
+
+class PrintingIllustration < ActiveRecord::Base
+
 end

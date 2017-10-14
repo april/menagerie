@@ -9,7 +9,7 @@
     <% if @content_type == Illustration.name %>
       <%= render "shared/illustration", illustration: tag_group.first.taggable, link_uri: tag_group.first.taggable.uri %>
     <% else %>
-      <%= link_to tag_group.first.taggable.illustration.oracle_uri, class:"illustration" do %>
+      <%= link_to tag_group.first.taggable.illustration.oracle_uri, class:"illustration oracle-card" do %>
         <img src="<%= tag_group.first.taggable.illustration.image_normal_uri %>" class="card">
       <% end %>
     <% end %>
@@ -18,17 +18,15 @@
       <% tag_group.each do |itag| %>
         <%= form_tag admin_confirm_content_tag_path(itag), method:"post", class:"tag-confirm-form js-tag-confirm-form#{ " disputed" if itag.disputed? }" do %>
           <input type="text" name="tag_name" value="<%= itag.tag.name %>" class="tag-input-field">
-          <div class="tag-confirm-form--actions">
-            <%= button_tag title: "Approve", value: "approve", class:"button-primary approve" do %>
-              <%= inline_svg "icons/approve" %> <span class="vh">Approve</span>
-            <% end %>
-            <%= button_tag title: "Reject", value: "reject", class:"button-primary reject" do %>
-              <%= inline_svg "icons/reject" %> <span class="vh">Reject</span>
-            <% end %>
-          </div>
+          <%= button_tag title: "Approve", value: "approve", class:"button-primary approve" do %>
+            <%= inline_svg "icons/approve" %> <span class="vh">Approve</span>
+          <% end %>
+          <%= button_tag title: "Reject", value: "reject", class:"button-primary reject" do %>
+            <%= inline_svg "icons/reject" %> <span class="vh">Reject</span>
+          <% end %>
           <% if itag.disputed? %>
-            <div class="tag-admin-row--dispute">
-              <%= inline_svg "icons/dispute" %> Disputed<%= ": #{itag.dispute_note}" if itag.dispute_note.present? %>
+            <div class="tag-confirm-form--dispute">
+              <%= inline_svg "icons/dispute" %> <b>Disputed</b><%= ": #{itag.dispute_note}" if itag.dispute_note.present? %>
             </div>
           <% end %>
         <% end %>

@@ -24,22 +24,26 @@
   }
 
   .oracle-card {
-    border-radius: 3%;
-    display: block;
-    height: 488px;
-    margin: 0 auto;
-    width: 350px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 25px;
+
+    .card {
+      height: 488px;
+      margin: 0 auto;
+      width: 350px;
+    }
   }
 
   .taggable-modes {
     border-bottom: 1px solid #ccc;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 25px;
     height: 35px;
-    margin: 0 0 25px;
   }
 
   .taggable-mode-tab {
+    background: white;
     border: 1px solid #ccc;
     border-bottom: none;
     border-top-left-radius: 5px;
@@ -48,15 +52,25 @@
     display: block;
     font-weight: bold;
     line-height: 35px;
+    margin: 0 10px;
     text-align: center;
-    width: calc(50% - 2px);
+    top: 0;
+    width: 50%;
+
+    &:first-child {
+      left: 0;
+    }
+    &:last-child {
+      right: 0;
+    }
 
     &.inactive {
       background: #efefef;
+      color: #777;
     }
 
     &.active {
-      height: 37px;
+      height: calc(100% + 1px);
       position: relative;
       z-index: 100;
     }

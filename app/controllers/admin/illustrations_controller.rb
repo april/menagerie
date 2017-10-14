@@ -10,15 +10,15 @@ class Admin::IllustrationsController < AdminController
         p.id,
         p.oracle_id,
         p.artist_id,
-        p.image_data,
-        coalesce(p.illustration_id, j.illustration_id) as illustration_id
-      FROM printings p
-      FULL OUTER JOIN printings_illustrations j ON p.id = j.printing_id
-      WHERE coalesce(p.illustration_id, j.illustration_id) IS NOT NULL
+        jsonb(p.image_data->>'small')->>'id' AS image_path,
+        j.illustration_id
+      FROM #{ ENV.fetch('SCRYFALL_DATABASE_SERVER') }.printings p
+      FULL OUTER JOIN printing_illustrations j ON p.id = j.printing_id
+      WHERE j.illustration_id IS NOT NULL
     ) as pi
     WHERE illustration_id IN (
       SELECT illustration_id
-      FROM printings_illustrations
+      FROM printing_illustrations
       GROUP BY illustration_id
       HAVING COUNT(*) > 1
     )
@@ -28,7 +28,7 @@ class Admin::IllustrationsController < AdminController
     #{ALL_DUPLICATES_SQL}
     AND id IN (
       SELECT printing_id
-      FROM magic_cards
+      FROM #{ ENV.fetch('SCRYFALL_DATABASE_SERVER') }.magic_cards
       WHERE name = ?
     )
   }.squish.freeze
@@ -59,7 +59,7 @@ class Admin::IllustrationsController < AdminController
       p.image_data
     FROM printings p
     FULL OUTER JOIN printings_illustrations j ON p.id = j.printing_id
-    WHERE coalesce(p.illustration_id, j.illustration_id) = ?
+    WHERE j.illustration_id = ?
   }
 
   def edit

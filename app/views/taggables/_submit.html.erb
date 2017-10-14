@@ -1,17 +1,14 @@
 <%= form_tag submit_path, method: "post", id: "tag-submit-form", class:"tag-submit-form", "data-component":"autocomplete-form" do %>
-  <script>
-    window.tags_collection = <%= raw Tag.distinct.pluck(:name).to_json %>;
-  </script>
   <h2>Propose Tags</h2>
   <div class="tag-form-row autocomplete-wrapper js-expanding-form-row" data-row="0">
     <label for="tag-0" class="vh">New tag</label>
-    <%= text_field "tag_submission[tags]", "", id: "tag-0", placeholder: "tag name", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection", class:"tag-input-field" %>
-  </div>
-  <div class="tag-form-row">
-    <label><%= check_box :tag_submission, :accept_terms %> I've followed the <%= link_to "submission guidelines", guide_path %> and agree to the <%= link_to "terms of service", tos_path %>.</label>
+    <%= text_field "tag_submission[tags]", "", id: "tag-0", placeholder: "tag name", autocorrect:"off", autocomplete:"off", "data-query":"tag", class:"tag-input-field" %>
   </div>
   <div class="tag-form-row">
     <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>
+  </div>
+  <div class="tag-form-row">
+    <label><%= check_box :tag_submission, :accept_terms %> I agree to the <%= link_to "terms of service", tos_path %></label>
   </div>
   <div class="tag-form-row">
     <%= hidden_field_tag :via, taggable.slug %>

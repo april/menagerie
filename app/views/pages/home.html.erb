@@ -1,10 +1,11 @@
 <div class="homepage">
-  <h1><%= inline_svg "icons/wolf" %> The Menagerie</h1>
-  <p class="homepage--desc">A <b>crowdsourced tag catalog</b> for <br> Magic: The Gathering illustrations</p>
+  <h1>A <b>crowdsourced tag catalog</b> for <br> Magic: The Gathering cards &amp; illustrations</h1>
 
   <div class="illustration-tags">
     <% @illustration_tags.each do |tag| %>
       <%= render "shared/content_tag", tag: tag %>
     <% end %>
   </div>
+
+  <%= render "shared/search_form" %>
 </div>

@@ -1,7 +1,7 @@
 @import "../config/vars";
 
 .admin {
-  background-color: #111;
+  background-color: #222;
   color: $cLightGray;
 }
 
@@ -38,15 +38,20 @@
     }
 
     @media (min-width: 800px) {
-      width: 33%;
       max-width: 400px;
+      width: 33%;
+
+      &.oracle-card {
+        max-width: 200px;
+        width: 25%;
+      }
     }
   }
 
   .illustration-tags {
     min-height: 40px;
     justify-content: flex-start;
-    margin-top: 0;
+    margin: 0 -3px 5px;
     width: 100%;
   }
 
@@ -54,13 +59,13 @@
     align-items: flex-start;
     box-sizing: border-box;
     display: flex;
-    flex-flow: column wrap;
+    flex-flow: row nowrap;
     padding-left: $space2;
     width: 100%;
 
     @media (min-width: 500px) {
       align-items: flex-start;
-      flex-flow: row wrap;
+      flex-flow: column nowrap;
       width: 50%;
     }
 
@@ -69,24 +74,16 @@
       width: 0;
     }
   }
-
-  &--dispute {
-    margin-bottom: 10px;
-
-    svg {
-      height: 1.5em;
-      width: 1.5em;
-    }
-  }
 }
 
 .tag-confirm-form {
   box-sizing: border-box;
-  padding: $space1;
-  width: 175px;
+  display: flex;
+  flex-flow: row nowrap;
+  margin-bottom: $space1;
 
-  &.disputed {
-    background-color: rgba(255, 0, 0, 0.1);
+  .tag-input-field {
+    width: 150px;
   }
 
   &--actions {
@@ -95,7 +92,25 @@
   }
 
   .button-primary {
-    margin-right: $space1;
+    margin-left: $space1;
     padding: 0.25em 1em;
+  }
+
+  &.disputed .tag-input-field {
+    background-color: mix(white, #c00, 70%);
+    border-color: mix(white, #c00, 50%);
+  }
+
+  &--dispute {
+    align-items: center;
+    display: flex;
+    margin-left: $space2;
+
+    svg {
+      fill: white;
+      height: 1.5em;
+      margin-right: $space1;
+      width: 1.5em;
+    }
   }
 }

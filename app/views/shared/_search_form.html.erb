@@ -1,0 +1,17 @@
+<%= form_tag search_path, method: "get", enforce_utf8: false, "data-component":"autocomplete-form", class:"search-form", id:"search-form" do %>
+  <div class="tag-form-row">
+    <label for="search-type">Search by</label>
+    <span class="tag-input-field select">
+      <%= select_tag :type, options_from_collection_for_select(search_type_collection, :first, :second, params[:type]), id:"search-type" %>
+    </span>
+  </div>
+  <div class="tag-form-row">
+    <label for="search-term">For</label>
+    <span class="autocomplete-wrapper">
+      <%= text_field_tag :q, params[:q].presence, placeholder: "Search term", autocorrect:"off", autocomplete:"off", "data-query":"illustration", class:"tag-input-field", id:"search-term" %>
+    </span>
+  </div>
+  <div class="tag-form-row">
+    <%= button_tag "Search", title:"Search", name: nil, class:"button-primary" %>
+  </div>
+<% end %>

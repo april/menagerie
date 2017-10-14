@@ -7,6 +7,6 @@
   <%= render "dispute", taggable: taggable %>
 <% else %>
   <div class="illustration-tags">
-    <b>No tags have been submitted yet for this <%= taggable.class.name.titleize.downcase %>.</b>
+    <b class="illustration-tags--status">No tags have been submitted yet for this <%= taggable.class.name.titleize.downcase %></b>
   </div>
 <% end %>

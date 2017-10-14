@@ -2,39 +2,50 @@
 
 class SearchController < ApplicationController
 
-  def search
-    criteria = {
-      name: params[:card].presence,
-      artist: params[:artist].presence
-    }.compact
+  ORACLE_TAG_SQL = %{
+    SELECT DISTINCT ON (oracle_id) * FROM illustrations
+    WHERE oracle_id IN (
+      SELECT taggable_id FROM content_tags
+      WHERE taggable_type = 'OracleCard' AND tag_id = ?
+    )
+  }.squish.freeze
 
+  def search
     paginate = {
       page: [params[:page].to_i, 1].max,
       per_page: 30
     }
 
-    @has_query = params.key?(:tag) || params.key?(:card) || params.key?(:artist)
-
-    if params[:tag].present? && @tag = Tag.find_by(name: params[:tag], type: Illustration.class.name)
-      @illustrations = @tag.illustrations.where(criteria).paginate(paginate)
-    elsif criteria.any?
-      @illustrations = Illustration.where(criteria).paginate(paginate)
-    else
-      @illustrations = []
+    case params[:type]
+    when "oracle"
+      @tag = OracleCardTag.find_by(name: params[:q])
+      @results = Illustration.paginate_by_sql([ORACLE_TAG_SQL, @tag.id], paginate) if @tag
+    when "illustration"
+      @tag = IllustrationTag.find_by(name: params[:q])
+      @results = @tag.taggables.paginate(paginate) if @tag
+    when "card"
+      @results = Illustration.where(name: params[:q]).paginate(paginate)
+    when "artist"
+      @results = Illustration.where(artist: params[:q]).paginate(paginate)
     end
 
-    if @illustrations.length == 1
-      redirect_to show_illustration_path(@illustrations.first.slug)
+    @results ||= []
+
+    if @results.length == 1
+      return redirect_to show_illustration_path(@results.first.slug) if params[:type] == "illustration"
+      return redirect_to show_oracle_card_path(@results.first.slug) if params[:type] == "oracle"
     end
   end
 
   def autocomplete
-    if params[:tag].present?
-      Tag.where("name ILIKE ?", params[:tag]).pluck(:name)
+    if params[:illustration].present?
+      return render json: IllustrationTag.where("name ILIKE ?", "#{params[:illustration]}%").distinct.pluck(:name)
+    elsif params[:oracle].present?
+      return render json: OracleCardTag.where("name ILIKE ?", "#{params[:oracle]}%").distinct.pluck(:name)
     elsif params[:card].present?
-      Illustration.where("name ILIKE ?", params[:card]).pluck(:name)
+      return render json: Illustration.where("name ILIKE ?", "#{params[:card]}%").distinct.pluck(:name)
     elsif params[:artist].present?
-      Illustration.where("artist ILIKE ?", params[:artist]).pluck(:artist)
+      return render json: Illustration.where("artist ILIKE ?", "#{params[:artist]}%").distinct.pluck(:artist)
     end
   end
 

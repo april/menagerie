@@ -63,4 +63,13 @@ class ContentTag < ActiveRecord::Base
     approval_status == ApprovalStatus::REJECTED
   end
 
+  def search_uri
+    case taggable_type
+    when Illustration.name
+      return $routes.search_path(type: "illustration", q: tag.name)
+    when OracleCard.name
+      return $routes.search_path(type: "oracle", q: tag.name)
+    end
+  end
+
 end

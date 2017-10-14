@@ -7,7 +7,7 @@
       <div class="illustration-group--items">
         <% printings.each do |p| %>
           <div class="illustration-group--item">
-            <img src="<%= p.image_uri(:small) %>" class="card">
+            <img src="https://img.scryfall.com/<%= p[:image_path] %>" class="card">
           </div>
         <% end %>
       </div>

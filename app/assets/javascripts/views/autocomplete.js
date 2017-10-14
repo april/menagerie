@@ -15,12 +15,24 @@ var AutocompleteFormView = Backbone.View.extend({
     // }.bind(this));
   },
 
-  setMenu: function(opts) {
+  setMenu: function(term) {
     if (!this.input) return;
-    if (opts && opts.length) {
-      this.selection = 0;
-      this.$menu.html(opts.map(function(opt, index) { return '<li data-index="'+ index +'" data-value="'+ opt +'" class="'+ (index === 0 ? 'active' : '') +'">' + opt + '</li>'; }).join(''));
-      this.$(this.input).parent().append(this.$menu);
+    if (term) {
+      function render(options) {
+        var opts = options.filter(function(opt) { return term.toLowerCase() === opt.slice(0, term.length).toLowerCase() });
+        this.selection = 0;
+        this.$menu.html(opts.slice(0, 5).map(function(opt, index) { return '<li data-index="'+ index +'" data-value="'+ opt +'" class="'+ (index === 0 ? 'active' : '') +'">' + opt + '</li>'; }).join(''));
+        this.$(this.input).parent().append(this.$menu);
+      }
+      if (this.options && this.optionsTerm.test(term)) {
+        render.call(this, this.options);
+      } else {
+        $.getJSON('/autocomplete?'+this.input.getAttribute('data-query')+'='+term, function(opts) {
+          this.options = opts;
+          this.optionsTerm = new RegExp(term, 'i');
+          render.call(this, this.options);
+        }.bind(this));
+      }
     } else {
       this.$menu.detach().html('');
     }
@@ -50,30 +62,35 @@ var AutocompleteFormView = Backbone.View.extend({
   },
 
   events: {
-    'input': 'onChange',
+    'input': 'onInput',
     'keydown': 'onKeydown',
-    'focus input[data-src]': 'onFocus',
-    'blur input[data-src]': 'onBlur',
+    'focus input[data-query]': 'onFocus',
+    'blur input[data-query]': 'onBlur',
+    'change #search-type': 'onSearchMode'
+  },
+
+  onSearchMode: function(evt) {
+    var $term = this.$('#search-term');
+    $term.attr('data-query', evt.currentTarget.value);
+    $term.val('');
   },
 
   onFocus: function(evt) {
     this.input = evt.currentTarget;
-    this.options = window[this.$(this.input).data('src')];
   },
 
   onBlur: function(evt) {
     if (this.isMenuOpen() && !this.menuFocus) {
-      //this.setMenu(null);
+      this.setMenu(null);
     }
   },
 
-  onChange: function() {
+  onInput: function() {
     if (!this.input) return;
     var term = this.input.value;
 
     if (term.length >= 2) {
-      var options = this.options.filter(function(opt) { return term.toLowerCase() === opt.slice(0, term.length).toLowerCase() });
-      this.setMenu(options.slice(0, 5));
+      this.setMenu(term);
     } else {
       this.setMenu(null);
     }

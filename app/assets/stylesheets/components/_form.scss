@@ -5,19 +5,20 @@ input, button {
 }
 
 .button-primary {
-  background-color: $cGrape;
+  background-color: $cRaisin;
   border: none;
   border-radius: 4px;
   color: white;
   cursor: pointer;
   display: block;
   font: bold 16px/1.4 "Helvetica Neue", Helvetica, sans-serif;
-  padding: 0.75em 1.5em;
+  height: 50px;
+  padding: 0 1.5em;
   text-decoration: none;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: lighten($cGrape, 5);
+    background-color: lighten($cRaisin, 5);
   }
 
   &:disabled {
@@ -40,16 +41,39 @@ input, button {
 }
 
 .tag-form-row {
-  display: flex;
   margin: 10px 0;
 }
 
 .tag-input-field {
+  background: white;
   border: 1px solid #ccc;
   border-radius: 3px;
   box-sizing: border-box;
   display: block;
-  font: 24px "Helvetica Neue", Helvetica, sans-serif;
-  padding: 10px;
+  font: 22px "Helvetica Neue", Helvetica, sans-serif;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 10px;
   width: 100%;
+
+  &.select {
+    padding: 0;
+  }
+
+  select {
+    background: none;
+    border: none;
+    box-sizing: border-box;
+    display: block;
+    font: 20px "Helvetica Neue", Helvetica, sans-serif;
+    height: 100%;
+    padding: 0 20px;
+    width: 100%;
+  }
+}
+
+textarea.tag-input-field {
+  height: 75px;
+  line-height: 1.2;
+  padding: 10px;
 }

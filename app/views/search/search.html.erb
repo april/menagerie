@@ -1,44 +1,23 @@
-<% if @has_query && !@illustrations.present? %>
+<%= render "shared/search_form" %>
+
+<% if !@results.present? %>
   <p>No results found matching provided search criteria</p>
 <% end %>
 
-<%= form_tag search_path, method: "get", enforce_utf8: false, "data-component":"autocomplete-form", class:"search-form" do %>
-  <script>
-    window.tags_collection = <%= raw Tag.distinct.pluck(:name).to_json %>;
-    window.cards_collection = <%= raw Illustration.distinct.pluck(:name).to_json %>;
-    window.artists_collection = <%= raw Illustration.distinct.pluck(:artist).to_json %>;
-  </script>
-  <div class="tag-form-row">
-    <label for="search-tag">Tag</label>
-    <span class="autocomplete-wrapper">
-      <%= text_field_tag :tag, params[:tag].presence, placeholder: "Tag Name", autocorrect:"off", autocomplete:"off", "data-src":"tags_collection", class:"tag-input-field", id:"search-tag" %>
-    </span>
-  </div>
-  <div class="tag-form-row">
-    <label for="search-card">Card</label>
-    <span class="autocomplete-wrapper">
-      <%= text_field_tag :card, params[:card].presence, placeholder: "Card Name", autocorrect:"off", autocomplete:"off", "data-src":"cards_collection", class:"tag-input-field", id:"search-card" %>
-    </span>
-  </div>
-  <div class="tag-form-row">
-    <label for="search-artist">Artist</label>
-    <span class="autocomplete-wrapper">
-      <%= text_field_tag :artist, params[:artist].presence, placeholder: "Artist Name", autocorrect:"off", autocomplete:"off", "data-src":"artists_collection", class:"tag-input-field", id:"search-artist" %>
-    </span>
-  </div>
-  <%= button_tag "Search Illustrations", title:"Search Illustrations", name: nil, class:"button-primary" %>
-<% end %>
-
-<% if @illustrations.present? %>
+<% if @results.present? %>
   <h2>Results</h2>
 
   <div class="search-results-grid">
-    <% @illustrations.each do |illustration| %>
+    <% @results.each do |result| %>
       <div class="search-results-grid--item">
-        <%= render "shared/illustration", illustration: illustration, link_uri: illustration.uri %>
+        <% if params[:type] == "oracle" %>
+          <%= render "shared/oracle_card", illustration: result, link_uri: result.oracle_uri %>
+        <% else %>
+          <%= render "shared/illustration", illustration: result, link_uri: result.uri %>
+        <% end %>
       </div>
     <% end %>
   </div>
 
-  <%= will_paginate @illustrations %>
+  <%= will_paginate @results %>
 <% end %>

@@ -10,7 +10,17 @@ module MarkupHelper
     return raw(svg)
   end
 
-  def is_admin?
+  # Provides a collection of search types for the search form
+  def search_type_collection
+    return [
+      ["illustration", "Illustration Tag"],
+      ["oracle", "Oracle Tag"],
+      ["card", "Card Name"],
+      ["artist", "Artist Name"]
+    ]
+  end
+
+  def is_admin_screen?
     return params[:controller].start_with?("admin/")
   end
 

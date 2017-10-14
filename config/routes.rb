@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get "/tagging-guide", to: "pages#guide", as: "guide"
   get "/terms-of-service", to: "pages#tos", as: "tos"
   get "/privacy-policy", to: "pages#privacy", as: "privacy"
+  get "/autocomplete", to: "search#autocomplete", as: "autocomplete"
 
   get "/tagging/random", to: "taggables#random", as: "random_illustration"
   get "/tagging/:slug/illustration", to: "taggables#illustration", as: "show_illustration"

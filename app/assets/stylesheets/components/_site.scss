@@ -1,23 +1,57 @@
 @import "../config/vars";
 
+.site-wrapper {
+  margin: 0 auto;
+  max-width: 1024px;
+  padding: 0 20px;
+}
+
 .site-header {
-  background-color: $cGrape;
-  border-bottom: 3px solid mix(white, $cGrape, 50%);
+  background-color: $cRaisin;
+  border-bottom: 2px solid mix(white, $cRaisin, 50%);
   display: flex;
   justify-content: space-between;
-  padding: 15px $space2;
+  height: 58px;
+  line-height: 58px;
+  padding: 0 $space2;
+
+  .site-wrapper {
+    display: flex;
+    width: 100%;
+  }
 
   a {
-    display: inline-block;
-    font-weight: bold;
-    color: white;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    margin-left: $space2;
     text-decoration: none;
+
+    &:first-child {
+      margin: 0;
+    }
+
+    &:hover {
+      color: white;
+
+      span, b {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .spacer {
+    display: block;
+    flex-grow: 1;
+    height: 100%;
+    width: 0;
   }
 
   svg {
     fill: white;
-    height: $space2;
-    width: $space2;
+    height: 18px;
+    margin-right: 7px;
+    width: 18px;
   }
 }
 
@@ -37,13 +71,19 @@
 
 .site-footer {
   background-color: #222;
-  border-top: 3px solid $cLightGray;
-  color: #ccc;
-  font-size: 0.9em;
-  padding: $space2;
+  border-top: 2px solid $cLightGray;
+  color: #777;
+  font-size: 0.8em;
+  padding: $space2 0;
+
+  a {
+    color: #888;
+  }
 
   @media (min-width: $break-medium) {
-    padding-right: 25%;
+    p {
+      padding-right: 25%;
+    }
   }
 }
 

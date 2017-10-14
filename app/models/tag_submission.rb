@@ -19,7 +19,7 @@ class TagSubmission < ActiveRecord::Base
     current_tags = Hash[current_tags.map(&:downcase).zip(current_tags)]
 
     # Format existing tags with these names into a lookup
-    defined_tags = Tag.where(name: (names + names.map(&:downcase)).uniq, type: taggable_type).pluck(:name)
+    defined_tags = taggable.tag_model.where(name: (names + names.map(&:downcase)).uniq).pluck(:name)
     defined_tags = Hash[defined_tags.map(&:downcase).zip(defined_tags)]
 
     # Generate tag proposals
@@ -38,7 +38,7 @@ class TagSubmission < ActiveRecord::Base
     keys
       .map { |key| self.tags[key] }.compact
       .each do |n|
-        tag = Tag.find_or_create_by(name: n, type: taggable_type)
+        tag = taggable.tag_model.find_or_create_by(name: n)
         ContentTag.create(taggable: taggable, tag: tag, source_ip: source_ip)
       end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Illustration < ActiveRecord::Base
 
   has_many :content_tags, as: :taggable
@@ -6,6 +8,14 @@ class Illustration < ActiveRecord::Base
   belongs_to :oracle_card, class_name: 'OracleCard', foreign_key: 'oracle_id'
 
   before_create :generate_slug
+
+  def tag_model
+    return IllustrationTag
+  end
+
+  def search_type
+    "illustration"
+  end
 
   def uri
     $routes.show_illustration_path(slug)

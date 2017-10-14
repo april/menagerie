@@ -7,6 +7,10 @@
   list-style: none;
   margin: 1em 0;
   padding: 0;
+
+  &--status {
+    color: lighten($cRaisin, 20);
+  }
 }
 
 .illustration-tag {
@@ -33,9 +37,9 @@
   }
 
   &.approved {
-    background-color: mix(white, $cGrape, 80%);
+    background-color: mix(white, $cGrape, 85%);
     border-color: mix(white, $cGrape, 65%);
-    &:hover { background-color: mix(white, $cGrape, 90%); }
+    &:hover { background-color: mix(white, $cGrape, 92%); }
     a { color: $cGrape; }
   }
 

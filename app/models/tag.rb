@@ -1,10 +1,7 @@
+# frozen_string_literal: true
+
 class Tag < ActiveRecord::Base
-
-  self.inheritance_column = nil
-
   has_many :content_tags
-  has_many :illustrations, through: :content_tags
-  has_many :oracle_cards, through: :content_tags
 
   validates_presence_of :name
   validates_presence_of :type
