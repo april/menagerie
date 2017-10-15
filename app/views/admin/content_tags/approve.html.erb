@@ -9,12 +9,10 @@
     <% if @content_type == Illustration.name %>
       <%= render "shared/illustration", illustration: tag_group.first.taggable, link_uri: tag_group.first.taggable.uri %>
     <% else %>
-      <%= link_to tag_group.first.taggable.illustration.oracle_uri, class:"illustration oracle-card" do %>
-        <img src="<%= tag_group.first.taggable.illustration.image_normal_uri %>" class="card">
-      <% end %>
+      <% illustration = tag_group.first.taggable.illustration %>
+      <%= render "shared/oracle_card", illustration: illustration, link_uri: illustration.oracle_uri %>
     <% end %>
     <div class="tag-confirmation">
-      <div class="illustration-tags js-tag-resolutions"></div>
       <% tag_group.each do |itag| %>
         <%= form_tag admin_confirm_content_tag_path(itag), method:"post", class:"tag-confirm-form js-tag-confirm-form#{ " disputed" if itag.disputed? }" do %>
           <input type="text" name="tag_name" value="<%= itag.tag.name %>" class="tag-input-field">

@@ -70,9 +70,9 @@
 }
 
 .site-footer {
-  background-color: #222;
-  border-top: 2px solid $cLightGray;
-  color: #777;
+  background-color: #19181f;
+  border-top: 2px solid lighten(#19181f, 8);
+  color: #555;
   font-size: 0.8em;
   padding: $space2 0;
 

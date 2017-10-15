@@ -73,6 +73,8 @@ var AutocompleteFormView = Backbone.View.extend({
     var $term = this.$('#search-term');
     $term.attr('data-query', evt.currentTarget.value);
     $term.val('');
+    this.optionsTerm = null;
+    this.options = null;
   },
 
   onFocus: function(evt) {

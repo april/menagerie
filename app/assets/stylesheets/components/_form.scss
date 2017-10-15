@@ -4,7 +4,8 @@ input, button {
   font: 16px "Helvetica Neue", Helvetica, sans-serif;
 }
 
-.button-primary {
+.button-primary,
+.admin .button-primary {
   background-color: $cRaisin;
   border: none;
   border-radius: 4px;

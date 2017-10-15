@@ -1,7 +1,7 @@
 <% size = local_assigns.fetch(:size, :normal) %>
 <div class="illustration">
   <h1><%= link_to illustration.name, link_uri %></h1>
-  <%= link_to link_uri, title: illustration.name, class:"frame frame2015" do %>
+  <%= link_to link_uri, title: illustration.name, class:"frame frame-#{illustration.frame}" do %>
     <%= image_tag illustration.send("image_#{size}_uri".to_sym), alt: illustration.name %>
   <% end %>
   <div class="illustration--credit">

@@ -1,8 +1,12 @@
 @import "../config/vars";
 
 .admin {
-  background-color: #222;
+  background-color: #1E2126;
   color: $cLightGray;
+
+  a {
+    color: $cLavendar;
+  }
 }
 
 .tag-admin-row {
@@ -11,8 +15,9 @@
   box-sizing: border-box;
   display: flex;
   flex-flow: column nowrap;
-  margin: 0;
-  padding: 20px 0;
+  margin: 40px 0 20px;
+  padding-bottom: 20px;
+  position: relative;
 
   @media (min-width: 500px) {
     flex-flow: row nowrap;
@@ -28,9 +33,9 @@
 
     h1 {
       font-size: 1em;
-      height: 40px;
-      line-height: 40px;
       margin: 0 0 5px;
+      position: absolute;
+      bottom: 100%;
     }
 
     @media (min-width: 500px) {
@@ -48,24 +53,16 @@
     }
   }
 
-  .illustration-tags {
-    min-height: 40px;
-    justify-content: flex-start;
-    margin: 0 -3px 5px;
-    width: 100%;
-  }
-
   .tag-confirmation {
     align-items: flex-start;
     box-sizing: border-box;
     display: flex;
-    flex-flow: row nowrap;
-    padding-left: $space2;
+    flex-flow: column nowrap;
     width: 100%;
 
     @media (min-width: 500px) {
       align-items: flex-start;
-      flex-flow: column nowrap;
+      padding-left: $space2;
       width: 50%;
     }
 
@@ -73,6 +70,10 @@
       flex-grow: 1;
       width: 0;
     }
+  }
+
+  .illustration-tag {
+    margin: 0 0 20px;
   }
 }
 

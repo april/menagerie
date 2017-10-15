@@ -20,20 +20,34 @@ img.card {
 
   .frame {
     display: block;
-  }
-
-  .frame2015 {
-    height: 0;
-    padding-bottom: 72.8%;
     position: relative;
     overflow: hidden;
     width: 100%;
+  }
+
+  .frame-2015,
+  .frame-2003 {
+    height: 0;
+    padding-bottom: 72.8%;
 
     img {
       left: -9%;
       position: absolute;
       top: -25.5%;
       width: 118%;
+    }
+  }
+
+  .frame-1997,
+  .frame-1993 {
+    height: 0;
+    padding-bottom: 80.3%;
+
+    img {
+      left: -14.25%;
+      position: absolute;
+      top: -22%;
+      width: 129%;
     }
   }
 }

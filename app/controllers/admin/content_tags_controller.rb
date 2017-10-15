@@ -9,6 +9,7 @@ class Admin::ContentTagsController < AdminController
 
   def approve_oracle_cards
     load_approval_data(OracleCard.name)
+    OracleCard.assign_illustrations(@content_tags.collect(&:taggable))
     render :approve
   end
 
@@ -48,11 +49,6 @@ private
       .where("(disputed = TRUE OR approval_status = ?)", ContentTag::ApprovalStatus::PENDING)
       .order(disputed: :desc)
       .paginate(page:[params[:page].to_i, 1].max, per_page:30)
-
-    # Assign representitive illustrations for each oracle card
-    if type == OracleCard.name
-      OracleCard.assign_illustrations(@content_tags.collect(&:taggable))
-    end
 
     # Sort results into groups by illustration,
     # disputed tags first, and disputed groups first.
