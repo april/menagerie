@@ -11,6 +11,7 @@ class InitialSetup < ActiveRecord::Migration[5.1]
     execute("ALTER TABLE tags ADD CONSTRAINT unique_tag_name UNIQUE (name)")
 
     create_table :illustrations, id: :uuid do |t|
+      t.uuid :printing_id, null: false
       t.uuid :oracle_id, null: false
       t.uuid :artist_id, null: false
       t.text :slug, null: false

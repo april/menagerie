@@ -39,15 +39,16 @@ class Illustration < ActiveRecord::Base
   end
 
   def set_printing!(pid)
-    card = Printing.find_with_set_code(pid)
-    unless card.oracle_id == oracle_id && card.artist_id == artist_id
+    p = Printing.find_with_set_code(pid)
+    unless p.oracle_id == oracle_id && p.artist_id == artist_id
       raise ArgumentError.new("printing must have the same oracle card and artist")
     end
 
-    self.set_code = card.set_code
-    self.frame = card.frame
+    self.printing_id = p.id
+    self.set_code = p.set_code
+    self.frame = p.frame
 
-    image_data = face > 1 && card.image_2_data.present? ? card.image_2_data : card.image_data
+    image_data = face > 1 && p.image_2_data.present? ? p.image_2_data : p.image_data
     self.image_normal = image_data.dig("normal", "id")
     self.image_large = image_data.dig("large", "id")
 

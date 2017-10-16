@@ -70,6 +70,16 @@ namespace :illustrations do
         face = index + 1
         key = [oracle_id, artist_id, face].join("-")
 
+        if !oracle_ids.key?(oracle_id)
+          oracle_name = [name_1, name_2].compact.join(" // ")
+          oracle_ids[oracle_id] = true
+          puts %{Creating oracle_card "#{oracle_name}"}
+          OracleCard.find_or_create_by({
+            id: oracle_id,
+            name: oracle_name
+          })
+        end
+
         if ids.key?(key)
           illustration_id = ids[key]
         elsif illustration = Illustration.where(oracle_id: oracle_id, artist_id: artist_id, face: face).first
@@ -77,6 +87,7 @@ namespace :illustrations do
         else
           puts %{Creating illustration "#{name.strip}" by #{artist.strip}}
           illustration_id = ids[key] = Illustration.create({
+            printing_id: printing_id,
             oracle_id: oracle_id,
             artist_id: artist_id,
             artist: artist.strip,
@@ -88,14 +99,6 @@ namespace :illustrations do
             image_normal: face > 1 && image_2_normal.present?? image_2_normal : image_1_normal,
             image_large: face > 1 && image_2_large.present?? image_2_large : image_1_large
           }.compact).id
-        end
-
-        if !oracle_ids.key?(oracle_id)
-          oracle_ids[oracle_id] = true
-          OracleCard.find_or_create({
-            id: oracle_id,
-            name: [name_1, name_2].join(" // ")
-          })
         end
 
         puts %{Joining "#{name.strip}" to #{printing_id}}

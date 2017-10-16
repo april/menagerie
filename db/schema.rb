@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20170912124837) do
   end
 
   create_table "illustrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "printing_id", null: false
     t.uuid "oracle_id", null: false
     t.uuid "artist_id", null: false
     t.text "slug", null: false

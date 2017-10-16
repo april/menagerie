@@ -2,9 +2,9 @@
   <h1>Manage Illustration Group</h1>
   <p>Assign a grouping code (ex: "a, b, c, ...") or illustration UUID to each unique illustration:</p>
   <div class="illustration-group--items">
-    <% @printings.each_with_index do |p, index| %>
+    <% @printings.sort { |a, b| a.id == @illustration.printing_id ? -1 : 1 }.each_with_index do |p, index| %>
       <div class="illustration-group--item">
-        <img src="<%= p.image_uri(:small) %>" class="card">
+        <img src="<%= p.image_uri(:small) %>" class="card" data-id="<%= p.id %>">
         <%= text_field "printing_illustrations[variants]", p.id if index > 0 %>
       </div>
     <% end %>
