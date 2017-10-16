@@ -6,10 +6,10 @@
 
     <div class="admin-session-row">
       <%= label_tag :email do %><span class="visuallyhidden">Email</span> <% end %>
-      <%= email_field_tag :email, nil, placeholder:"Email address" %>
+      <%= email_field_tag :email, nil, placeholder:"Email address", class:"tag-input-field" %>
     </div>
 
-    <%= button_tag type:"submit", class:"admin-button grape", tabindex:3 do %>
+    <%= button_tag type:"submit", class:"button-primary", tabindex:3 do %>
       Request Magic Link
     <% end %>
 

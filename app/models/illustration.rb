@@ -5,7 +5,8 @@ class Illustration < ActiveRecord::Base
   has_many :content_tags, as: :taggable
   has_many :tag_submissions, as: :taggable
   has_many :tags, through: :content_tags
-  belongs_to :oracle_card, class_name: 'OracleCard', foreign_key: 'oracle_id'
+  belongs_to :oracle_card, class_name: "OracleCard", foreign_key: "oracle_id"
+  has_and_belongs_to_many :printings, class_name: "Printing", join_table: :printing_illustrations
 
   before_create :generate_slug
 
@@ -38,16 +39,15 @@ class Illustration < ActiveRecord::Base
   end
 
   def set_printing!(pid)
-    card = MagicCard.find_by(printing_id: pid)
-    unless card.oracle_id == oracle_id && card.artist == artist
+    card = Printing.find_with_set_code(pid)
+    unless card.oracle_id == oracle_id && card.artist_id == artist_id
       raise ArgumentError.new("printing must have the same oracle card and artist")
     end
 
     self.set_code = card.set_code
-    self.layout = card.layout
     self.frame = card.frame
 
-    image_data = face > 1 && card.image_2_data ? card.image_2_data : card.image_data
+    image_data = face > 1 && card.image_2_data.present? ? card.image_2_data : card.image_data
     self.image_normal = image_data.dig("normal", "id")
     self.image_large = image_data.dig("large", "id")
 
@@ -59,9 +59,10 @@ class Illustration < ActiveRecord::Base
     return Illustration.new({
       oracle_id: oracle_id,
       artist_id: artist_id,
+      face: face,
       name: name,
       artist: artist,
-      face: face,
+      layout: layout,
     }).set_printing!(pid)
   end
 

@@ -1,6 +1,7 @@
 @import "../config/vars";
 
 .site-wrapper {
+  box-sizing: border-box;
   margin: 0 auto;
   max-width: 1024px;
   padding: 0 20px;
@@ -9,11 +10,9 @@
 .site-header {
   background-color: $cRaisin;
   border-bottom: 2px solid mix(white, $cRaisin, 50%);
-  display: flex;
   justify-content: space-between;
   height: 58px;
   line-height: 58px;
-  padding: 0 $space2;
 
   .site-wrapper {
     display: flex;
@@ -27,6 +26,13 @@
     margin-left: $space2;
     text-decoration: none;
 
+    svg {
+      fill: rgba(255, 255, 255, 0.8);
+      height: 18px;
+      margin-right: 7px;
+      width: 18px;
+    }
+
     &:first-child {
       margin: 0;
     }
@@ -36,6 +42,10 @@
 
       span, b {
         text-decoration: underline;
+      }
+
+      svg {
+        fill: white;
       }
     }
   }
@@ -47,11 +57,25 @@
     width: 0;
   }
 
-  svg {
-    fill: white;
-    height: 18px;
-    margin-right: 7px;
-    width: 18px;
+  @media (max-width: $break-small) {
+    .collapse {
+      display: none;
+    }
+  }
+
+  &--sub {
+    background-color: mix(white, $cRaisin, 70%);
+    border: none;
+    height: 35px;
+    line-height: 35px;
+
+    a {
+      color: $cRaisin;
+
+      svg {
+        fill: $cRaisin;
+      }
+    }
   }
 }
 

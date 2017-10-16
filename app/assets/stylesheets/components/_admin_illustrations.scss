@@ -25,17 +25,6 @@ $cLavender: #CBAAF5;
   &--header {
     padding: 0 0 25px;
 
-    h1 {
-      display: inline;
-      font-size: 1.5em;
-      font-weight: bold;
-      margin-right: 0.5em;
-    }
-
-    a {
-      color: $cLavender;
-    }
-
     p {
       color: darken($cLightGrey, 20);
       margin-top: 10px;
@@ -46,6 +35,10 @@ $cLavender: #CBAAF5;
     display: flex;
     flex-flow: row wrap;
     margin-left: -2px;
+  }
+
+  &--items + .button-primary {
+    margin-top: 25px;
   }
 
   &--item, .card {
@@ -64,6 +57,7 @@ $cLavender: #CBAAF5;
       border: 1px solid #ccc;
       border-radius: 3px;
       bottom: 2%;
+      box-sizing: border-box;
       font: bold 15px/1 courier, sans-serif;
       left: 15%;
       padding: 10px 10px;

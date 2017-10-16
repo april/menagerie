@@ -1,7 +1,6 @@
 <%= form_tag admin_update_illustrations_path(@illustration.id, { name: params[:name] }.compact), method: "post", class:"illustration-group" do %>
-  <div class="illustration-group--header">
-    <p>Assign a grouping code (ex: "a, b, c, ...") or illustration UUID to each unique illustration:</p>
-  </div>
+  <h1>Manage Illustration Group</h1>
+  <p>Assign a grouping code (ex: "a, b, c, ...") or illustration UUID to each unique illustration:</p>
   <div class="illustration-group--items">
     <% @printings.each_with_index do |p, index| %>
       <div class="illustration-group--item">
@@ -10,5 +9,5 @@
       </div>
     <% end %>
   </div>
-  <%= button_tag "Update Illustrations" %>
+  <%= button_tag "Update Illustrations", class:"button-primary" %>
 <% end %>

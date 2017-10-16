@@ -5,7 +5,8 @@ class Admin::IllustrationsController < AdminController
   PER_PAGE = 200
 
   ALL_DUPLICATES_SQL = %{
-    SELECT * FROM (
+    SELECT *, count(*) OVER() as total
+    FROM (
       SELECT
         p.id,
         p.oracle_id,
@@ -26,41 +27,41 @@ class Admin::IllustrationsController < AdminController
 
   NAMED_DUPLICATES_SQL = %{
     #{ALL_DUPLICATES_SQL}
-    AND id IN (
-      SELECT printing_id
-      FROM #{ ENV.fetch('SCRYFALL_DATABASE_SERVER') }.magic_cards
+    AND oracle_id IN (
+      SELECT id
+      FROM #{ ENV.fetch('SCRYFALL_DATABASE_SERVER') }.oracle_cards
       WHERE name = ?
     )
   }.squish.freeze
 
   def index
-    select_sql = ALL_DUPLICATES_SQL
     parameters = []
 
     if params[:name].present?
-      select_sql = NAMED_DUPLICATES_SQL
+      parameters << NAMED_DUPLICATES_SQL
       parameters << params[:name]
+    else
+      parameters << ALL_DUPLICATES_SQL
     end
 
-    parameters.unshift("#{select_sql} ORDER BY (oracle_id, artist_id)")
+    parameters[0] = "#{parameters[0]} ORDER BY (oracle_id, artist_id) OFFSET ? LIMIT ?"
 
-    # @page = params.fetch(:page, 1).to_i
-    # parameters << (@page-1) * PER_PAGE
-    # parameters << PER_PAGE
+    @page = params.fetch(:page, 1).to_i
+    parameters << (@page-1) * PER_PAGE
+    parameters << PER_PAGE
 
-    @printings = Printing.paginate_by_sql(parameters, page:[params[:page].to_i, 1].max, per_page:200)
-    @last_page = 0
-    #@last_page = @printings.present? ? (@printings.first[:total].to_f / PER_PAGE).ceil : 0
+    @printings = Printing.find_by_sql(parameters)
+    @last_page = @printings.present? ? (@printings.first[:total].to_f / PER_PAGE).ceil : 0
   end
 
   ILLUSTRATION_PRINTINGS_SQL = %{
     SELECT
       p.id,
       p.image_data
-    FROM printings p
-    FULL OUTER JOIN printings_illustrations j ON p.id = j.printing_id
+    FROM #{ ENV.fetch('SCRYFALL_DATABASE_SERVER') }.printings p
+    FULL OUTER JOIN printing_illustrations j ON p.id = j.printing_id
     WHERE j.illustration_id = ?
-  }
+  }.squish.freeze
 
   def edit
     @illustration = Illustration.find(params[:id])
@@ -89,6 +90,7 @@ class Admin::IllustrationsController < AdminController
 
     # Update all printings to match new variation criteria
     printings_by_variation.each_pair do |variation_code, printing_ids|
+      variant_illustration = nil
       variant_illustration = Illustration.find(variation_code) if variation_code.length == 36
 
       PrintingIllustration.transaction do

@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170912124837) do
+ActiveRecord::Schema.define(version: 20171012031655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
+  enable_extension "postgres_fdw"
 
   create_table "administrators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "name", null: false
@@ -53,6 +54,12 @@ ActiveRecord::Schema.define(version: 20170912124837) do
     t.integer "face", default: 1, null: false
     t.index ["oracle_id", "artist_id", "face"], name: "index_illustrations_on_oracle_id_and_artist_id_and_face"
     t.index ["slug"], name: "index_illustrations_on_slug", unique: true
+  end
+
+  create_table "printing_illustrations", force: :cascade do |t|
+    t.uuid "printing_id", null: false
+    t.uuid "illustration_id", null: false
+    t.integer "face", default: 1, null: false
   end
 
   create_table "tag_submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

@@ -57,6 +57,13 @@
     a { color: darken(#e5c5c5, 50); }
   }
 
+  &.rejected {
+    background-color: #660505;
+    border-color: darken(#660505, 5);
+    &:hover { background-color: lighten(#660505, 5); }
+    a { color: white; }
+  }
+
   &--inner {
     display: block;
     position: relative;

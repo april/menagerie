@@ -3,6 +3,7 @@
 class AdminController < ApplicationController
 
   before_action :authenticate_administrator!
+  helper_method :logged_in?
 
   def authenticate_administrator!
     unless current_administrator
@@ -13,6 +14,10 @@ class AdminController < ApplicationController
 
   def current_administrator
     @current_administrator ||= Administrator.find_by(auth_token:cookies.encrypted[:admin_auth_token])
+  end
+
+  def logged_in?
+    current_administrator.present?
   end
 
 end

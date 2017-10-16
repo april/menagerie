@@ -34,7 +34,7 @@
 <% end %>
 
 <% if @content_tags.present? && @content_tags.current_page.to_i == 1 %>
-  <%= link_to "Reload Tags", admin_dashboard_path, class:"button-primary" %>
+  <%= link_to "Reload Tags", (@content_type == OracleCard.name ? admin_approve_oracle_card_tags_path : admin_approve_illustration_tags_path), class:"button-primary admin-reload" %>
 <% end %>
 
 <%= will_paginate @content_tags %>

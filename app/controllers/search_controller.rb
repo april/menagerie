@@ -24,7 +24,7 @@ class SearchController < ApplicationController
       @tag = IllustrationTag.find_by(name: params[:q])
       @results = @tag.taggables.paginate(paginate) if @tag
     when "card"
-      @results = Illustration.where(name: params[:q]).paginate(paginate)
+      @results = Illustration.where(name: params[:q]).order(:artist).paginate(paginate)
     when "artist"
       @results = Illustration.where(artist: params[:q]).paginate(paginate)
     end

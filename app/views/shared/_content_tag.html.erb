@@ -2,7 +2,7 @@
 <div class="illustration-tag <%= tag.status %><%= allows_dispute ? " allows-dispute" : "" %>">
   <% if allows_dispute %> <span class="illustration-tag--dispute"> <% end %>
   <span class="illustration-tag--inner">
-    <%= link_to tag.name, tag.search_uri, "data-tag-status": (allows_dispute ? tag.status : nil) %>
+    <%= link_to tag.name, tag.search_uri, "data-tag-status": tag.status %>
     <% if allows_dispute %>
       <%= form_tag dispute_content_tag_path(tag.id), method: "post" do %>
         <%= button_tag "data-dispute": tag.name, "data-tag-status":"dispute" do %>
