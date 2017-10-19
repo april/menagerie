@@ -2,7 +2,7 @@
   <% @printings.group_by(&:illustration_id).each_pair do |illustration_id, printings| %>
     <div class="admin-form-inner illustration-group">
       <div class="illustration-group--header">
-        <code><%= illustration_id %></code> <%= link_to "edit", admin_edit_illustrations_path(illustration_id) %>
+        <code><%= illustration_id %></code> <%= "(face-#{printings.first.face})" if printings.first.face > 1 %> <%= link_to "edit", admin_edit_illustrations_path(illustration_id) %>
       </div>
       <div class="illustration-group--items">
         <% printings.each do |p| %>

@@ -12,7 +12,8 @@ class Admin::IllustrationsController < AdminController
         p.oracle_id,
         p.artist_id,
         jsonb(p.image_data->>'small')->>'id' AS image_path,
-        j.illustration_id
+        j.illustration_id,
+        j.face
       FROM #{ ENV.fetch('SCRYFALL_DATABASE_SERVER') }.printings p
       FULL OUTER JOIN printing_illustrations j ON p.id = j.printing_id
       WHERE j.illustration_id IS NOT NULL
@@ -104,7 +105,7 @@ class Admin::IllustrationsController < AdminController
       end
     end
 
-    return redirect_to admin_illustrations_path({ name: params[:name] }.compact)
+    return redirect_to admin_edit_illustrations_path(params[:id])
   end
 
 end

@@ -18,18 +18,20 @@ class ContentTag < ActiveRecord::Base
   validates_inclusion_of :approval_status, :in => [
     ApprovalStatus::PENDING,
     ApprovalStatus::APPROVED,
-    ApprovalStatus::REJECTED,
   ].freeze
 
   scope :pending, -> { where(approval_status: ApprovalStatus::PENDING) }
   scope :approved, -> { where(approval_status: ApprovalStatus::APPROVED) }
-  scope :rejected, -> { where(approval_status: ApprovalStatus::REJECTED) }
 
   def after_initialize
     if new_record?
       self.approval_status = ApprovalStatus::PENDING
       self.disputed = false
     end
+  end
+
+  def tag_model
+    [IllustrationTag, OracleCardTag].detect { |c| c.name == "#{taggable_type}Tag" }
   end
 
   def name

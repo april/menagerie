@@ -13,10 +13,10 @@ module MarkupHelper
   # Provides a collection of search types for the search form
   def search_type_collection
     return [
+      ["card", "Card Name"],
+      ["artist", "Artist Name"],
       ["illustration", "Illustration Tag"],
       ["oracle", "Oracle Tag"],
-      ["card", "Card Name"],
-      ["artist", "Artist Name"]
     ]
   end
 

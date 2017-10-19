@@ -24,12 +24,23 @@ class Admin::ContentTagsController < AdminController
     @content_tag.disputed = false
 
     begin
-      if params[:tag_name] != @content_tag.tag.name
-        old_tag = @content_tag.tag
-        @content_tag.tag = Tag.find_or_create_by(name: params[:tag_name], type: @content_tag.taggable_type)
-        old_tag.destroy if old_tag.content_tags.count <= 1
+      # Destroy rejected tags
+      if @content_tag.rejected?
+        tag = @content_tag.tag
+        tag.destroy if tag.content_tags.count <= 1
+        @content_tag.destroy
+
+      # Reconfigure renamed tags
+      elsif params[:tag_name] != @content_tag.name
+        tag = @content_tag.tag
+        @content_tag.tag = @content_tag.tag_model.find_or_create_by(name: params[:tag_name])
+        @content_tag.save
+        tag.destroy if tag.content_tags.count <= 1
+
+      # Or else just save
+      else
+        @content_tag.save
       end
-      @content_tag.save
 
       return render json: {
         success: true,

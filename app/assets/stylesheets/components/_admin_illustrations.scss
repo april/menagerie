@@ -31,6 +31,10 @@ $cLavender: #CBAAF5;
     }
   }
 
+  .card {
+    background-color: black;
+  }
+
   &--items {
     display: flex;
     flex-flow: row wrap;

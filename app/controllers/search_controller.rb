@@ -32,8 +32,8 @@ class SearchController < ApplicationController
     @results ||= []
 
     if @results.length == 1
-      return redirect_to show_illustration_path(@results.first.slug) if params[:type] == "illustration"
-      return redirect_to show_oracle_card_path(@results.first.slug) if params[:type] == "oracle"
+      return redirect_to show_illustration_path(@results.first.slug) if params[:type] =~ /illustration|card|artist/
+      return redirect_to show_oracle_card_path(@results.first.slug) if params[:type] =~ /oracle/
     end
   end
 

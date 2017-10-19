@@ -2,7 +2,7 @@
   <h2>Propose Tags</h2>
   <div class="tag-form-row autocomplete-wrapper js-expanding-form-row" data-row="0">
     <label for="tag-0" class="vh">New tag</label>
-    <%= text_field "tag_submission[tags]", "", id: "tag-0", placeholder: "tag name", autocorrect:"off", autocomplete:"off", "data-query":"tag", class:"tag-input-field" %>
+    <%= text_field "tag_submission[tags]", "", id:"tag-0", placeholder:"tag name", autocorrect:"off", autocomplete:"off", class:"tag-input-field", "data-query":taggable.search_type %>
   </div>
   <div class="tag-form-row">
     <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>
