@@ -50,4 +50,38 @@ img.card {
       width: 129%;
     }
   }
+
+  .layout-split {
+    padding-bottom: 70%;
+
+    img {
+      left: 21%;
+      top: -87%;
+      transform: rotate(90deg);
+      width: 175%;
+    }
+  }
+
+  .layout-split.face-2 {
+    img {
+      left: -96%;
+    }
+  }
+
+  .layout-split.frame-1997 {
+    padding-bottom: 67.2%;
+
+    img {
+      left: 18%;
+      top: -94%;
+      transform: rotate(90deg);
+      width: 195%;
+    }
+  }
+
+  .layout-split.face-2.frame-1997 {
+    img {
+      left: -113%;
+    }
+  }
 }

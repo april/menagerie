@@ -5,6 +5,7 @@ class Illustration < ActiveRecord::Base
   has_many :content_tags, as: :taggable
   has_many :tag_submissions, as: :taggable
   has_many :tags, through: :content_tags
+  has_many :printing_illustrations
   belongs_to :oracle_card, class_name: "OracleCard", foreign_key: "oracle_id"
   has_and_belongs_to_many :printings, class_name: "Printing", join_table: :printing_illustrations
 
