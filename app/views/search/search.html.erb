@@ -1,7 +1,7 @@
 <%= render "shared/search_form" %>
 
 <% if !@results.present? %>
-  <p>No results found matching provided search criteria</p>
+  <p class="status-message">No results found matching provided search criteria</p>
 <% end %>
 
 <% if @results.present? %>

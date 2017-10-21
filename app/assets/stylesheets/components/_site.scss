@@ -50,6 +50,17 @@
     }
   }
 
+  a.logo {
+    font-size: 20px;
+    font-weight: 200;
+
+    svg {
+      height: 30px;
+      margin-right: 10px;
+      width: 30px;
+    }
+  }
+
   .spacer {
     display: block;
     flex-grow: 1;
@@ -113,5 +124,30 @@
 
 .pagination {
   margin: $space2 0;
+  text-align: center;
+}
+
+.prose {
+  font-size: 15px;
+  margin: 0 auto;
+  max-width: 45em;
+
+  h2 {
+    font-size: 18px;
+    font-weight: normal;
+  }
+
+  p {
+    margin: 10px 0 25px;
+  }
+
+  + .prose {
+    border-top: 1px solid #ccc;
+  }
+}
+
+.status-message {
+  color: lighten($cRaisin, 20);
+  font-weight: bold;
   text-align: center;
 }

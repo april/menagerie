@@ -4,6 +4,7 @@
   <p>No tags pending 🎉</p>
 <% end %>
 
+<div data-component="autocomplete-form">
 <% @tag_groups.each do |tag_group| %>
   <div class="tag-admin-row">
     <% if @content_type == Illustration.name %>
@@ -15,7 +16,9 @@
     <div class="tag-confirmation">
       <% tag_group.each do |itag| %>
         <%= form_tag admin_confirm_content_tag_path(itag), method:"post", class:"tag-confirm-form js-tag-confirm-form#{ " disputed" if itag.disputed? }" do %>
-          <input type="text" name="tag_name" value="<%= itag.tag.name %>" class="tag-input-field">
+          <div class="autocomplete-wrapper">
+            <%= text_field_tag :tag_name, itag.tag.name, autocorrect:"off", autocomplete:"off", class:"tag-input-field", "data-query": tag_group.first.taggable.search_type %>
+          </div>
           <%= button_tag title: "Approve", value: "approve", class:"button-primary approve" do %>
             <%= inline_svg "icons/approve" %> <span class="vh">Approve</span>
           <% end %>
@@ -32,6 +35,7 @@
     </div>
   </div>
 <% end %>
+</div>
 
 <% if @content_tags.present? && @content_tags.current_page.to_i == 1 %>
   <%= link_to "Reload Tags", (@content_type == OracleCard.name ? admin_approve_oracle_card_tags_path : admin_approve_illustration_tags_path), class:"button-primary admin-reload" %>

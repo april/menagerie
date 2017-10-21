@@ -1,6 +1,7 @@
 @import "../config/vars";
 
 body {
+  color: #111;
   margin: 0;
   font: normal 16px/1.4 "Helvetica Neue", "HelveticaNeueWF", Helvetica, Arial, sans-serif;
 }
@@ -16,6 +17,17 @@ a {
 
 h1, h2 {
   font-weight: 200;
+}
+
+.icon-header {
+  align-items: center;
+  display: flex;
+
+  svg {
+    margin-right: 0.3em;
+    max-height: 1.25em;
+    width: 1.25em;
+  }
 }
 
 .vh {

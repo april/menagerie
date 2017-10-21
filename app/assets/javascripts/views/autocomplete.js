@@ -13,6 +13,7 @@ var AutocompleteFormView = Backbone.View.extend({
     // this.$el.closest('form').on('submit', function() {
     //   this.el.removeAttribute('autocomplete');
     // }.bind(this));
+    this.setSearch();
   },
 
   setMenu: function(term) {
@@ -56,8 +57,10 @@ var AutocompleteFormView = Backbone.View.extend({
   autoComplete: function() {
     if (this.locked()) return;
     var term = this.$menu.children('li').eq(this.selection).data('value');
-    this.input.value = term;
-    this.input.focus();
+    if (term) {
+      this.input.value = term;
+      this.input.focus();
+    }
     this.setMenu(null);
   },
 
@@ -66,15 +69,19 @@ var AutocompleteFormView = Backbone.View.extend({
     'keydown': 'onKeydown',
     'focus input[data-query]': 'onFocus',
     'blur input[data-query]': 'onBlur',
-    'change #search-type': 'onSearchMode'
+    'change #search-type': 'setSearch'
   },
 
-  onSearchMode: function(evt) {
-    var $term = this.$('#search-term');
-    $term.attr('data-query', evt.currentTarget.value);
-    $term.val('');
-    this.optionsTerm = null;
-    this.options = null;
+  setSearch: function(evt) {
+    var $type = this.$('#search-type');
+    if ($type.length) {
+      var $term = this.$('#search-term');
+      $term.attr('data-query', $type.val());
+      if (evt) $term.val('');
+      this.optionsTerm = null;
+      this.options = null;
+      this.setMenu(null);
+    }
   },
 
   onFocus: function(evt) {
@@ -146,7 +153,7 @@ var AutocompleteFormView = Backbone.View.extend({
   },
 
   locked: function() {
-    return !this.input || !this.options;
+    return !this.input || !this.options || !this.options.length;
   }
 });
 
