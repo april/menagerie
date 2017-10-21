@@ -1,7 +1,7 @@
 <%= form_tag create_content_tags_path(@tag_submission), method: "post", class:"tag-confirmation-form" do %>
   <h2>Confirm Tags</h2>
   <p class="tag-confirmation-form--prompt">
-    <b>We've normalized your submissions into suggested tags.</b><br>
+    <b>We've normalized your submission into suggested tags.</b><br>
     Our normalizations are algorithmic, so use your judgement.
   </p>
   <div class="tag-form-row">
@@ -17,10 +17,22 @@
       <tbody>
       <% @tag_submission.proposed_tags.each_with_index do |tag, index| %>
         <tr>
-          <td><label><%= radio_button_tag "tag_confirmation[tags][#{index}]", tag.original_name_key, false, disabled: !tag.allowed? %> <%= tag.original_name %></label></td>
-          <td><label><%= radio_button_tag "tag_confirmation[tags][#{index}]", tag.formatted_name_key, tag.suggest_formatted_name?, disabled: !tag.allowed? %> <%= tag.formatted_name_display %></label></td>
+          <td>
+            <label class="<%= 'disabled' unless tag.allow_original_name? %>">
+              <%= radio_button_tag "tag_confirmation[tags][#{index}]", tag.original_name_key, false, disabled: !tag.allow_original_name? %> <%= tag.original_name %>
+            </label>
+          </td>
+          <td>
+            <label class="<%= 'disabled' unless tag.allowed? %>">
+              <%= radio_button_tag "tag_confirmation[tags][#{index}]", tag.formatted_name_key, tag.suggest_formatted_name?, disabled: !tag.allowed? %> <%= tag.formatted_name_display %>
+            </label>
+          </td>
           <td><%= tag.note %></td>
-          <td><label><%= radio_button_tag "tag_confirmation[tags][#{index}]", tag.cancel_key, tag.suggest_cancel? %> cancel</label></td>
+          <td>
+            <label>
+              <%= radio_button_tag "tag_confirmation[tags][#{index}]", tag.cancel_key, tag.suggest_cancel? %> cancel
+            </label>
+          </td>
         </tr>
       <% end %>
       </tbody>

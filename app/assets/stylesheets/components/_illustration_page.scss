@@ -117,8 +117,25 @@
     font-weight: bold;
   }
 
+  td {
+    padding: 5px 0;
+  }
+
   .button-primary {
     margin: 0 auto;
+  }
+
+  &--prompt {
+    background-color: #efefef;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 30px;
+    padding: 10px;
+  }
+
+  .disabled {
+    color: #bbb;
+    font-style: italic;
   }
 }
 

@@ -19,15 +19,15 @@ class TagSubmission < ActiveRecord::Base
     current_tags = Hash[current_tags.map(&:downcase).zip(current_tags)]
 
     # Format existing tags with these names into a lookup
-    defined_tags = taggable.tag_model.where(name: (names + names.map(&:downcase)).uniq).pluck(:name)
-    defined_tags = Hash[defined_tags.map(&:downcase).zip(defined_tags)]
+    existing_tags = taggable.tag_model.where(name: (names + names.map(&:downcase)).uniq).pluck(:name)
+    existing_tags = Hash[existing_tags.map(&:downcase).zip(existing_tags)]
 
     # Generate tag proposals
-    @proposed_tags = names.map { |n| TagProposal.new(n, current_tags[n.downcase], defined_tags[n.downcase]) }
+    @proposed_tags = names.map { |n| TagProposal.new(n, current_tags[n.downcase], existing_tags[n.downcase]) }
 
     self.tags = @proposed_tags.reduce({}) do |memo, tag|
       if tag.allowed?
-        memo[tag.original_name_key] = tag.original_name
+        memo[tag.original_name_key] = tag.original_name if tag.allow_original_name?
         memo[tag.formatted_name_key] = tag.formatted_name
       end
       memo

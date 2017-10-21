@@ -3,11 +3,11 @@
 class TagsController < ApplicationController
 
   def submit_illustration_tags
-    return submit(Illustration.find(params[:id]))
+    return submit(Illustration.includes(:tags).find(params[:id]))
   end
 
   def submit_oracle_card_tags
-    return submit(OracleCard.find(params[:id]))
+    return submit(OracleCard.includes(:tags).find(params[:id]))
   end
 
   def create

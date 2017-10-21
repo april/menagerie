@@ -13,15 +13,15 @@ class TagProposal
     @suggest_cancel = false
     @notes = []
 
-    # return self unless check_for_duplicates!(current_tags)
-    # return self unless check_for_existing!(existing_tag)
+    return self if check_duplicate!(current_tag)
+    return self if check_existing!(existing_tag)
 
     [
       :check_blacklist!,
       :check_dictionary!,
       :format_lowercase!,
       :format_singular!,
-    ].each { |method| return self unless self.send(method) }
+    ].each { |method| return self if self.send(method) }
   end
 
   # Form field displays
@@ -52,6 +52,10 @@ class TagProposal
     @duplicate
   end
 
+  def existing?
+    @existing
+  end
+
   def allowed?
     !@omit
   end
@@ -64,20 +68,31 @@ class TagProposal
     !suggest_cancel?
   end
 
-private
-
-  def check_for_duplicates!(tags)
-    @formatted_name = current_tag
-    @duplicate = true
-    @omit = true
-    @notes << "duplicate tag"
-    return true
+  def allow_original_name?
+    allowed? && !existing?
   end
 
-  def check_for_existing!(tags)
-    @formatted_name = existing_tag
-    @existing_tag = true
-    return true
+private
+
+  def check_duplicate!(current_tag)
+    if current_tag.present? && current_tag.downcase == @original_name.downcase
+      @formatted_name = current_tag
+      @duplicate = true
+      @omit = true
+      @notes << "duplicate tag"
+      return true
+    end
+    return false
+  end
+
+  def check_existing!(existing_tag)
+    if existing_tag.present? && existing_tag.downcase == @original_name.downcase
+      @formatted_name = existing_tag
+      @existing = true
+      @notes << "joins existing tag"
+      return true
+    end
+    return false
   end
 
   def check_blacklist!
@@ -92,9 +107,9 @@ private
       @omit = true
       @suggest_cancel = true
       @notes << "inappropriate"
-      return false
+      return true
     end
-    return true
+    return false
   end
 
   def check_dictionary!
@@ -108,7 +123,7 @@ private
       @suggest_cancel = true
       @notes << "check spelling"
     end
-    return true
+    return false
   end
 
   def check_nouns!
@@ -121,21 +136,21 @@ private
       @suggest_cancel = true
       @notes << "multiple nouns"
     end
-    return true
+    return false
   end
 
   def format_lowercase!
     previous_name = @formatted_name
     @formatted_name = @formatted_name.downcase
     @notes << "lowercased" if @formatted_name != previous_name
-    return true
+    return false
   end
 
   def format_singular!
     previous_name = @formatted_name
     @formatted_name = @formatted_name.singularize
     @notes << "singularized" if @formatted_name != previous_name
-    return true
+    return false
   end
 
 end
