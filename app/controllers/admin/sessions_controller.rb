@@ -47,7 +47,7 @@ class Admin::SessionsController < AdminController
   def destroy
     destroy_admin_cookies
     reset_session
-    return redirect_to(root_path, status:303)
+    return redirect_to(home_path, status:303)
   end
 
   protected

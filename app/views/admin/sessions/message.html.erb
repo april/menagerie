@@ -1,11 +1,6 @@
+<%= content_for :body_class, "session-screen" %>
+
 <div class="admin-session">
-
-  <div class="admin-session-inner">
-
-    <p class="admin-session-message"><%= @message %></p>
-
-    <%= link_to "← Start Over", admin_new_session_path, class:"admin-button grape" %>
-
-  </div>
-
+  <p class="admin-session-message"><%= @message %></p>
+  <%= link_to "← Start Over", admin_new_session_path %>
 </div>

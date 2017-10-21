@@ -121,3 +121,32 @@
   text-align: center;
   width: 150px;
 }
+
+.admin-session {
+  max-width: 300px;
+}
+
+.session-screen {
+  position: relative;
+
+  &:before {
+    background: url("/evolving_wilds_rocha.jpg") no-repeat center center;
+    background-size: cover;
+    content: '';
+    display: block;
+    opacity: 0.1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+  }
+
+  .site-body {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+  }
+}

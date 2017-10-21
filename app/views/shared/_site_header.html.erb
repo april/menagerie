@@ -5,7 +5,7 @@
     <% end %>
     <div class="spacer"></div>
     <%= link_to guide_path do %>
-      <%= inline_svg "icons/guide" %> <span><span class="collapse">Tagging</span> Guide</span>
+      <%= inline_svg "icons/map" %> <span><span class="collapse">Tagging</span> Guide</span>
     <% end %>
     <%= link_to random_illustration_path do %>
       <%= inline_svg "icons/tag" %> <span><span class="collapse">Tag at</span> Random</span>
@@ -15,12 +15,16 @@
 <% if is_admin_screen? && logged_in? %>
   <div class="site-header site-header--sub">
     <div class="site-wrapper">
-        <%= link_to admin_approve_illustration_tags_path do %>
-          <%= inline_svg "icons/search" %>Illustration Tags
-        <% end %>
-        <%= link_to admin_approve_oracle_card_tags_path do %>
-          <%= inline_svg "icons/search" %>Oracle Card Tags
-        <% end %>
+      <%= link_to admin_approve_illustration_tags_path do %>
+        <%= inline_svg "icons/illustration" %> <span>Illustration <span class="collapse">Tags</span></span>
+      <% end %>
+      <%= link_to admin_approve_oracle_card_tags_path do %>
+        <%= inline_svg "icons/wolf" %> <span>Oracle Card <span class="collapse">Tags</span></span>
+      <% end %>
+      <div class="spacer"></div>
+      <%= form_tag admin_destroy_session_path, method: :delete do %>
+        <%= button_tag "Sign Out" %>
+      <% end %>
     </div>
   </div>
 <% end %>

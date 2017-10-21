@@ -6,12 +6,12 @@
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= yield :head %>
   </head>
-  <body class="<%= "admin" if is_admin_screen? %>">
+  <body class="<%= "admin" if is_admin_screen? %> <%= yield :body_class if content_for?(:body_class) %>">
     <%= render "shared/site_header" %>
     <% if flash[:notice].present? %>
       <div class="site-notice"><%= flash[:notice] %></div>
     <% end %>
-    <div class="site-body">
+    <div class="site-wrapper site-body">
       <%= yield %>
     </div>
     <%= render "shared/site_footer" %>

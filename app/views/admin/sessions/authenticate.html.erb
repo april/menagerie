@@ -1,23 +1,21 @@
-<%= content_tag :form, action:admin_authenticate_session_path, method:"post", class:"admin-session" do %>
+<%= content_for :body_class, "session-screen" %>
 
-  <div class="admin-session-inner">
+<%= form_tag admin_authenticate_session_path, method: :post, class:"admin-session" do %>
 
-    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <div class="tag-form-row">
+    <%= label_tag :email do %> <span class="visuallyhidden">Email</span> <% end %>
+    <%= password_field_tag :email, @email, class:"tag-input-field" %>
+  </div>
 
-    <div class="admin-session-row">
-      <%= label_tag :email do %> <span class="visuallyhidden">Email</span> <% end %>
-      <%= password_field_tag :email, @email, class:"tag-input-field" %>
-    </div>
+  <div class="tag-form-row">
+    <%= label_tag :grant do %> <span class="visuallyhidden">Grant</span> <% end %>
+    <%= password_field_tag :grant, @grant, class:"tag-input-field" %>
+  </div>
 
-    <div class="admin-session-row">
-      <%= label_tag :grant do %> <span class="visuallyhidden">Grant</span> <% end %>
-      <%= password_field_tag :grant, @grant, class:"tag-input-field" %>
-    </div>
-
+  <div class="tag-form-row">
     <%= button_tag type:"submit", class:"button-primary", tabindex:3 do %>
       Sign In With This Link
     <% end %>
-
   </div>
 
 <% end %>
