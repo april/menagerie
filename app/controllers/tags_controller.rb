@@ -70,7 +70,7 @@ private
   end
 
   def validate_submission!
-    return "You must agree to the submission terms" unless submit_params[:accept_terms] == "1"
+    return "You must agree to the terms of service" unless submit_params[:accept_terms] == "1"
     return "Invalid captcha" unless valid_captcha?
   end
 

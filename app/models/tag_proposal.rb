@@ -17,6 +17,7 @@ class TagProposal
     return self if check_existing!(existing_tag)
 
     [
+      :check_length!,
       :check_blacklist!,
       :check_dictionary!,
       :format_lowercase!,
@@ -90,6 +91,16 @@ private
       @formatted_name = existing_tag
       @existing = true
       @notes << "joins existing tag"
+      return true
+    end
+    return false
+  end
+
+  def check_length!
+    if @original_name.length > 30
+      @omit = true
+      @suggest_cancel = true
+      @notes << "too long"
       return true
     end
     return false

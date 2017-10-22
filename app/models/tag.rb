@@ -3,6 +3,7 @@
 class Tag < ActiveRecord::Base
   has_many :content_tags
 
+  validates_length_of :name, maximum: 30
   validates_presence_of :name
   validates_presence_of :type
 
