@@ -1,14 +1,26 @@
 <div class="site-header">
   <div class="site-wrapper">
-    <%= link_to home_path, class:"logo" do %>
-      <%= inline_svg "icons/tagger" %> Tagger
+    <%= link_to home_path, class:"branding" do %>
+      <%= inline_svg "icons/tagger" %>
     <% end %>
-    <div class="spacer"></div>
-    <%= link_to guide_path do %>
-      <%= inline_svg "icons/map" %> <span><span class="collapse">Tagging</span> Guide</span>
+    <%= form_tag search_path, method: "get", enforce_utf8: false, "data-component":"autocomplete-form", class:"site-search-form", id:"search-form" do %>
+      <div class="site-search-form__inner">
+        <label for="search-type" class="vh">Search by</label>
+        <%= select_tag :type, options_from_collection_for_select(search_type_collection, :first, :second, params[:type]), id:"search-type" %>
+        <label for="search-term" class="vh">For</label>
+        <span class="autocomplete-wrapper">
+          <%= text_field_tag :q, params[:q].presence, placeholder: "Search term", autocorrect:"off", autocomplete:"off", "data-query":"card", id:"search-term" %>
+        </span>
+        <%= button_tag title:"Search", name: nil do %>
+          <%= inline_svg "icons/search" %>
+        <% end %>
+      </div>
     <% end %>
-    <%= link_to random_illustration_path, rel:"nofollow" do %>
-      <%= inline_svg "icons/tag" %> <span><span class="collapse">Tag at</span> Random</span>
+    <%= link_to guide_path, class:"site-header__link" do %>
+      <%= inline_svg "icons/map" %> <span class="collapse-small"><span class="collapse-medium">Tagging </span>Guide</span>
+    <% end %>
+    <%= link_to random_illustration_path, class:"site-header__link", rel:"nofollow" do %>
+      <%= inline_svg "icons/tag" %> <span class="collapse-small"><span class="collapse-medium">Tag at </span>Random</span>
     <% end %>
   </div>
 </div>
