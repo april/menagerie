@@ -3,7 +3,7 @@
 <% end %>
 
 <% if @results.present? %>
-  <h2>Results</h2>
+  <h2><%= params[:type].titleize %> results for "<%= params[:q] %>"</h2>
 
   <div class="search-results-grid">
     <% @results.each do |result| %>
