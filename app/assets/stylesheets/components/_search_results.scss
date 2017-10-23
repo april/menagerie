@@ -1,0 +1,39 @@
+.search-results-grid {
+  display: flex;
+  flex-flow: row wrap;
+
+  &--item {
+    display: block;
+    box-sizing: border-box;
+    padding: 4px;
+    width: 50%;
+
+    @media (min-width: 600px) {
+      width: 33.3%;
+    }
+
+    @media (min-width: 980px) {
+      width: 25%;
+    }
+
+    .illustration {
+      width: 100%;
+
+      h1 {
+        font-size: 14px;
+      }
+
+      .frame {
+        padding-bottom: 72.8% !important;
+      }
+    }
+
+    .illustration--credit {
+      flex-flow: column nowrap;
+
+      span {
+        padding: 0;
+      }
+    }
+  }
+}

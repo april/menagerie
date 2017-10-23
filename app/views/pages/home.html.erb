@@ -1,5 +1,6 @@
-<div class="homepage">
+<%= content_for :body_class, "homepage-screen" %>
 
+<div class="homepage">
   <h1>A <b>crowdsourced tag catalog</b> for <br> Magic: The Gathering illustrations &amp; cards</h1>
 
   <div class="illustration-tags">
@@ -7,5 +8,4 @@
       <%= render "shared/content_tag", tag: tag %>
     <% end %>
   </div>
-
 </div>

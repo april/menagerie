@@ -19,17 +19,6 @@ h1, h2 {
   font-weight: 200;
 }
 
-.icon-header {
-  align-items: center;
-  display: flex;
-
-  svg {
-    margin-right: 0.3em;
-    max-height: 1.25em;
-    width: 1.25em;
-  }
-}
-
 .vh {
   display: block;
   height: 0;
@@ -40,4 +29,45 @@ h1, h2 {
 
 .hidden {
   display: none;
+}
+
+.icon-header {
+  align-items: center;
+  display: flex;
+
+  svg {
+    margin-right: 0.3em;
+    max-height: 1em;
+    width: 1em;
+  }
+}
+
+.pagination {
+  margin: $space2 0;
+  text-align: center;
+}
+
+.prose {
+  font-size: 15px;
+  margin: 0 auto;
+  max-width: 45em;
+
+  h2 {
+    font-size: 18px;
+    font-weight: normal;
+  }
+
+  p {
+    margin: 10px 0 25px;
+  }
+
+  + .prose {
+    border-top: 1px solid #ccc;
+  }
+}
+
+.status-message {
+  color: lighten($cRaisin, 20);
+  font-weight: bold;
+  text-align: center;
 }

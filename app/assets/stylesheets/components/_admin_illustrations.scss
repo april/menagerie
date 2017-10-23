@@ -1,16 +1,4 @@
-$cBlack: #16161D; // A less harsh black than pure #000 https://en.wikipedia.org/wiki/Eigengrau
-$cLightGrey: #F1F1F1;
-$cMedGrey: #AEAEAE;
-$cGrey: #9B9B9B;
-$cDarkGrey: #535353;
-$cCodeWash: #F2F4F5;
-$cWhite: #FEFEFE; // A less-harsh white than pure #FFF
-
-$cPlum: #343242;
-$cRaisn: #5F4F66;
-$cGrape: #5822AC;
-$cSalmon: #DB4753;
-$cLavender: #CBAAF5;
+@import "../config/vars";
 
 .illustration-form {
   padding: 10px 0 100px;
