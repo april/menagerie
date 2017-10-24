@@ -1,26 +1,18 @@
 <%= form_tag submit_path, method: "post", id: "tag-submit-form", class:"tag-submit-form", "data-component":"autocomplete-form" do %>
-  <% if taggable.is_a?(Illustration) %>
-    <h2 class="icon-header">
-      <%= inline_svg "icons/illustration" %>
-      <span>Add <%= link_to "Illustration Tags", guide_path(anchor:"illustration-tags") %></span>
-    </h2>
-  <% else %>
-    <h2 class="icon-header">
-      <%= inline_svg "icons/oracle" %>
-      <span>Add <%= link_to "Oracle Tags", guide_path(anchor:"oracle-tags") %></span>
-    </h2>
-  <% end %>
-  <div class="tag-form-row autocomplete-wrapper js-expanding-form-row" data-row="0">
-    <label for="tag-0" class="vh">New tag</label>
-    <%= text_field "tag_submission[tags]", "", id:"tag-0", placeholder:"tag name", autocorrect:"off", autocomplete:"off", class:"tag-input-field", "data-query":taggable.search_type %>
+  <h2>Add Tags</h2>
+  <div class="tag-form-row tag-submit-form__row js-expanding-form-row" data-row="0">
+    <label for="tag-0">
+      <%= inline_svg "icons/tag" %> <span class="vh">Tag</span>
+    </label>
+    <div class="autocomplete-wrapper">
+      <%= text_field "tag_submission[tags][0][tag]", "", id:"tag-0", placeholder:"tag name", autocorrect:"off", autocomplete:"off", class:"tag-input-field", "data-query":taggable.search_type %>
+    </div>
+    <label><input type="radio" name="tag_submission[tags][0][type]" tabindex="-1" checked> artwork</label>
+    <label><input type="radio" name="tag_submission[tags][0][type]" tabindex="-1"> card</label>
   </div>
   <div class="tag-form-row">
     <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>
-  </div>
-  <div class="tag-form-row accept-tos">
     <label><%= check_box :tag_submission, :accept_terms %> I agree to the <%= link_to "terms of service", tos_path %></label>
-  </div>
-  <div class="tag-form-row">
     <%= hidden_field_tag :via, taggable.slug %>
     <%= button_tag "Propose these tags", class:"button-primary" %>
   </div>

@@ -97,10 +97,10 @@ private
   end
 
   def check_length!
-    if @original_name.length > 30
+    if @original_name.length < 2 || @original_name.length > 30
       @omit = true
       @suggest_cancel = true
-      @notes << "too long"
+      @notes << (@original_name.length < 2) ? "too short" : "too long"
       return true
     end
     return false

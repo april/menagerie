@@ -2,13 +2,20 @@
 
 .illustration-detail {
   margin: 0 auto;
-  max-width: $content-width;
 
   h1 {
     text-align: center;
   }
 
+  &__images {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .illustration {
+    max-width: $content-width;
+    flex-basis: 60%;
+
     h1 {
       display: none;
     }
@@ -24,8 +31,6 @@
   }
 
   .oracle-card {
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 25px;
 
     .card {
       height: 488px;
@@ -33,65 +38,36 @@
       width: 350px;
     }
   }
-
-  .taggable-modes {
-    border-bottom: 1px solid #ccc;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 25px;
-    height: 35px;
-  }
-
-  .taggable-mode-tab {
-    background: white;
-    border: 1px solid #ccc;
-    border-bottom: none;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    box-sizing: border-box;
-    display: block;
-    font-weight: bold;
-    line-height: 35px;
-    margin: 0 10px;
-    text-align: center;
-    top: 0;
-    width: 50%;
-
-    &:first-child {
-      left: 0;
-    }
-    &:last-child {
-      right: 0;
-    }
-
-    &.inactive {
-      background: #efefef;
-      color: #777;
-    }
-
-    &.active {
-      height: calc(100% + 1px);
-      position: relative;
-      z-index: 100;
-    }
-  }
 }
 
 .tag-submit-form {
-  margin: 40px auto;
-  max-width: 302px;
-  text-align: center;
+  &__row {
+    align-items: center;
+    border: 1px solid #efefef;
+    border-left: none;
+    border-right: none;
+    display: flex;
+    margin: 0;
+    padding-bottom: 10px;
+    padding-top: 10px;
 
-  .icon-header {
-    justify-content: center;
+    > *:not(:first-child) {
+      margin-left: 15px;
+    }
+
+    label {
+      font-size: 0.8em;
+    }
+
+    svg {
+      fill: lighten($cRaisin, 30);
+      height: 30px;
+      width: 30px;
+    }
   }
 
-  .accept-tos {
-    margin: 20px 0;
-  }
-
-  .button-primary {
-    margin: 0 auto;
+  &__row + &__row {
+    border-top: none;
   }
 }
 
@@ -163,4 +139,24 @@
 
 .g-recaptcha {
   margin-bottom: -2px;
+}
+
+.tag-submit {
+  display: flex;
+  flex-flow: row nowrap;
+
+  &__card {
+    flex-basis: 30%;
+
+    .card {
+      width: 100%;
+    }
+  }
+
+  &__form {
+    box-sizing: border-box;
+    flex-basis: 70%;
+    padding-left: 30px;
+    text-align: left;
+  }
 }

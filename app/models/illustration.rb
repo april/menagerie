@@ -2,8 +2,8 @@
 
 class Illustration < ActiveRecord::Base
 
-  has_many :content_tags, as: :taggable
-  has_many :tag_submissions, as: :taggable
+  has_many :content_tags
+  has_many :tag_submissions
   has_many :tags, through: :content_tags
   has_many :printing_illustrations
   belongs_to :oracle_card, class_name: "OracleCard", foreign_key: "oracle_id"
@@ -11,8 +11,16 @@ class Illustration < ActiveRecord::Base
 
   before_create :generate_slug
 
-  def tag_model
-    return IllustrationTag
+  def all_content_tags
+    @all_content_tags ||= ContentTag.where(["illustration_id = ? OR oracle_id = ?", id, oracle_id])
+  end
+
+  def illustration_tags
+    all_content_tags.select { |t| t.oracle_id.nil? }
+  end
+
+  def oracle_tags
+    all_content_tags.select { |t| t.oracle_id.present? }
   end
 
   def search_type

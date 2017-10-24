@@ -2,9 +2,6 @@
 
 class OracleCard < ActiveRecord::Base
 
-  has_many :content_tags, as: :taggable
-  has_many :tag_submissions, as: :taggable
-  has_many :tags, through: :content_tags
   has_many :illustrations, class_name: "Illustration", foreign_key: "oracle_id"
 
   attr_accessor :slug
@@ -16,10 +13,6 @@ class OracleCard < ActiveRecord::Base
       c.illustration = illustrations.detect { |i| i.oracle_id == c.id }
       c.slug = c.illustration.slug
     end
-  end
-
-  def tag_model
-    return OracleCardTag
   end
 
   def search_type

@@ -1,12 +1,19 @@
 @import "../config/vars";
 
 .illustration-tags {
+  background-color: #847b88;
+  border: 1px solid #ccc;
+  border-radius: 3px;
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
   list-style: none;
   margin: 1em 0;
-  padding: 0;
+  padding: 3px;
+  padding-right: 28px;
+
+  &:hover {
+    padding-right: 3px;
+  }
 }
 
 .illustration-tag {

@@ -1,0 +1,27 @@
+<%= content_for :head do %>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+<% end %>
+
+<div class="illustration-detail">
+  <h1><%= @illustration.name %></h1>
+  <div class="illustration-detail__images">
+    <%= render "shared/illustration", illustration: @illustration, link_uri: @illustration.scryfall_uri, size: :large %>
+  </div>
+</div>
+
+<div class="tag-submit">
+  <div class="tag-submit__card">
+    <%= image_tag @illustration.image_large_uri, alt: @illustration.name, class:"card" %>
+  </div>
+  <div class="tag-submit__form">
+    <h2>Current Tags</h2>
+
+    <p><b>Artwork Tags</b> &mdash; describes the illustration</p>
+    <%= render "tags", taggable: @illustration, content_tags: @illustration.illustration_tags %>
+
+    <p><b>Card Tags</b> &mdash; describes the card</p>
+    <%= render "tags", taggable: @illustration, content_tags: @illustration.oracle_tags %>
+
+    <%= render "submit", taggable: @illustration, submit_path: submit_illustration_tags_path(@illustration) %>
+  </div>
+</div>

@@ -10,12 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170912124837) do
+ActiveRecord::Schema.define(version: 20171024131810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
-  enable_extension "postgres_fdw"
 
   create_table "administrators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "name", null: false
@@ -29,14 +28,14 @@ ActiveRecord::Schema.define(version: 20170912124837) do
 
   create_table "content_tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "tag_id", null: false
-    t.uuid "taggable_id", null: false
-    t.text "taggable_type", null: false
+    t.uuid "illustration_id", null: false
     t.integer "approval_status", default: 1, null: false
     t.boolean "disputed", default: false, null: false
     t.text "dispute_note"
     t.text "source_ip", null: false
+    t.uuid "oracle_id"
+    t.index ["oracle_id"], name: "index_content_tags_on_oracle_id"
     t.index ["tag_id"], name: "index_content_tags_on_tag_id"
-    t.index ["taggable_id", "taggable_type"], name: "index_content_tags_on_taggable_id_and_taggable_type"
   end
 
   create_table "illustrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -68,8 +67,7 @@ ActiveRecord::Schema.define(version: 20170912124837) do
   end
 
   create_table "tag_submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "taggable_id", null: false
-    t.text "taggable_type", null: false
+    t.uuid "illustration_id", null: false
     t.text "source_ip", null: false
     t.json "tags", null: false
     t.datetime "created_at", default: -> { "now()" }, null: false
@@ -77,8 +75,6 @@ ActiveRecord::Schema.define(version: 20170912124837) do
 
   create_table "tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "name", null: false
-    t.text "type", null: false
-    t.index ["name", "type"], name: "index_tags_on_name_and_type", unique: true
     t.index ["name"], name: "index_tags_on_name"
     t.index ["name"], name: "unique_tag_name", unique: true
   end

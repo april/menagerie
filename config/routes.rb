@@ -8,25 +8,23 @@ Rails.application.routes.draw do
 
   get "admin", to: redirect("admin/illustration_tags"), as: "admin_dashboard"
   get "admin/illustration_tags", to: "admin/content_tags#approve_illustrations", as: "admin_approve_illustration_tags"
-  get "admin/oracle_card_tags", to: "admin/content_tags#approve_oracle_cards", as: "admin_approve_oracle_card_tags"
   post "admin/tags/confirm/:id", to: "admin/content_tags#confirm", as: "admin_confirm_content_tag"
   get "admin/illustrations", to: "admin/illustrations#index", as: "admin_illustrations"
   get "admin/illustrations/:id", to: "admin/illustrations#edit", as: "admin_edit_illustrations"
   post "admin/illustrations/:id", to: "admin/illustrations#update", as: "admin_update_illustrations"
 
   root to: "pages#home", as: "home"
-  get "/search", to: "search#search", as: "search"
   get "/tagging-guide", to: "pages#guide", as: "guide"
   get "/terms-of-service", to: "pages#tos", as: "tos"
   get "/privacy-policy", to: "pages#privacy", as: "privacy"
+
+  get "/search", to: "search#search", as: "search"
   get "/autocomplete", to: "search#autocomplete", as: "autocomplete"
 
   get "/tagging/random", to: "taggables#random", as: "random_illustration"
-  get "/tagging/:slug/illustration", to: "taggables#illustration", as: "show_illustration"
-  get "/tagging/:slug/oracle_card", to: "taggables#oracle_card", as: "show_oracle_card"
+  get "/tagging/:slug", to: "taggables#show", as: "show_illustration"
 
-  post "/tags/submit/illustration/:id", to: "tags#submit_illustration_tags", as: "submit_illustration_tags"
-  post "/tags/submit/oracle_card/:id", to: "tags#submit_oracle_card_tags", as: "submit_oracle_card_tags"
+  post "/tags/submit/:id", to: "tags#submit_illustration_tags", as: "submit_illustration_tags"
   post "/tags/create/:id", to: "tags#create", as: "create_content_tags"
   post "/tags/dispute/:id", to: "tags#dispute", as: "dispute_content_tag"
 

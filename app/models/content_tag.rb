@@ -3,7 +3,7 @@
 class ContentTag < ActiveRecord::Base
 
   belongs_to :tag
-  belongs_to :taggable, polymorphic: true
+  belongs_to :illustration
 
   class ApprovalStatus
     PENDING  = 1
@@ -28,10 +28,6 @@ class ContentTag < ActiveRecord::Base
       self.approval_status = ApprovalStatus::PENDING
       self.disputed = false
     end
-  end
-
-  def tag_model
-    [IllustrationTag, OracleCardTag].detect { |c| c.name == "#{taggable_type}Tag" }
   end
 
   def name
@@ -66,11 +62,10 @@ class ContentTag < ActiveRecord::Base
   end
 
   def search_uri
-    case taggable_type
-    when Illustration.name
-      return $routes.search_path(type: "illustration", q: tag.name)
-    when OracleCard.name
+    if oracle_id.present?
       return $routes.search_path(type: "oracle", q: tag.name)
+    else
+      return $routes.search_path(type: "illustration", q: tag.name)
     end
   end
 
