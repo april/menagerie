@@ -15,8 +15,4 @@ class OracleCard < ActiveRecord::Base
     end
   end
 
-  def search_type
-    "oracle"
-  end
-
 end

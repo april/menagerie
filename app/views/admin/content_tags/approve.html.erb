@@ -1,4 +1,4 @@
-<h1><%= @content_type.titleize %> Tags</h1>
+<h1>Approve Tags</h1>
 
 <% unless @content_tags.present? %>
   <p>No tags pending 🎉</p>
@@ -7,22 +7,18 @@
 <div data-component="autocomplete-form">
 <% @tag_groups.each do |tag_group| %>
   <div class="tag-admin-row">
-    <% if @content_type == Illustration.name %>
-      <%= render "shared/illustration", illustration: tag_group.first.taggable, link_uri: tag_group.first.taggable.uri %>
-    <% else %>
-      <% illustration = tag_group.first.taggable.illustration %>
-      <%= render "shared/oracle_card", illustration: illustration, link_uri: illustration.oracle_uri %>
-    <% end %>
+    <%= render "shared/oracle_card", illustration: tag_group.first.illustration, link_uri: tag_group.first.illustration.uri %>
     <div class="tag-confirmation">
       <% tag_group.each do |itag| %>
-        <%= form_tag admin_confirm_content_tag_path(itag), method:"post", class:"tag-confirm-form js-tag-confirm-form#{ " disputed" if itag.disputed? }" do %>
+        <%= form_tag admin_confirm_content_tag_path(itag), method:"post", class:"tag-confirm-form js-tag-approval-form #{ "disputed" if itag.disputed? }" do %>
           <div class="autocomplete-wrapper">
-            <%= text_field_tag :tag_name, itag.tag.name, autocorrect:"off", autocomplete:"off", class:"tag-input-field", "data-query": tag_group.first.taggable.search_type %>
+            <%= text_field_tag "tag[name]", itag.tag.name, autocorrect:"off", autocomplete:"off", class:"tag-input-field", "data-query":"tag" %>
           </div>
-          <%= button_tag title: "Approve", value: "approve", class:"button-primary approve" do %>
+          <%= select_tag "tag[type]", options_from_collection_for_select(tag_type_collection, :first, :second, itag.type), class:"tag-input-field" %>
+          <%= button_tag title: "Approve", name:"tag[intent]", value: ContentTag::ApprovalStatus::APPROVED, class:"button-primary approve" do %>
             <%= inline_svg "icons/approve" %> <span class="vh">Approve</span>
           <% end %>
-          <%= button_tag title: "Reject", value: "reject", class:"button-primary reject" do %>
+          <%= button_tag title: "Reject", name:"tag[intent]", value: ContentTag::ApprovalStatus::REJECTED, class:"button-primary reject" do %>
             <%= inline_svg "icons/reject" %> <span class="vh">Reject</span>
           <% end %>
           <% if itag.disputed? %>
@@ -38,7 +34,7 @@
 </div>
 
 <% if @content_tags.present? && @content_tags.current_page.to_i == 1 %>
-  <%= link_to "Reload Tags", (@content_type == OracleCard.name ? admin_approve_oracle_card_tags_path : admin_approve_illustration_tags_path), class:"button-primary admin-reload" %>
+  <%= link_to "Reload Tags", admin_approve_tags_path, class:"button-primary admin-reload" %>
 <% end %>
 
 <%= will_paginate @content_tags %>

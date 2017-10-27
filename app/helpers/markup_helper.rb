@@ -10,13 +10,25 @@ module MarkupHelper
     return raw(svg)
   end
 
+  def inline_svg_symbol(image_path, id:nil)
+    svg = File.read(Rails.root.join("app/assets/images/#{image_path}.svg"))
+    svg.sub!(/^\s*<svg\b/, %Q(<symbol id="#{id}" )).sub!(/<\/svg>/, "</symbol>")
+    return raw(svg)
+  end
+
   # Provides a collection of search types for the search form
   def search_type_collection
     return [
       ["card", "Card Name"],
       ["artist", "Artist Name"],
-      ["illustration", "Illustration Tag"],
-      ["oracle", "Oracle Tag"],
+      ["tag", "Tag"],
+    ]
+  end
+
+  def tag_type_collection
+    return [
+      [ContentTag::Type::ILLUSTRATION, "artwork"],
+      [ContentTag::Type::ORACLE_CARD, "card"]
     ]
   end
 

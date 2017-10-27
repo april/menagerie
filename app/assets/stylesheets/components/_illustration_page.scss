@@ -1,20 +1,31 @@
 @import "../config/vars";
 
+.illustration-page {
+  position: relative;
+
+  &__card {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: calc(100% - 660px);
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
 .illustration-detail {
-  margin: 0 auto;
+  max-width: 600px;
 
   h1 {
+    margin-top: 0;
     text-align: center;
   }
 
-  &__images {
-    display: flex;
-    justify-content: space-between;
-  }
-
   .illustration {
+    border-bottom: 1px solid #ccc;
     max-width: $content-width;
-    flex-basis: 60%;
 
     h1 {
       display: none;
@@ -31,7 +42,6 @@
   }
 
   .oracle-card {
-
     .card {
       height: 488px;
       margin: 0 auto;
@@ -59,6 +69,11 @@
       font-size: 0.8em;
     }
 
+    select {
+      flex-grow: 1;
+      width: auto;
+    }
+
     svg {
       fill: lighten($cRaisin, 30);
       height: 30px;
@@ -68,6 +83,14 @@
 
   &__row + &__row {
     border-top: none;
+  }
+
+  &__submit {
+    padding-left: 45px;
+  }
+
+  .autocomplete-wrapper {
+    width: 302px;
   }
 }
 
@@ -86,6 +109,11 @@
     border-bottom: 1px solid #ccc;
     text-align: left;
     width: 25%;
+
+    &:first-child,
+    &:last-child {
+      width: 12.5%;
+    }
   }
 
   th {

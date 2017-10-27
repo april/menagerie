@@ -83,17 +83,19 @@
   flex-flow: row nowrap;
   margin-bottom: $space1;
 
+  > * {
+    margin-right: $space1;
+  }
+
   .tag-input-field {
     width: 150px;
   }
 
-  &--actions {
-    margin: $space1 0;
-    display: flex;
+  select.tag-input-field {
+    width: 110px;
   }
 
   .button-primary {
-    margin-left: $space1;
     padding: 0.25em 1em;
   }
 

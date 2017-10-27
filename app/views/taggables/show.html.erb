@@ -2,26 +2,43 @@
   <script src="https://www.google.com/recaptcha/api.js"></script>
 <% end %>
 
-<div class="illustration-detail">
-  <h1><%= @illustration.name %></h1>
-  <div class="illustration-detail__images">
-    <%= render "shared/illustration", illustration: @illustration, link_uri: @illustration.scryfall_uri, size: :large %>
-  </div>
-</div>
-
-<div class="tag-submit">
-  <div class="tag-submit__card">
+<div class="illustration-page">
+  <div class="illustration-page__card">
     <%= image_tag @illustration.image_large_uri, alt: @illustration.name, class:"card" %>
   </div>
-  <div class="tag-submit__form">
-    <h2>Current Tags</h2>
+  <div class="illustration-detail">
+    <h1><%= @illustration.name %></h1>
+    <%= render "shared/illustration", illustration: @illustration, link_uri: @illustration.scryfall_uri, size: :large %>
 
-    <p><b>Artwork Tags</b> &mdash; describes the illustration</p>
-    <%= render "tags", taggable: @illustration, content_tags: @illustration.illustration_tags %>
+    <div class="illustration-tags__header">
+      <h2>Artwork Tags</h2> &mdash; describes the illustration
+    </div>
+    <%= render "tags", type: "artwork", taggable: @illustration, content_tags: @illustration.illustration_tags %>
 
-    <p><b>Card Tags</b> &mdash; describes the card</p>
-    <%= render "tags", taggable: @illustration, content_tags: @illustration.oracle_tags %>
+    <div class="illustration-tags__header">
+      <h2>Card Tags</h2> &mdash; describes the card (applies to all editions)
+    </div>
+    <%= render "tags", type: "card", taggable: @illustration, content_tags: @illustration.oracle_tags %>
 
-    <%= render "submit", taggable: @illustration, submit_path: submit_illustration_tags_path(@illustration) %>
+    <%= form_tag submit_tags_path(@illustration), method: "post", id: "tag-submit-form", class:"tag-submit-form", "data-component":"autocomplete-form" do %>
+      <h2>Add Tags</h2>
+      <svg style="display:none;position:absolute;">
+        <%= inline_svg_symbol("icons/tag", id: "icon-tag") %>
+      </svg>
+      <div class="tag-form-row tag-submit-form__row js-expanding-form-row" data-row="0">
+        <label for="tag-0">
+          <svg><use xlink:href="#icon-tag"></use></svg> <span class="vh">Tag</span>
+        </label>
+        <div class="autocomplete-wrapper">
+          <%= text_field "tag_submission[tags][0]", "name", id:"tag-0", placeholder:"tag name", autocorrect:"off", autocomplete:"off", class:"tag-input-field", "data-query":"tag" %>
+        </div>
+        <%= select_tag "tag_submission[tags][0][type]", options_from_collection_for_select(tag_type_collection, :first, :second), class:"tag-input-field", tabindex:"-1" %>
+      </div>
+      <div class="tag-form-row tag-submit-form__submit">
+        <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>
+        <p><label><%= check_box :tag_submission, :accept_terms %> I agree to the <%= link_to "terms of service", tos_path %></label></p>
+        <%= button_tag "Propose these tags", class:"button-primary" %>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -23,16 +23,8 @@ class Illustration < ActiveRecord::Base
     all_content_tags.select { |t| t.oracle_id.present? }
   end
 
-  def search_type
-    "illustration"
-  end
-
   def uri
     $routes.show_illustration_path(slug)
-  end
-
-  def oracle_uri
-    $routes.show_oracle_card_path(slug)
   end
 
   def scryfall_uri

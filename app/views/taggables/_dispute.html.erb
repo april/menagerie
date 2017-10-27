@@ -4,7 +4,7 @@
   <div class="tag-form-row">
     <div class="illustration-tag pending">
       <span class="illustration-tag--inner">
-        <a href="/search?type=<%= taggable.search_type %>&q=" class="js-disputed-tag"></a>
+        <a href="/search?type=tag&q=" class="js-disputed-tag"></a>
       </span>
     </div>
   </div>
@@ -16,7 +16,6 @@
     <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>
   </div>
   <div class="tag-form-row">
-    <%= hidden_field_tag :via, taggable.slug %>
     <%= button_tag "Dispute this tag", class:"button-primary" %>
   </div>
 <% end %>

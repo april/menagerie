@@ -17,15 +17,15 @@
       evt.preventDefault();
 
       // Pre-flight validation
-      var tags = $form.serializeArray()
-        .map(function(field) { return field.name === 'tag_submission[tags][]' ? field.value : null; })
-        .filter(function(value) { return !!value; });
+      // var tags = $form.serializeArray()
+      //   .map(function(field) { return field.name === 'tag_submission[tags][]' ? field.value : null; })
+      //   .filter(function(value) { return !!value; });
 
-      if (!tags.length) {
-        return setError('No new tags proposed');
-      } else if (!$form.find('#tag_submission_accept_terms').prop('checked')) {
-        return setError('You must agree to the terms of service');
-      }
+      // if (!tags.length) {
+      //   return setError('No new tags proposed');
+      // } else if (!$form.find('#tag_submission_accept_terms').prop('checked')) {
+      //   return setError('You must agree to the terms of service');
+      // }
 
       // Async form submission
       var $bttn = $form.find('button[type="submit"]');

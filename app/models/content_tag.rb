@@ -11,9 +11,13 @@ class ContentTag < ActiveRecord::Base
     REJECTED = 3
   end
 
-  validates_presence_of :taggable_id
-  validates_presence_of :taggable_type
+  class Type
+    ILLUSTRATION = "Illustration"
+    ORACLE_CARD = "OracleCard"
+  end
+
   validates_presence_of :tag_id
+  validates_presence_of :illustration_id
   validates_presence_of :source_ip
   validates_inclusion_of :approval_status, :in => [
     ApprovalStatus::PENDING,
@@ -32,6 +36,11 @@ class ContentTag < ActiveRecord::Base
 
   def name
     tag.name
+  end
+
+  def type
+    return Type::ORACLE_CARD if oracle_id.present?
+    return Type::ILLUSTRATION
   end
 
   def status
@@ -62,11 +71,7 @@ class ContentTag < ActiveRecord::Base
   end
 
   def search_uri
-    if oracle_id.present?
-      return $routes.search_path(type: "oracle", q: tag.name)
-    else
-      return $routes.search_path(type: "illustration", q: tag.name)
-    end
+    $routes.search_path(type: "tag", q: name)
   end
 
 end

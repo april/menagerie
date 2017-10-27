@@ -1,12 +1,10 @@
-<% if content_tags.reject(&:hidden?).present? %>
-  <div class="illustration-tags">
+<div class="illustration-tags">
+  <% if content_tags.reject(&:hidden?).present? %>
     <% content_tags.reject(&:hidden?).sort_by(&:name).each do |tag| %>
       <%= render "shared/content_tag", tag: tag, allow_dispute: true %>
     <% end %>
-  </div>
-  <%= render "dispute", taggable: taggable %>
-<% else %>
-  <div class="illustration-tags status-message">
-    No tags have been submitted yet
-  </div>
-<% end %>
+    <%= render "dispute", taggable: taggable %>
+  <% else %>
+    <div class="illustration-tags__status">No <%= type %> tags have been submitted yet</div>
+  <% end %>
+</div>

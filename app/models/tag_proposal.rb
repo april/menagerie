@@ -4,14 +4,24 @@ class TagProposal
 
   attr_reader :original_name
   attr_reader :formatted_name
+  attr_reader :type
 
-  def initialize(name, current_tag=nil, existing_tag=nil)
-    @original_name = name.strip.squish
+  VALID_TYPES = [
+    ContentTag::Type::ILLUSTRATION,
+    ContentTag::Type::ORACLE_CARD,
+  ].freeze
+
+  def initialize(opts, current_tag=nil, existing_tag=nil)
+    @original_name = opts.fetch(:name, "").strip.squish
+    @type = opts.fetch(:type, VALID_TYPES[0]).strip.squish
     @formatted_name = @original_name
     @omit = false
     @duplicate = false
     @suggest_cancel = false
     @notes = []
+
+    # Invalid types default as illustration tags
+    @type = VALID_TYPES[0] unless VALID_TYPES.include?(@type)
 
     return self if check_duplicate!(current_tag)
     return self if check_existing!(existing_tag)
@@ -41,6 +51,22 @@ class TagProposal
 
   def cancel_key
     @cancel_key ||= SecurityToken.generate
+  end
+
+  def oracle_tag?
+    type == ContentTag::Type::ORACLE_CARD
+  end
+
+  def original_tag_store
+    { name: @original_name, oracle: oracle_tag? }
+  end
+
+  def formatted_tag_store
+    { name: @formatted_name, oracle: oracle_tag? }
+  end
+
+  def type_short
+    oracle_tag?? "card" : "artwork"
   end
 
   # Other accessors

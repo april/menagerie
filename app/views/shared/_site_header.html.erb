@@ -27,11 +27,8 @@
 <% if is_admin_screen? && logged_in? %>
   <div class="site-header site-header--sub">
     <div class="site-wrapper">
-      <%= link_to admin_approve_illustration_tags_path, title:"Illustration Tags" do %>
+      <%= link_to admin_approve_tags_path, title:"Illustration Tags" do %>
         <%= inline_svg "icons/illustration" %> <span>Illustration <span class="collapse">Tags</span></span>
-      <% end %>
-      <%= link_to admin_approve_oracle_card_tags_path, title:"Oracle Card Tags" do %>
-        <%= inline_svg "icons/wolf" %> <span>Oracle Card <span class="collapse">Tags</span></span>
       <% end %>
       <div class="spacer"></div>
       <%= form_tag admin_destroy_session_path, method: :delete do %>

@@ -2,25 +2,23 @@
 
 class Admin::ContentTagsController < AdminController
 
-  def approve_illustrations
-    load_approval_data(Illustration.name)
-    render :approve
-  end
+  def approve
+    @content_tags = ContentTag.includes(:illustration, :tag)
+      .where("(disputed = TRUE OR approval_status = ?)", ContentTag::ApprovalStatus::PENDING)
+      .order(disputed: :desc)
+      .paginate(page:[params[:page].to_i, 1].max, per_page:200)
 
-  def approve_oracle_cards
-    load_approval_data(OracleCard.name)
-    OracleCard.assign_illustrations(@content_tags.collect(&:taggable))
-    render :approve
+    # Sort results into groups by illustration,
+    # disputed tags first, and disputed groups first.
+    @tag_groups = @content_tags
+      .group_by(&:illustration_id).values
+      .map { |g| g.sort {|a, b| (a.disputed? ? 0 : 1) <=> (b.disputed? ? 0 : 1)} }
+      .sort { |a, b| (a.first.disputed? ? 0 : 1) <=> (b.first.disputed? ? 0 : 1) }
   end
-
-  INTENT_VALUES = {
-    "approve" => ContentTag::ApprovalStatus::APPROVED,
-    "reject" => ContentTag::ApprovalStatus::REJECTED,
-  }.freeze
 
   def confirm
     @content_tag = ContentTag.find(params[:id])
-    @content_tag.approval_status = INTENT_VALUES[params[:intent]]
+    @content_tag.approval_status = confirm_params[:intent].to_i
     @content_tag.disputed = false
 
     begin
@@ -31,11 +29,12 @@ class Admin::ContentTagsController < AdminController
         @content_tag.destroy
 
       # Reconfigure renamed tags
-      elsif params[:tag_name] != @content_tag.name
+      elsif confirm_params[:name] != @content_tag.name || confirm_params[:type] != @content_tag.type
         tag = @content_tag.tag
-        @content_tag.tag = @content_tag.tag_model.find_or_create_by(name: params[:tag_name])
+        @content_tag.tag = Tag.find_or_create_by(name: confirm_params[:name])
+        @content_tag.oracle_id = (confirm_params[:type] == ContentTag::Type::ORACLE_CARD) ? @content_tag.illustration.oracle_id : nil
         @content_tag.save
-        tag.destroy if tag.content_tags.count <= 1
+        tag.destroy if tag.content_tags.count < 1
 
       # Or else just save
       else
@@ -53,20 +52,8 @@ class Admin::ContentTagsController < AdminController
 
 private
 
-  def load_approval_data(type)
-    @content_type = type
-    @content_tags = ContentTag.includes(:taggable, :tag)
-      .where(taggable_type: type)
-      .where("(disputed = TRUE OR approval_status = ?)", ContentTag::ApprovalStatus::PENDING)
-      .order(disputed: :desc)
-      .paginate(page:[params[:page].to_i, 1].max, per_page:30)
-
-    # Sort results into groups by illustration,
-    # disputed tags first, and disputed groups first.
-    @tag_groups = @content_tags
-      .group_by(&:taggable_id).values
-      .map { |g| g.sort {|a, b| (a.disputed? ? 0 : 1) <=> (b.disputed? ? 0 : 1)} }
-      .sort { |a, b| (a.first.disputed? ? 0 : 1) <=> (b.first.disputed? ? 0 : 1) }
+  def confirm_params
+    params.require(:tag).permit(:name, :type, :intent)
   end
 
 end

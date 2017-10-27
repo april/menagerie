@@ -1,18 +1,44 @@
 @import "../config/vars";
 
 .illustration-tags {
-  background-color: #847b88;
+  background-color: #efefef;
   border: 1px solid #ccc;
   border-radius: 3px;
   display: flex;
   flex-flow: row wrap;
   list-style: none;
-  margin: 1em 0;
+  margin: 0 0 25px;
+  min-height: 40px;
   padding: 3px;
   padding-right: 28px;
 
   &:hover {
     padding-right: 3px;
+  }
+
+  &__status {
+    color: $cRaisin;
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    text-align: center;
+  }
+
+  &__header {
+    color: #888;
+    font-size: 12px;
+    font-style: italic;
+    margin: 25px 0 5px;
+
+    h2 {
+      color: $cBody;
+      display: inline;
+      font-size: 0.9em;
+      font-style: normal;
+      font-weight: normal;
+      text-transform: uppercase;
+    }
   }
 }
 
@@ -21,6 +47,7 @@
   border-radius: 3px;
   display: block;
   font-weight: bold;
+  height: 32px;
   margin: 3px;
   position: relative;
 

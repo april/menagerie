@@ -1,4 +1,4 @@
-$(document).on('submit', '.js-tag-confirm-form', function(evt) {
+$(document).on('submit', '.js-tag-approval-form', function(evt) {
 
   evt.preventDefault();
   var form = evt.currentTarget;
@@ -8,7 +8,7 @@ $(document).on('submit', '.js-tag-confirm-form', function(evt) {
   var formData = $(evt.currentTarget).serializeArray().reduce(function(memo, f) {
     memo[f.name] = f.value;
     return memo;
-  }, { intent: button.value });
+  }, { "tag[intent]": button.value });
 
   $.ajax({
     url: form.action,

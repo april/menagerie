@@ -61,17 +61,17 @@ input, button {
   &.select {
     padding: 0;
   }
+}
 
-  select {
-    background: none;
-    border: none;
-    box-sizing: border-box;
-    display: block;
-    font: 20px "Helvetica Neue", Helvetica, sans-serif;
-    height: 100%;
-    padding: 0 20px;
-    width: 100%;
-  }
+select.tag-input-field {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: white url('data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20fill%3D%22%23black%22%20d%3D%22M27%209.375l-12%2012.625-12-12.562%201.406-1.438%2010.594%2011.094%2010.563-11.094z%22/%3E%3C/svg%3E%0A') no-repeat calc(100% - 5px) 50%;
+  background-size: auto 40%;
+  box-sizing: border-box;
+  font: 20px "Helvetica Neue", Helvetica, sans-serif;
+  padding: 0 28px 0 10px;
 }
 
 textarea.tag-input-field {

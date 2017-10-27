@@ -8,15 +8,19 @@
     <table class="tag-confirmation">
       <thead>
         <tr>
+          <th>Type</th>
           <th>Your submission</th>
           <th>Normalized term</th>
           <th>Notes</th>
-          <th>Cancel this tag</th>
+          <th>Cancel tag</th>
         </tr>
       </thead>
       <tbody>
       <% @tag_submission.proposed_tags.each_with_index do |tag, index| %>
         <tr>
+          <td>
+            <%= tag.type_short %>
+          </td>
           <td>
             <label class="<%= 'disabled' unless tag.allow_original_name? %>">
               <%= radio_button_tag "tag_confirmation[tags][#{index}]", tag.original_name_key, false, disabled: !tag.allow_original_name? %> <%= tag.original_name %>
@@ -39,7 +43,6 @@
     </table>
   </div>
   <div class="tag-form-row">
-    <%= hidden_field_tag :via, params[:via] %>
     <%= button_tag "Confirm tags", class:"button-primary" %>
   </div>
 <% end %>

@@ -6,8 +6,7 @@ Rails.application.routes.draw do
   post "admin/authenticate", to:"admin/sessions#create"
   delete "admin/signout", to:"admin/sessions#destroy", as:"admin_destroy_session"
 
-  get "admin", to: redirect("admin/illustration_tags"), as: "admin_dashboard"
-  get "admin/illustration_tags", to: "admin/content_tags#approve_illustrations", as: "admin_approve_illustration_tags"
+  get "admin", to: "admin/content_tags#approve", as: "admin_approve_tags"
   post "admin/tags/confirm/:id", to: "admin/content_tags#confirm", as: "admin_confirm_content_tag"
   get "admin/illustrations", to: "admin/illustrations#index", as: "admin_illustrations"
   get "admin/illustrations/:id", to: "admin/illustrations#edit", as: "admin_edit_illustrations"
@@ -24,7 +23,7 @@ Rails.application.routes.draw do
   get "/tagging/random", to: "taggables#random", as: "random_illustration"
   get "/tagging/:slug", to: "taggables#show", as: "show_illustration"
 
-  post "/tags/submit/:id", to: "tags#submit_illustration_tags", as: "submit_illustration_tags"
+  post "/tags/submit/:id", to: "tags#submit", as: "submit_tags"
   post "/tags/create/:id", to: "tags#create", as: "create_content_tags"
   post "/tags/dispute/:id", to: "tags#dispute", as: "dispute_content_tag"
 
