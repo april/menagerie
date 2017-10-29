@@ -37,12 +37,12 @@
         data: $form.serialize(),
         success: function(data) {
           setTimeout(function() {
-            $form.animate({opacity: 0}, 750, function() {
-              var $confirm = $(data.form);
-              $form.hide().after($confirm);
-              $form.remove();
-              requestAnimationFrame(function() {
-                $confirm.css('opacity', 1);
+            var $confirm = $(data.form);
+            $form.closest('#illustration-detail').after($confirm);
+            requestAnimationFrame(function() {
+              $confirm.css('opacity', 1);
+              $form.slideUp(1000).animate({opacity: 0}, 1000, function() {
+                $form.remove();
               });
             });
           }, 750);

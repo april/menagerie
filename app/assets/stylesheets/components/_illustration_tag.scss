@@ -1,44 +1,35 @@
 @import "../config/vars";
 
 .illustration-tags {
-  background-color: #efefef;
-  border: 1px solid #ccc;
-  border-radius: 3px;
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
   list-style: none;
-  margin: 0 0 25px;
   min-height: 40px;
   padding: 3px;
-  padding-right: 28px;
-
-  &:hover {
-    padding-right: 3px;
-  }
 
   &__status {
-    color: $cRaisin;
-    font-weight: bold;
+    color: #999;
     height: 40px;
     line-height: 40px;
     padding: 0 10px;
     text-align: center;
   }
+}
 
-  &__header {
-    color: #888;
-    font-size: 12px;
-    font-style: italic;
-    margin: 25px 0 5px;
+.illustration-tagset {
+  margin-top: 20px;
 
-    h2 {
-      color: $cBody;
-      display: inline;
-      font-size: 0.9em;
-      font-style: normal;
-      font-weight: normal;
-      text-transform: uppercase;
-    }
+  em {
+    color: #777;
+    font-size: 0.8em;
+  }
+
+  .illustration-tags {
+    background: repeating-linear-gradient(-45deg, #efefef, #ffffff 1px);
+    border-radius: 3px;
+    justify-content: flex-start;
+    margin-top: $space1;
   }
 }
 
