@@ -70,16 +70,6 @@ namespace :illustrations do
         face = index + 1
         key = [oracle_id, artist_id, face].join("-")
 
-        if !oracle_ids.key?(oracle_id)
-          oracle_name = [name_1, name_2].compact.join(" // ")
-          oracle_ids[oracle_id] = true
-          puts %{Creating oracle_card "#{oracle_name}"}
-          OracleCard.find_or_create_by({
-            id: oracle_id,
-            name: oracle_name
-          })
-        end
-
         if ids.key?(key)
           illustration_id = ids[key]
         elsif illustration = Illustration.where(oracle_id: oracle_id, artist_id: artist_id, face: face).first

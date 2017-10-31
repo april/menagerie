@@ -43,3 +43,6 @@ FROM (
 ) AS dups
 INNER JOIN oracle_cards ON oracle_cards.id = dups.oracle_id ORDER BY dups.oracle_id)
 TO '/Users/gregmacwilliam/Desktop/dups.csv' (format CSV);
+
+
+COPY printing_illustrations TO '/Users/gregmacwilliam/Desktop/pi.csv' DELIMITER ',' CSV HEADER;
