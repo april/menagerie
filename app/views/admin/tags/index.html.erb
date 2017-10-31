@@ -1,0 +1,5 @@
+<ul>
+  <% @tags.each do |tag| %>
+    <li><%= link_to tag.name, search_path(type: :tag, q: tag.name) %></li>
+  <% end %>
+</ul>

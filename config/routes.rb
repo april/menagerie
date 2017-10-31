@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   delete "admin/signout", to:"admin/sessions#destroy", as:"admin_destroy_session"
 
   get "admin", to: "admin/content_tags#approve", as: "admin_approve_tags"
-  post "admin/tags/confirm/:id", to: "admin/content_tags#confirm", as: "admin_confirm_content_tag"
+  post "admin/content_tags/confirm/:id", to: "admin/content_tags#confirm", as: "admin_confirm_content_tag"
+  get "admin/tags", to: "admin/tags#index", as: "admin_tags_index"
   get "admin/illustrations", to: "admin/illustrations#index", as: "admin_illustrations"
   get "admin/illustrations/:id", to: "admin/illustrations#edit", as: "admin_edit_illustrations"
   post "admin/illustrations/:id", to: "admin/illustrations#update", as: "admin_update_illustrations"
