@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171031133059) do
+ActiveRecord::Schema.define(version: 20171101135931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20171031133059) do
     t.text "image_large", null: false
     t.boolean "tagged", default: false, null: false
     t.integer "face", default: 1, null: false
+    t.boolean "confirmed", default: false
     t.index ["oracle_id", "artist_id", "face"], name: "index_illustrations_on_oracle_id_and_artist_id_and_face"
     t.index ["slug"], name: "index_illustrations_on_slug", unique: true
   end
@@ -60,6 +61,7 @@ ActiveRecord::Schema.define(version: 20171031133059) do
     t.uuid "printing_id", null: false
     t.uuid "illustration_id", null: false
     t.integer "face", default: 1, null: false
+    t.datetime "sync"
   end
 
   create_table "tag_submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
