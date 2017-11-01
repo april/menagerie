@@ -37,7 +37,7 @@ class Admin::SessionsController < AdminController
     @admin = Administrator.find_by(email:email_param)
     if @admin && @admin.authenticate!(grant_param)
       set_admin_cookies
-      return redirect_to(admin_approve_tags, status:303)
+      return redirect_to(admin_approve_tags_path, status:303)
     else
       @message = "The grant link you followed was invalid or has expired."
       return render :message
