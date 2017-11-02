@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171101135931) do
+ActiveRecord::Schema.define(version: 20171102133643) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,12 @@ ActiveRecord::Schema.define(version: 20171101135931) do
     t.boolean "confirmed", default: false
     t.index ["oracle_id", "artist_id", "face"], name: "index_illustrations_on_oracle_id_and_artist_id_and_face"
     t.index ["slug"], name: "index_illustrations_on_slug", unique: true
+  end
+
+  create_table "oracle_links", force: :cascade do |t|
+    t.uuid "oracle_1_id", null: false
+    t.uuid "oracle_2_id", null: false
+    t.text "label"
   end
 
   create_table "printing_illustrations", force: :cascade do |t|

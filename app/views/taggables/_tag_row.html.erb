@@ -1,9 +1,15 @@
+<% if index == 0 %>
+  <div class="tag-form-row tag-submit-form__row tag-submit-form__row--header">
+    <div class="tag-submit-form__type small-header">Tag Type</div>
+    <div class="tag-submit-form__tag small-header">Tag Name</div>
+  </div>
+<% end %>
 <div class="tag-form-row tag-submit-form__row js-expanding-form-row" data-row="<%= index %>">
   <label for="tag-<%= index %>">
     <svg><use xlink:href="#icon-tag"></use></svg> <span class="vh">Tag</span>
   </label>
+  <%= select_tag "tag_submission[tags][#{index}][type]", options_from_collection_for_select(tag_type_collection, :first, :second), class:"tag-input-field tag-submit-form__type", tabindex:"-1" %>
   <div class="autocomplete-wrapper tag-submit-form__tag">
     <%= text_field "tag_submission[tags][#{index}]", "name", id:"tag-#{index}", placeholder:"tag name", autocorrect:"off", autocomplete:"off", class:"tag-input-field", "data-query":"tag" %>
   </div>
-  <%= select_tag "tag_submission[tags][#{index}][type]", options_from_collection_for_select(tag_type_collection, :first, :second), class:"tag-input-field tag-submit-form__type", tabindex:"-1" %>
 </div>

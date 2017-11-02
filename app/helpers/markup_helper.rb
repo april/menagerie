@@ -32,6 +32,15 @@ module MarkupHelper
     ]
   end
 
+  def link_type_collection
+    return [
+      "similar",
+      "better",
+      "worse",
+      "related",
+    ]
+  end
+
   def is_admin_screen?
     return params[:controller].start_with?("admin/")
   end
