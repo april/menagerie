@@ -9,7 +9,7 @@
         <%= select_tag :type, options_from_collection_for_select(search_type_collection, :first, :second, params[:type]), id:"search-type" %>
         <label for="search-term" class="vh">For</label>
         <span class="autocomplete-wrapper">
-          <%= text_field_tag :q, params[:q].presence, placeholder: "Search term", autocorrect:"off", autocomplete:"off", "data-query":"card", id:"search-term" %>
+          <%= text_field_tag :q, params[:q].presence, placeholder: "Search term", autocorrect:"off", autocomplete:"off", "data-query":"card", "data-submit":"true", id:"search-term" %>
         </span>
         <%= button_tag title:"Search", name: nil do %>
           <%= inline_svg "icons/search" %>

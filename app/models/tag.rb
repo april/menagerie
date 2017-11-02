@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Tag < ActiveRecord::Base
-  has_many :content_tags
+  has_many :content_tags, dependent: :destroy
   has_many :illustrations, through: :content_tags
 
   validates_length_of :name, minimum: 2, maximum: 30

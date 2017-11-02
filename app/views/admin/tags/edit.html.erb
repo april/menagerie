@@ -1,0 +1,15 @@
+<h1>Edit Tag: "<%= @tag.name %>"</h1>
+
+<%= form_tag admin_update_tag_path(@tag), method: :post do %>
+  <input name="tag_update[name]" value="<%= @tag.name %>">
+  <%= button_tag "Save" %>
+<% end %>
+
+<h1>Merge This Tag</h1>
+
+<p>Destroys this tag and merges its taggings into another tag.</p>
+
+<%= form_tag admin_merge_tag_path(@tag), method: :post do %>
+  <input name="tag_merge[name]" value="">
+  <%= button_tag "Merge" %>
+<% end %>

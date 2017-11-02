@@ -1,5 +1,17 @@
-<ul>
-  <% @tags.each do |tag| %>
-    <li><%= link_to tag.name, search_path(type: :tag, q: tag.name) %></li>
-  <% end %>
-</ul>
+<h1>Manage Tags</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Tag</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tags.each do |tag| %>
+      <tr>
+        <td><%= link_to tag.name, search_path(type: "tag", q: tag.name) %></td>
+        <td><%= link_to "edit", admin_edit_tag_path(tag.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

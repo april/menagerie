@@ -65,8 +65,8 @@ var AutocompleteFormView = Backbone.View.extend({
   },
 
   events: {
-    'input': 'onInput',
-    'keydown': 'onKeydown',
+    'input input[data-query]': 'onInput',
+    'keydown input[data-query]': 'onKeydown',
     'focus input[data-query]': 'onFocus',
     'blur input[data-query]': 'onBlur',
     'change #search-type': 'setSearch'
@@ -117,10 +117,13 @@ var AutocompleteFormView = Backbone.View.extend({
         this.browseMenu(1);
       } else if (evt.which === UP_KEY) {
         this.browseMenu(-1);
-      } else if (evt.which === ENTER_KEY) {
-        this.autoComplete();
       } else if (evt.which === TAB_KEY) {
         this.setMenu(null);
+      } else if (evt.which === ENTER_KEY) {
+        this.autoComplete();
+        if (this.input.hasAttribute('data-submit')) {
+          setTimeout(function() { this.$el.closest('form').submit() }.bind(this), 250);
+        }
       }
 
       if ([UP_KEY, DOWN_KEY, ENTER_KEY].indexOf(evt.which) >= 0) {
