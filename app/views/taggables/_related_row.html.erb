@@ -1,0 +1,15 @@
+<% if index == 0 %>
+  <div class="tag-form-row tag-submit-form__row tag-submit-form__row--header">
+    <div class="tag-submit-form__type small-header">Relationship</div>
+    <div class="tag-submit-form__tag small-header">Card Name</div>
+  </div>
+<% end %>
+<div class="tag-form-row tag-submit-form__row js-expanding-form-row" data-row="<%= index %>">
+  <label for="related-<%= index %>">
+    <svg><use xlink:href="#icon-link"></use></svg> <span class="vh">Relate</span>
+  </label>
+  <%= select_tag "tag_submission[related][#{index}][type]", options_from_collection_for_select(relationship_type_collection, :first, :second), class:"tag-input-field tag-submit-form__type", tabindex:"-1" %>
+  <div class="autocomplete-wrapper tag-submit-form__tag">
+    <%= text_field "tag_submission[related][#{index}]", "name", id:"related-#{index}", placeholder:"card name", autocorrect:"off", autocomplete:"off", class:"tag-input-field", "data-query":"card" %>
+  </div>
+</div>

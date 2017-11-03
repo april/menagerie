@@ -33,8 +33,8 @@
       <%= render "tag_row", index: 1 %>
 
       <h2>Add Related Cards</h2>
-      <%= render "link_row", index: 0 %>
-      <%= render "link_row", index: 1 %>
+      <%= render "related_row", index: 0 %>
+      <%= render "related_row", index: 1 %>
 
       <div class="tag-form-row tag-submit-form__tag">
         <div class="g-recaptcha" data-sitekey="<%= ENV.fetch("GOOGLE_CAPTCHA_SITE_KEY") %>"></div>

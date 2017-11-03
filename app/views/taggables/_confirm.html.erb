@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-      <% @tag_submission.proposed_tags.each_with_index do |tag, index| %>
+      <% [@tag_submission.proposed_tags, @tag_submission.proposed_relations].flatten.each_with_index do |tag, index| %>
         <tr>
           <td>
             <%= tag.type_short %>

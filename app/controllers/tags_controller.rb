@@ -11,8 +11,9 @@ class TagsController < ApplicationController
 
     @tag_submission = TagSubmission.new(illustration: @illustration, source_ip: request.remote_ip, created_at: Time.now)
     @tag_submission.propose_tags(submit_params[:tags].values)
+    @tag_submission.propose_related(submit_params[:related].values)
 
-    return render json: { success: false, error: "No new tags were submitted" }, status: 400 unless @tag_submission.proposed_tags.reject(&:duplicate?).any?
+    return render json: { success: false, error: @tag_submission.error_message }, status: 400 unless @tag_submission.permitted?
 
     @tag_submission.save
 
@@ -48,7 +49,7 @@ class TagsController < ApplicationController
 private
 
   def submit_params
-    params.require(:tag_submission).permit(:accept_terms, :tags => [:name, :type])
+    params.require(:tag_submission).permit(:accept_terms, :tags => [:name, :type], :related => [:name, :type])
   end
 
   def create_params

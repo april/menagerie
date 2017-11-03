@@ -57,10 +57,13 @@ ActiveRecord::Schema.define(version: 20171102133643) do
     t.index ["slug"], name: "index_illustrations_on_slug", unique: true
   end
 
-  create_table "oracle_links", force: :cascade do |t|
-    t.uuid "oracle_1_id", null: false
-    t.uuid "oracle_2_id", null: false
-    t.text "label"
+  create_table "oracle_relationships", force: :cascade do |t|
+    t.uuid "oracle_id", null: false
+    t.uuid "related_id", null: false
+    t.text "relationship"
+    t.index ["oracle_id", "related_id", "relationship"], name: "index_oracle_relationships_on_oracle_related_relationship", unique: true
+    t.index ["oracle_id"], name: "index_oracle_relationships_on_oracle_id"
+    t.index ["related_id"], name: "index_oracle_relationships_on_related_id"
   end
 
   create_table "printing_illustrations", force: :cascade do |t|

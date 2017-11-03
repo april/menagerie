@@ -32,12 +32,15 @@ module MarkupHelper
     ]
   end
 
-  def link_type_collection
+  def relationship_type_collection
     return [
-      "similar",
-      "better",
-      "worse",
-      "related",
+      [OracleRelationship::Relationship::SIMILAR_TO, "Similar to"],
+      [OracleRelationship::Relationship::RELATED_TO, "Related to"],
+      [OracleRelationship::Relationship::BETTER_THAN, "Better than"],
+      [OracleRelationship::Relationship::WORSE_THAN, "Worse than"],
+      [OracleRelationship::Relationship::REFERENCES, "References"],
+      [OracleRelationship::Relationship::REFERENCED_BY, "Referenced by"],
+      [OracleRelationship::Relationship::COLORSHIFTED, "Colorshifted"],
     ]
   end
 

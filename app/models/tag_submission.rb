@@ -8,6 +8,7 @@ class TagSubmission < ActiveRecord::Base
   validates_presence_of :source_ip
 
   attr_reader :proposed_tags
+  attr_reader :proposed_relations
 
   def propose_tags(tag_hashes)
     tag_hashes = tag_hashes.select { |t| t[:name].present? }
@@ -33,6 +34,34 @@ class TagSubmission < ActiveRecord::Base
     end
   end
 
+  RELATED_BIND_PATTERN = "(oracle_id = ? AND related_id = ? AND relationship = ?)"
+
+  def propose_related(rel_hashes)
+    rel_hashes = rel_hashes.select { |r| r[:name].present? }
+    return @proposed_relations = [] unless rel_hashes.present?
+
+    # Fetch all related cards, and assign them to their respective hash
+    # This should use where lookup from OracleCards table (which is missing)
+    related_cards = Illustration.where(name: rel_hashes.map { |h| h[:name] }.map(&:strip).map(&:squish))
+    rel_hashes.each { |r| r[:related_card] = related_cards.detect { |c| r[:name] == c.name } }
+    rel_hashes = rel_hashes.select { |r| r[:related_card].present? }
+    return @proposed_relations = [] unless rel_hashes.present?
+
+    # Fetch all existing relationships
+    bind_pattern = Array.new(rel_hashes.count, RELATED_BIND_PATTERN).join(" OR ")
+    bind_args = rel_hashes.map { |r| [illustration.oracle_id, r[:related_card].oracle_id, r[:type]] }
+    existing_relations = OracleRelationship.where(bind_pattern, *bind_args.flatten)
+    rel_hashes.each do|r|
+      r[:oracle_relationship] = existing_relations.detect { |o|
+        o.oracle_id == illustration.oracle_id &&
+        o.related_id == r[:related_card].oracle_id &&
+        o.relationship == r[:type]
+      }
+    end
+
+    @proposed_relations = rel_hashes.map { |r| RelationProposal.new(r, illustration) }
+  end
+
   def create_content_tags!(keys)
     keys
       .map { |key| self.tags[key] }.compact
@@ -46,6 +75,15 @@ class TagSubmission < ActiveRecord::Base
       end
 
     self.destroy
+  end
+
+  def permitted?
+    # @tag_submission.proposed_tags.reject(&:duplicate?).any?
+    true
+  end
+
+  def error_message
+    "boo"
   end
 
 end
