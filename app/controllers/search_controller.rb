@@ -5,7 +5,7 @@ class SearchController < ApplicationController
   def search
     paginate = {
       page: [params[:page].to_i, 1].max,
-      per_page: 30
+      per_page: 36
     }
 
     case params[:type]
