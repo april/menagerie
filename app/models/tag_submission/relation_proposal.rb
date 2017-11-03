@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RelationProposal < TagProposal
+class TagSubmission::RelationProposal < TagSubmission::TagProposal
 
   VALID_TYPES = OracleRelationship::INVERSE_RELATIONSHIP.keys.freeze
 
@@ -8,6 +8,7 @@ class RelationProposal < TagProposal
     @original_name = opts.fetch(:name)
     @formatted_name = opts.fetch(:name)
     @type = opts.fetch(:type, VALID_TYPES[0]).strip.squish
+
     @card = card
     @related_card = opts[:related_card]
     @oracle_relationship = opts[:oracle_relationship]
@@ -19,7 +20,7 @@ class RelationProposal < TagProposal
 
     [
       :check_related!,
-      :check_selfjoin!,
+      :check_self_join!,
       :check_type!,
       :check_existing!,
     ].each { |method| return self if self.send(method) }
@@ -31,6 +32,15 @@ class RelationProposal < TagProposal
 
   def allow_original_name?
     false
+  end
+
+  def formatted_tag_store
+    {
+      model: OracleRelationship.name,
+      oracle_id: @card.oracle_id,
+      related_id: @related_card.oracle_id,
+      relationship: @type,
+    }
   end
 
 private
@@ -45,7 +55,7 @@ private
     return false
   end
 
-  def check_selfjoin!
+  def check_self_join!
     if @card.oracle_id == @related_card.oracle_id
       @omit = true
       @suggest_cancel = true

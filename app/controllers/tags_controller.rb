@@ -13,7 +13,7 @@ class TagsController < ApplicationController
     @tag_submission.propose_tags(submit_params[:tags].values)
     @tag_submission.propose_related(submit_params[:related].values)
 
-    return render json: { success: false, error: @tag_submission.error_message }, status: 400 unless @tag_submission.permitted?
+    return render json: { success: false, error: @tag_submission.submission_error }, status: 400 if @tag_submission.invalid?
 
     @tag_submission.save
 

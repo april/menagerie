@@ -26,7 +26,7 @@ class OracleRelationship < ActiveRecord::Base
   validates_presence_of :related_id
   validates_inclusion_of :relationship, in: INVERSE_RELATIONSHIP.keys.freeze
 
-  def self.create_relationship(oracle_id, related_id, relationship)
+  def self.create_relationship(oracle_id:, related_id:, relationship:)
     OracleRelationship.transaction do
       self.create({
         oracle_id: related_id,

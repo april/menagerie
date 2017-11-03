@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TagProposal
+class TagSubmission::TagProposal
 
   attr_reader :original_name
   attr_reader :formatted_name
@@ -58,11 +58,11 @@ class TagProposal
   end
 
   def original_tag_store
-    { name: @original_name, oracle: oracle_tag? }
+    { model: ContentTag.name, name: @original_name, oracle: oracle_tag? }
   end
 
   def formatted_tag_store
-    { name: @formatted_name, oracle: oracle_tag? }
+    { model: ContentTag.name, name: @formatted_name, oracle: oracle_tag? }
   end
 
   def type_short

@@ -6,6 +6,7 @@ class Illustration < ActiveRecord::Base
   has_many :content_tags, dependent: :destroy
   has_many :tag_submissions, dependent: :destroy
   has_many :tags, through: :content_tags
+  has_many :oracle_relationships, primary_key: "oracle_id", foreign_key: "oracle_id"
   has_and_belongs_to_many :printings, class_name: "Printing", join_table: :printing_illustrations
 
   before_create :generate_slug
